@@ -30,7 +30,7 @@ EslintValidationFilter.prototype.processString = function (string) {
 
         // prepare message format
         messages.push({
-            filePath: this.inputTree.inputTree.dir,
+            filePath: 'broccoli isn\'t using files. tmp: ' + this.inputTree._tmpCacheDir,
             messages: result
         });
         // log formatter output
