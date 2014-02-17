@@ -1,0 +1,1 @@
+var foo = eval('alert(2)');
