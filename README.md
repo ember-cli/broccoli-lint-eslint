@@ -13,7 +13,7 @@ npm install --save broccoli-eslint
 Note: The API will change in subsequent 0.x versions.
 
 ```js
-var eslintFilter = require('broccoli-static-compiler');
+var eslintFilter = require('broccoli-eslint');
 var applicationJs = eslintFilter(sourceTree, {
   config: './eslint.json'
 });
