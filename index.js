@@ -1,7 +1,7 @@
 var Filter = require('broccoli-filter'),
     eslint = require('eslint'),
-    formatter = require('./node_modules/eslint/lib/formatters/stylish'),
-    Config = require('./node_modules/eslint/lib/config');
+    formatter = require('eslint/lib/formatters/stylish'),
+    Config = require('eslint/lib/config');
 
 module.exports = EslintValidationFilter;
 EslintValidationFilter.prototype = Object.create(Filter.prototype);
