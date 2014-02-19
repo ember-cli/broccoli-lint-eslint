@@ -36,11 +36,11 @@ Path to eslint configuration file.
 ##### rulesdir
 
 Type: `String`
-Default: [built-in rules directory](https://github.com/nzakas/eslint/tree/master/lib/rules)
+Default: [built-in rules directory](https://github.com/eslint/eslint/tree/master/lib/rules)
 
 Path to a directory with custom rules. Your custom rules will be used in addition to the built-in ones.
 
-Recommended read: [Working with Rules](https://github.com/nzakas/eslint/blob/master/docs/developer-guide/working-with-rules.md)
+Recommended read: [Working with Rules](https://github.com/eslint/eslint/blob/master/docs/developer-guide/working-with-rules.md)
 
 ##### format
 
