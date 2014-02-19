@@ -1,4 +1,4 @@
-# [broccoli](https://github.com/joliss/broccoli)-eslint
+# [broccoli](https://github.com/joliss/broccoli)-eslint [![Build Status](https://travis-ci.org/makepanic/broccoli-eslint.png?branch=master)](https://travis-ci.org/makepanic/broccoli-eslint)
 
 > Lint JavaScript using [Eslint](http://eslint.org/)
 
