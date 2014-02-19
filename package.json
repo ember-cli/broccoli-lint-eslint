@@ -4,7 +4,7 @@
     "description": "broccoli filter that runs eslint",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "broccoli build temp > broccoli-build.out && node node_modules/mocha/bin/mocha test.js"
     },
     "repository": {
         "type": "git",
