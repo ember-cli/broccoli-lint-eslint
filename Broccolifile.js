@@ -2,13 +2,14 @@ module.exports = function (broccoli) {
     var pickFiles = require('broccoli-static-compiler'),
         eslintFilter = require('./index');
 
-    var app = broccoli.makeTree('testApp')
+    var app = broccoli.makeTree('test')
     app = pickFiles(app, {
-        destDir: '/testApp',
+        destDir: '/test',
         srcDir: '/'
     });
     app = eslintFilter(app, {
-        config: './eslint.json'
+        config: './conf/eslint.json',
+        rulesdir: './conf/rules'
     });
 
     return [app];

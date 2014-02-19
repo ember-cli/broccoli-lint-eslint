@@ -2,6 +2,9 @@
 
 > Lint JavaScript using [Eslint](http://eslint.org/)
 
+Most of the test setup and the build configuration is based on [sindresorhus/grunt-eslint](https://github.com/sindresorhus/grunt-eslint).
+The internal validation is heavily inspired by [eslint cli.js](https://github.com/eslint/eslint/blob/master/lib/cli.js)
+
 ## Install
 
 ```bash
@@ -29,3 +32,19 @@ Type: `String`
 Default: `./eslint.json`
 
 Path to eslint configuration file.
+
+##### rulesdir
+
+Type: `String`
+Default: [built-in rules directory](https://github.com/nzakas/eslint/tree/master/lib/rules)
+
+Path to a directory with custom rules. Your custom rules will be used in addition to the built-in ones.
+
+Recommended read: [Working with Rules](https://github.com/nzakas/eslint/blob/master/docs/developer-guide/working-with-rules.md)
+
+##### format
+
+Type: `String`
+Default: `'eslint/lib/formatters/stylish'`
+
+Path path to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
