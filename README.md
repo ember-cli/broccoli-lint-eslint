@@ -1,24 +1,31 @@
-# broccoli-eslint
+# [broccoli](https://github.com/joliss/broccoli)-eslint
 
-Runs [Eslint](http://eslint.org/) verification and logs result.
+> Lint JavaScript using [Eslint](http://eslint.org/)
 
-## Installation
+## Install
 
 ```bash
 npm install --save broccoli-eslint
 ```
 
-## Usage
+## Example
 
 Note: The API will change in subsequent 0.x versions.
 
 ```js
-var eslintFilter = require('broccoli-eslint');
-var applicationJs = eslintFilter(sourceTree, {
-  config: './eslint.json'
-});
+var eslint = require('broccoli-eslint');
+tree = eslint(tree, options);
 ```
 
-### Options
+## API
 
-* `.config` (String): Path to a eslint configuration file
+### eslint(tree, options)
+
+#### options
+
+##### config
+
+Type: `String`
+Default: `./eslint.json`
+
+Path to eslint configuration file.
