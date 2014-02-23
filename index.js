@@ -25,7 +25,7 @@ function EslintValidationFilter (inputTree, options) {
 EslintValidationFilter.prototype.extensions = ['js'];
 EslintValidationFilter.prototype.targetExtension = 'js';
 
-EslintValidationFilter.prototype.processString = function (string) {
+EslintValidationFilter.prototype.processString = function (content, relativePath) {
     var configHelper = new Config({
             config: this.options.config
         }),
@@ -40,14 +40,14 @@ EslintValidationFilter.prototype.processString = function (string) {
     }
 
     config = configHelper.getConfig();
-    result = eslint.linter.verify(string, config);
+    result = eslint.linter.verify(content, config);
 
     // if verification has result
     if (result.length) {
 
         // prepare message format
         messages.push({
-            filePath: '[TODO: #1]',
+            filePath: relativePath,
             messages: result
         });
 
@@ -79,5 +79,5 @@ EslintValidationFilter.prototype.processString = function (string) {
     }
 
     // return unmodified string
-    return string;
+    return content;
 };
