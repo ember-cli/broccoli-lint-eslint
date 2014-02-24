@@ -1,12 +1,19 @@
 module.exports = function (broccoli) {
-    var eslint = require('./index');
+    var eslint = require('./lib/index');
 
-    var app = broccoli.makeTree('test');
-    app = eslint(app, {
+    // lint plugin code
+    var plugin = broccoli.makeTree('lib');
+    plugin = eslint(plugin, {
+        config: './eslint.json'
+    });
+
+    // lint tests
+    var test = broccoli.makeTree('test');
+    test = eslint(test, {
         config: './conf/eslint.json',
         rulesdir: './conf/rules',
         format: 'eslint/lib/formatters/compact'
     });
 
-    return [app];
+    return [plugin, test];
 };

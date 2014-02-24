@@ -1,8 +1,8 @@
 {
   "name": "broccoli-eslint",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "broccoli filter that runs eslint",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "broccoli build temp > broccoli-build.out && node node_modules/mocha/bin/mocha test.js"
   },
