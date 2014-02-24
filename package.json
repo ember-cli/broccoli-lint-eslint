@@ -1,38 +1,38 @@
 {
-    "name": "broccoli-eslint",
-    "version": "0.0.2",
-    "description": "broccoli filter that runs eslint",
-    "main": "index.js",
-    "scripts": {
-        "test": "broccoli build temp > broccoli-build.out && node node_modules/mocha/bin/mocha test.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/makepanic/broccoli-eslint.git"
-    },
-    "keywords": [
-        "eslint",
-        "lint",
-        "broccoli",
-        "validate",
-        "jshint",
-        "jslint",
-        "esprima",
-        "broccoli-plugin"
-    ],
-    "author": "Christian",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/makepanic/broccoli-eslint/issues"
-    },
-    "homepage": "https://github.com/makepanic/broccoli-eslint",
-    "dependencies": {
-        "eslint": "~0.4.0",
-        "broccoli-filter": "git://github.com/joliss/broccoli-filter.git#master"
-    },
-    "devDependencies": {
-        "mocha": "*",
-        "broccoli": "~0.1.1",
-        "rimraf": "~2.2.6"
-    }
+  "name": "broccoli-eslint",
+  "version": "0.0.3",
+  "description": "broccoli filter that runs eslint",
+  "main": "index.js",
+  "scripts": {
+    "test": "broccoli build temp > broccoli-build.out && node node_modules/mocha/bin/mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/makepanic/broccoli-eslint.git"
+  },
+  "keywords": [
+    "eslint",
+    "lint",
+    "broccoli",
+    "validate",
+    "jshint",
+    "jslint",
+    "esprima",
+    "broccoli-plugin"
+  ],
+  "author": "Christian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makepanic/broccoli-eslint/issues"
+  },
+  "homepage": "https://github.com/makepanic/broccoli-eslint",
+  "dependencies": {
+    "eslint": "~0.4.0",
+    "broccoli-filter": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "broccoli": "~0.1.1",
+    "rimraf": "~2.2.6"
+  }
 }
