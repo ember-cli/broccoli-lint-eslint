@@ -1,6 +1,6 @@
 {
   "name": "broccoli-eslint",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/makepanic/broccoli-eslint",
   "dependencies": {
-    "eslint": "~0.4.0",
-    "broccoli-filter": "^0.1.0"
+    "broccoli-filter": "^0.1.1",
+    "eslint": "^0.4.2"
   },
   "devDependencies": {
     "mocha": "*",
