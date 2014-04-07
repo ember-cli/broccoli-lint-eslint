@@ -1,6 +1,6 @@
 {
   "name": "broccoli-eslint",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
@@ -27,12 +27,13 @@
   },
   "homepage": "https://github.com/makepanic/broccoli-eslint",
   "dependencies": {
-    "broccoli-filter": "^0.1.1",
-    "eslint": "^0.4.2"
+    "broccoli-filter": "^0.1.6",
+    "eslint": "^0.4.5"
   },
   "devDependencies": {
     "mocha": "*",
-    "broccoli": "~0.1.1",
-    "rimraf": "~2.2.6"
+    "rimraf": "~2.2.6",
+    "broccoli": "^0.7.2",
+    "broccoli-merge-trees": "^0.1.3"
   }
 }
