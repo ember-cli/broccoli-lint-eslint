@@ -28,7 +28,7 @@
   "homepage": "https://github.com/makepanic/broccoli-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.6",
-    "eslint": "^0.14.1"
+    "eslint": "^0.16.0"
   },
   "devDependencies": {
     "mocha": "*",
