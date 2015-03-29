@@ -28,10 +28,10 @@
   "homepage": "https://github.com/makepanic/broccoli-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.12",
-    "eslint": "^0.17.1"
+    "eslint": "^0.18.0"
   },
   "devDependencies": {
-    "broccoli": "^0.15.0",
+    "broccoli": "^0.15.3",
     "broccoli-merge-trees": "^0.2.1",
     "mocha": "^2.2.1",
     "rimraf": "^2.3.2"
