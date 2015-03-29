@@ -1,14 +1,15 @@
-# [broccoli](https://github.com/joliss/broccoli)-eslint [![Build Status](https://travis-ci.org/makepanic/broccoli-eslint.png?branch=master)](https://travis-ci.org/makepanic/broccoli-eslint)
+# [broccoli](https://github.com/joliss/broccoli)-lint-eslint
 
 > Lint JavaScript using [Eslint](http://eslint.org/)
 
+This is a fork of [makepanic/broccoli-eslint](https://github.com/makepanic/broccoli-eslint) used to add new features and keep up to date with the latest ESLint. This fork may go away however it will track any API changes made to it's fork as long as possible.
 Most of the test setup and the build configuration is based on [sindresorhus/grunt-eslint](https://github.com/sindresorhus/grunt-eslint).
 The internal validation is heavily inspired by [eslint cli.js](https://github.com/eslint/eslint/blob/master/lib/cli.js)
 
 ## Install
 
 ```bash
-npm install --save broccoli-eslint
+npm install --save broccoli-lint-eslint
 ```
 
 ## Example
@@ -16,7 +17,7 @@ npm install --save broccoli-eslint
 Note: The API will change in subsequent 0.x versions.
 
 ```js
-var eslint = require('broccoli-eslint');
+var eslint = require('broccoli-lint-eslint');
 tree = eslint(tree, options);
 ```
 

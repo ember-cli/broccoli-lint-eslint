@@ -1,5 +1,5 @@
 {
-  "name": "broccoli-eslint",
+  "name": "broccoli-lint-eslint",
   "version": "0.1.0",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/makepanic/broccoli-eslint.git"
+    "url": "git://github.com/jonathanKingston/broccoli-lint-eslint.git"
   },
   "keywords": [
     "eslint",
@@ -20,12 +20,12 @@
     "esprima",
     "broccoli-plugin"
   ],
-  "author": "Christian",
+  "author": "Jonathan Kingston",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/makepanic/broccoli-eslint/issues"
+    "url": "https://github.com/jonathanKingston/broccoli-lint-eslint/issues"
   },
-  "homepage": "https://github.com/makepanic/broccoli-eslint",
+  "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.12",
     "eslint": "^0.18.0"
