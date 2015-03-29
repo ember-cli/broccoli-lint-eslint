@@ -34,7 +34,7 @@
         "no-fallthrough": 2,
         "no-floating-decimal": 0,
         "no-func-assign": 2,
-        "no-global-strict": 2,
+        "strict": [2, "function"],
         "no-implied-eval": 2,
         "no-invalid-regexp": 2,
         "no-iterator": 2,
@@ -78,7 +78,7 @@
         "no-use-before-define": 2,
         "no-with": 2,
         "no-wrap-func": 2,
-        "no-yoda": 2,
+        "yoda": [2, "never"],
 
         "block-scoped-var": 0,
         "brace-style": 0,

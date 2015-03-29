@@ -22,7 +22,7 @@ tree = eslint(tree, options);
 
 ## API
 
-### eslint(tree, options)
+### eslint(tree, options, internalOptions)
 
 #### options
 
@@ -48,3 +48,10 @@ Type: `String`
 Default: `'eslint/lib/formatters/stylish'`
 
 Path path to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
+
+#### internalOptions
+##### throwOnError
+
+Type: `Boolean`
+
+Cause exception error on first severe error
