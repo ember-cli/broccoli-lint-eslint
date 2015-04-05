@@ -50,6 +50,36 @@ Default: `'eslint/lib/formatters/stylish'`
 
 Path path to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
 
+##### testGenerator
+
+Type: `function`
+Default: `null`
+
+The function used to generate test modules. You can provide a custom function for your client side testing framework of choice.
+
+The function receives the following arguments:
+
+- relativePath - The relative path to the file being tested.
+- errors - A generated string of errors found.
+
+Example usage:
+```
+var path = require('path');
+
+function testGenerator(relativePath, errors) {
+  return "module('" + path.dirname(relativePath) + '");";
+         "test('" + relativePath + "' should pass jshint', function() { " +
+         "  ok(passed, moduleName+" should pass jshint."+(errors ? "\n"+errors : '')); " +
+         "});
+};
+
+return eslint(tree, {
+  config: this.jshintrc.app + '/eslint.json',
+  rulesdir: this.jshintrc.app,
+  testGenerator: testGenerator
+});
+```
+
 #### internalOptions
 ##### throwOnError
 
