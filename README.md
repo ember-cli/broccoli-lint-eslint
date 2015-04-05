@@ -60,7 +60,7 @@ The function used to generate test modules. You can provide a custom function fo
 The function receives the following arguments:
 
 - relativePath - The relative path to the file being tested.
-- errors - A generated string of errors found.
+- errors - An array of eslint error objects found.
 
 Example usage:
 ```
