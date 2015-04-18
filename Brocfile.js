@@ -3,13 +3,11 @@ var eslint = require('./lib/index'),
 
 // lint plugin code
 var plugin = eslint('lib', {
-    config: './eslint.json'
 });
 
 // lint tests
 var test = eslint('test', {
-    config: './conf/eslint.json',
-    rulesdir: './conf/rules',
+    rulePaths: ['conf/rules'],
     format: 'eslint/lib/formatters/compact'
 });
 
