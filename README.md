@@ -30,7 +30,7 @@ tree = eslint(tree, options);
 ##### config
 
 Type: `String`
-Default: `./eslint.json`
+Default: `./.eslintrc`
 
 Path to eslint configuration file.
 
