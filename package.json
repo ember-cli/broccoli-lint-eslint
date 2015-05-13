@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "1.0.0-beta",
+  "version": "1.0.0-beta.2",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "devDependencies": {
     "broccoli": "^0.16.2",
     "broccoli-merge-trees": "^0.2.1",
+    "eslint": "eslint/eslint",
     "mocha": "^2.2.4",
     "rimraf": "^2.3.2"
   }
