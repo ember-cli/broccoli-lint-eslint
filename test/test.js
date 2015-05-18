@@ -1,14 +1,13 @@
-'use strict';
-var assert = require('assert'),
-  fs = require('fs'),
-  rimraf = require('rimraf');
+var assert = require('assert');
+var fs = require('fs');
+var rimraf = require('rimraf');
 
-afterEach(function () {
+afterEach(function afterEach() {
   rimraf.sync('temp');
   rimraf.sync('broccoli-build.out');
 });
 
-it('should reported errors', function () {
+it('should reported errors', function shouldReportErrors() {
   var buildLog = fs.readFileSync('broccoli-build.out').toString();
 
   assert(buildLog.indexOf('Strings must use doublequote.') !== -1, 'Used eslint validation - strings');
@@ -16,3 +15,4 @@ it('should reported errors', function () {
   assert(buildLog.indexOf('testing custom rules') !== -1, 'Used custom rulesdir rules');
   assert(buildLog.indexOf('fixture/1.js') !== -1, 'Shows filepath');
 });
+

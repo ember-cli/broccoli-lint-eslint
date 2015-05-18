@@ -1,11 +1,11 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "broccoli build temp > broccoli-build.out && node node_modules/mocha/bin/mocha test.js"
+    "test": "npm run lint && rm -rf build/; broccoli build build > broccoli-build.out && node node_modules/mocha/bin/mocha build/test.js"
   },
   "repository": {
     "type": "git",
