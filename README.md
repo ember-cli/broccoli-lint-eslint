@@ -23,25 +23,9 @@ tree = eslint(tree, options);
 
 ## API
 
-### eslint(tree, options, internalOptions)
+### eslint(tree, options)
 
 #### options
-
-##### config
-
-Type: `String`
-Default: `./.eslintrc`
-
-Path to eslint configuration file.
-
-##### rulePaths
-
-Type: `Array`
-Default: [built-in rules directory](https://github.com/eslint/eslint/tree/master/lib/rules)
-
-Paths to a directory with custom rules. Your custom rules will be used in addition to the built-in ones.
-
-Recommended read: [Working with Rules](https://github.com/eslint/eslint/blob/master/docs/developer-guide/working-with-rules.md)
 
 ##### format
 
@@ -74,15 +58,35 @@ function testGenerator(relativePath, errors) {
 };
 
 return eslint(tree, {
-  config: this.jshintrc.app + '/eslint.json',
-  rulesdir: this.jshintrc.app,
+  options: {
+    configFile: this.jshintrc.app + '/eslint.json',
+    rulesdir: this.jshintrc.app
+  },
   testGenerator: testGenerator
 });
 ```
 
-#### internalOptions
 ##### throwOnError
 
 Type: `Boolean`
 
 Cause exception error on first severe error
+
+##### options
+Options native to ESLint CLI: [CLIEngine options](http://eslint.org/docs/developer-guide/nodejs-api#cliengine)
+
+###### configFile
+
+Type: `String`
+Default: `./.eslintrc`
+
+Path to eslint configuration file.
+
+###### rulePaths
+
+Type: `Array`
+Default: [built-in rules directory](https://github.com/eslint/eslint/tree/master/lib/rules)
+
+Paths to a directory with custom rules. Your custom rules will be used in addition to the built-in ones.
+
+Recommended read: [Working with Rules](https://github.com/eslint/eslint/blob/master/docs/developer-guide/working-with-rules.md)
