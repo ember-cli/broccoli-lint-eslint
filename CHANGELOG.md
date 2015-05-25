@@ -1,3 +1,6 @@
+# 1.0.0-beta.5
+- Fixed whitespace output issue
+
 # 0.1.3
 
 - Improving documentation
