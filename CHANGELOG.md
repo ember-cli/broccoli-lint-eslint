@@ -1,3 +1,6 @@
+# 1.0.0
+- Bump to latest
+
 # 1.0.0-beta.5
 - Fixed whitespace output issue
 
