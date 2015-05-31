@@ -1,3 +1,6 @@
+# 1.0.1
+- Bump ESLint version to 0.22.1
+
 # 1.0.0
 - Bump to latest
 
