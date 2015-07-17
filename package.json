@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.12",
-    "eslint": "^0.22.1"
+    "eslint": "^0.24.1"
   },
   "devDependencies": {
     "broccoli": "^0.16.2",
