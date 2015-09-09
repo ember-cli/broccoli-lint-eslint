@@ -18,4 +18,6 @@ var test = eslint('test', {
   format: 'eslint/lib/formatters/compact'
 });
 
-module.exports = mergeTrees([plugin, test], { overwrite: true });
+module.exports = mergeTrees([plugin, test], {
+  overwrite: true
+});

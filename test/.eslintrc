@@ -1,7 +1,8 @@
 {
   "extends": "nightmare-mode/node",
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "prefer-arrow-callback": 0
   },
   "env": {
     "mocha": true

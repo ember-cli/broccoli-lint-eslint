@@ -1,5 +1,9 @@
 # [broccoli](https://github.com/joliss/broccoli)-lint-eslint
 
+[![build status](https://secure.travis-ci.org/jonathanKingston/broccoli-lint-eslint.svg)](http://travis-ci.org/jonathanKingston/broccoli-lint-eslint)
+[![npm status](http://img.shields.io/npm/v/broccoli-lint-eslint.svg)](https://www.npmjs.org/package/broccoli-lint-eslint)
+[![dependency status](https://david-dm.org/jonathanKingston/broccoli-lint-eslint.svg)](https://david-dm.org/jonathanKingston/broccoli-lint-eslint)
+
 > Lint JavaScript using [Eslint](http://eslint.org/)
 
 This is a fork of [makepanic/broccoli-eslint](https://github.com/makepanic/broccoli-eslint) used to add new features and keep up to date with the latest ESLint. This fork may go away however it will track any API changes made to it's fork as long as possible.
