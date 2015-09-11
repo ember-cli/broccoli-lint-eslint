@@ -1,3 +1,6 @@
+# 1.1.1
+- Update to eslint@1.4.1
+
 # 1.1.0
 - Bump ESLint version to 1.3.1
 - Fix tests from nightmare mode
