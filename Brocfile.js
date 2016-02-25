@@ -1,3 +1,5 @@
+'use strict';
+
 var eslint = require('./lib/index');
 var mergeTrees = require('broccoli-merge-trees');
 
