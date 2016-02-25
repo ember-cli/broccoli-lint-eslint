@@ -1,3 +1,6 @@
+# develop
+- Update to eslint@2.2.0
+
 # 1.1.1
 - Update to eslint@1.4.1
 

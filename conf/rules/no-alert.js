@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function noAlerts(context) {
   return {
     CallExpression: function callExpression(node) {
