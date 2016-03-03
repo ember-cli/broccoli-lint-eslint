@@ -35,7 +35,7 @@
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
-    "eslint-config-nightmare-mode": "^0.2.0",
+    "eslint-config-nightmare-mode": "^2.2.0",
     "mocha": "^2.2.4",
     "rimraf": "^2.3.2"
   }
