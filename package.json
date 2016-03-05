@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "broccoli filter that runs eslint",
   "main": "lib/index.js",
   "scripts": {
@@ -29,13 +29,13 @@
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.12",
-    "eslint": "^2.2.0"
+    "eslint": "^2.3.0"
   },
   "devDependencies": {
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
-    "eslint-config-nightmare-mode": "^2.2.0",
+    "eslint-config-nightmare-mode": "^2.3.0",
     "mocha": "^2.2.4",
     "rimraf": "^2.3.2"
   }
