@@ -1,15 +1,15 @@
-var eslint = require('./lib/index');
-var mergeTrees = require('broccoli-merge-trees');
+const eslint = require('./lib/index');
+const mergeTrees = require('broccoli-merge-trees');
 
 // lint plugin code
-var plugin = eslint('lib', {
+const plugin = eslint('lib', {
   options: {
     ignore: false
   }
 });
 
 // lint tests
-var test = eslint('test', {
+const test = eslint('test', {
   options: {
     ignore: false,
     rulePaths: ['conf/rules'],

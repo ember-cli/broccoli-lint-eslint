@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "rm -rf build/ && npm run lint && broccoli build build > broccoli-build.out && node node_modules/mocha/bin/mocha build/test.js"
+    "test": "rm -rf build/ && npm run lint && ./node_modules/broccoli-cli/bin/broccoli build build > broccoli-build.out && node node_modules/mocha/bin/mocha build/test.js"
   },
   "repository": {
     "type": "git",
@@ -29,12 +29,13 @@
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^0.1.12",
-    "eslint": "^1.4.1"
+    "eslint": "^2.2.0"
   },
   "devDependencies": {
-    "broccoli": "^0.16.2",
-    "broccoli-merge-trees": "^0.2.1",
-    "eslint-config-nightmare-mode": "^0.2.0",
+    "broccoli": "^0.16.9",
+    "broccoli-cli": "^1.0.0",
+    "broccoli-merge-trees": "^1.1.1",
+    "eslint-config-nightmare-mode": "^2.2.0",
     "mocha": "^2.2.4",
     "rimraf": "^2.3.2"
   }
