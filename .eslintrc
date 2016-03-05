@@ -1,6 +1,7 @@
 {
   "extends": "nightmare-mode/node",
   "rules": {
+    "arrow-body-style": [2, "as-needed"],
     "arrow-parens": [2, "always"],
     "no-console": 0,
     "prefer-arrow-callback": 0,
