@@ -2,10 +2,13 @@
   "name": "broccoli-lint-eslint",
   "version": "1.2.0",
   "description": "broccoli filter that runs eslint",
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "scripts": {
+    "prebabelify": "rimraf build",
+    "babelify": "babel lib --out-dir build",
+    "prepublish": "npm run babelify",
     "lint": "eslint .",
-    "test": "rm -rf build/ && npm run lint && ./node_modules/broccoli-cli/bin/broccoli build build > broccoli-build.out && node node_modules/mocha/bin/mocha build/test.js"
+    "test": "npm run babelify && rm -rf lintbuild/ && ./node_modules/broccoli-cli/bin/broccoli build lintbuild > broccoli-build.out && node node_modules/mocha/bin/mocha lintbuild/test.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,11 @@
     "esprima",
     "broccoli-plugin"
   ],
+  "files": [
+    "lib",
+    "tests",
+    "conf"
+  ],
   "author": "Jonathan Kingston",
   "license": "MIT",
   "bugs": {
@@ -32,11 +40,13 @@
     "eslint": "^2.3.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
     "eslint-config-nightmare-mode": "^2.3.0",
     "mocha": "^2.2.4",
-    "rimraf": "^2.3.2"
+    "rimraf": "^2.5.1"
   }
 }
