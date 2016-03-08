@@ -21,7 +21,7 @@ module.exports = function runEslint(path, _options) {
   const tree = eslint(path, options);
   const builder = new broccoli.Builder(tree);
   const promise = builder.build().then(function builderThen() {
-    return buildLog.join('\n');
+    return {buildLog: buildLog.join('\n'), outputPath: tree.outputPath};
   });
 
   promise.finally(function builderCleanup() {
