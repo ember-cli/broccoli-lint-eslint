@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
-    "broccoli-filter": "^0.1.12",
+    "broccoli-filter": "^1.2.3",
     "eslint": "^2.3.0"
   },
   "devDependencies": {
