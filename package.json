@@ -8,7 +8,8 @@
     "babelify": "babel lib --out-dir build",
     "prepublish": "npm run babelify",
     "lint": "eslint .",
-    "test": "npm run babelify && rm -rf lintbuild/ && ./node_modules/broccoli-cli/bin/broccoli build lintbuild > broccoli-build.out && node node_modules/mocha/bin/mocha lintbuild/test.js"
+    "babelify-tests": "babel test --ignore fixture --out-dir build/test",
+    "test": "npm run babelify && npm run babelify-tests && npm run lint && node_modules/mocha/bin/mocha build/test/test.js"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
   },
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
-    "broccoli-filter": "^0.1.12",
+    "broccoli-filter": "^1.2.3",
     "eslint": "^2.3.0"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
+    "chai": "^3.5.0",
     "eslint-config-nightmare-mode": "^2.3.0",
     "mocha": "^2.2.4",
     "rimraf": "^2.5.1"
