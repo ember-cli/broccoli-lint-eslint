@@ -1,8 +1,8 @@
-const eslint = require('./lib/index');
+const eslint = require('./build/index');
 const mergeTrees = require('broccoli-merge-trees');
 
 // lint plugin code
-const plugin = eslint('lib', {
+const plugin = eslint('build', {
   options: {
     ignore: false
   }
