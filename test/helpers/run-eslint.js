@@ -4,17 +4,15 @@ const eslint = require('../../index');
 module.exports = function runEslint(path, _options) {
   const options = _options || {};
   const buildLog = [];
-  const consoleLog = console.log;
-
-  // stub console.log so we can get the formatter's output
-  console.log = function appendToBuildLog(...args) {
-    const text = args.join(' ');
-
-    buildLog.push(text);
-  };
 
   // default options
-  options.format = options.format || 'eslint/lib/formatters/compact';
+  // eslint-disable-next-line global-require, newline-after-var
+  const formatter = require(options.format || 'eslint/lib/formatters/compact');
+  options.format = function spyFormatter(results) {
+    buildLog.push(formatter(results));
+    // prevent console spew
+    return '';
+  };
   options.options = options.options || {};
   options.options.ignore = options.options.ignore || false;
 
@@ -26,9 +24,6 @@ module.exports = function runEslint(path, _options) {
 
   promise.finally(function builderCleanup() {
     builder.cleanup();
-
-    // restore the original console.log
-    console.log = consoleLog;
   });
 
   return promise;
