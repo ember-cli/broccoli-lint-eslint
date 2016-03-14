@@ -26,6 +26,7 @@
     "broccoli-plugin"
   ],
   "files": [
+    "build",
     "lib",
     "tests",
     "conf"
