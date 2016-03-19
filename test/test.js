@@ -1,3 +1,4 @@
+const fs = require('fs');
 const expect = require('chai').expect;
 const runEslint = require('./helpers/run-eslint');
 const FIXTURES = 'test/fixture';
@@ -12,7 +13,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     // lint test fixtures
     const promise = runEslint(FIXTURES);
 
-    return promise.then(function assertLinting(buildLog) {
+    return promise.then(function assertLinting({buildLog}) {
       expect(buildLog, 'Used eslint validation').to.have.string(CAMELCASE);
       expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
       expect(buildLog, 'Used relative config - console not allowed').to.have.string(CONSOLE);
@@ -29,7 +30,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       }
     });
 
-    return promise.then(function assertLinting(buildLog) {
+    return promise.then(function assertLinting({buildLog}) {
       expect(buildLog, 'Used custom rule').to.have.string(CUSTOM_RULES);
     });
   });
@@ -42,9 +43,23 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       }
     });
 
-    return promise.then(function assertLinting(buildLog) {
+    return promise.then(function assertLinting({buildLog}) {
       expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(CONSOLE);
       expect(buildLog, 'Used alternate config - double quotes').to.have.string(DOUBLEQUOTE);
+    });
+  });
+
+  it('should create test files', function shouldGenerateTests() {
+    const promise = runEslint(FIXTURES, {
+      testGenerator() {
+        return 'test-content';
+      }
+    });
+
+    return promise.then(function assertLinting({outputPath}) {
+      const content = fs.readFileSync(`${outputPath}/1.lint-test.js`, 'utf8');
+
+      expect(content, 'Used the testGenerator').to.equal('test-content');
     });
   });
 });
