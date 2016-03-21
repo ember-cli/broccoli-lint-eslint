@@ -39,7 +39,7 @@
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^1.2.3",
-    "eslint": "2.4.0"
+    "eslint": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
