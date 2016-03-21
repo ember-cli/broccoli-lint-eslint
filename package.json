@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "broccoli filter that runs eslint",
   "main": "build/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
   "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-filter": "^1.2.3",
-    "eslint": "^2.3.0"
+    "eslint": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",

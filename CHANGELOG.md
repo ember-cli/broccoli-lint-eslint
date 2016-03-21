@@ -1,5 +1,6 @@
-# develop
-- Update to eslint@2.2.0
+# 2.1.0 / 2016-03-20
+- Updated and pinned to eslint@2.4.0.
+- Begin tracking dates in CHANGELOG 😃
 
 # 1.1.1
 - Update to eslint@1.4.1
@@ -27,4 +28,4 @@
 
 - Removing default eslint.json which allows for ESLint to lookup .eslintrc
 - Updating .eslintrc
-- Fixing rules path to use `rulePaths` 
+- Fixing rules path to use `rulePaths`
