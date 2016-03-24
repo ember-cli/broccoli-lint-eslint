@@ -26,7 +26,10 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     // lint test fixtures using a custom rule
     const promise = runEslint(FIXTURES, {
       options: {
-        rulePaths: ['conf/rules']
+        rulePaths: ['conf/rules'],
+        rules: {
+          'custom-no-alert': 2
+        }
       }
     });
 
