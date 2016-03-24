@@ -18,6 +18,19 @@ const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/fixture/.eslintigno
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
+  before(function beforeEslintValidationFilter() {
+    this.setupSpies = function setupSpies() {
+      // spy on filter process methods
+      const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
+      const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
+
+      return {
+        processStringSpy,
+        postProcessSpy
+      };
+    };
+  });
+
   function shouldReportErrors(inputTree, options) {
     return function _shouldReportErrors() {
       // lint test fixtures
@@ -133,9 +146,10 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
   });
 
   it('should cache results, but still log errors', function shouldHaveCachedResults() {
-    // spy on filter process methods
-    const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
-    const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
 
     // run first test again, should use cache but still log errors
     return shouldReportErrors(FIXTURES, {
@@ -153,9 +167,10 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
   });
 
   it('should allow disabling the cache', function shouldAllowDisablingCache() {
-    // spy on filter process methods
-    const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
-    const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
 
     function runNonpersistent() {
       return runEslint(FIXTURES, {
@@ -175,6 +190,54 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
         .to.have.callCount(2 * JS_FIXTURES.length);
       expect(postProcessSpy, 'Logged errors (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
+    });
+  });
+
+  it('should use the configuration to cache results', function shouldCacheByConfig() {
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
+    let processStringInitialCount;
+    let postProcessInitialCount;
+    const eslintrcPath = path.join(FIXTURES, '.eslintrc');
+    let eslintrcContent;
+
+    function runCustomRule() {
+      return runEslint(FIXTURES, {
+        options: {
+          rulePaths: ['conf/rules']
+        }
+      });
+    }
+
+    return runCustomRule().then(function retrieveCallCount() {
+      processStringInitialCount = processStringSpy.callCount;
+      postProcessInitialCount = postProcessSpy.callCount;
+    })
+    .then(function backupConfig() {
+      eslintrcContent = fs.readFileSync(eslintrcPath);
+    })
+    .then(function writeNewConfig() {
+      fs.writeFileSync(eslintrcPath, JSON.stringify({
+        extends: 'nightmare-mode/node',
+        rules: {
+          'custom-no-alert': 2
+        }
+      }));
+    })
+    .then(runCustomRule)
+    .then(function assertCaching() {
+      // check that it did not use the cache
+      expect(processStringSpy, 'Didn\'t use cache')
+        .to.have.callCount(processStringInitialCount + JS_FIXTURES.length);
+      expect(postProcessSpy, 'Logged errors')
+        .to.have.callCount(postProcessInitialCount + JS_FIXTURES.length);
+    })
+    .finally(function restoreConfig() {
+      if (typeof eslintrcContent !== 'undefined') {
+        fs.writeFileSync(eslintrcPath, eslintrcContent);
+      }
     });
   });
 });
