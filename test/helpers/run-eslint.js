@@ -16,7 +16,6 @@ module.exports = function runEslint(path, _options) {
   // default options
   options.format = options.format || 'eslint/lib/formatters/compact';
   options.options = options.options || {};
-  options.options.ignore = options.options.ignore || false;
 
   const tree = eslint(path, options);
   const builder = new broccoli.Builder(tree);
