@@ -47,6 +47,8 @@
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
+    "broccoli-source": "^1.1.0",
+    "broccoli-stew": "^1.2.0",
     "chai": "^3.5.0",
     "eslint-config-nightmare-mode": "^2.3.0",
     "mocha": "^2.2.4",
