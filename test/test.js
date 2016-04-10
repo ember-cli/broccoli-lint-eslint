@@ -1,6 +1,11 @@
+/* eslint-disable no-unused-expressions */
 const fs = require('fs');
 const path = require('path');
 const expect = require('chai').expect;
+const stew = require('broccoli-stew');
+const mv = stew.mv;
+const UnwatchedDir = require('broccoli-source').UnwatchedDir;
+const MergeTrees = require('broccoli-merge-trees');
 const runEslint = require('./helpers/run-eslint');
 const FIXTURES = 'test/fixture';
 const CAMELCASE = '(camelcase)';
@@ -11,22 +16,29 @@ const FILEPATH = 'fixture/1.js';
 const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/fixture/.eslintignore');
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
-  it('should report errors', function shouldReportErrors() {
-    // lint test fixtures
-    const promise = runEslint(FIXTURES, {
-      options: {
-        ignore: false
-      }
-    });
+  function shouldReportErrors(inputTree, options) {
+    return function _shouldReportErrors() {
+      // lint test fixtures
+      const promise = runEslint(inputTree, options);
 
-    return promise.then(function assertLinting({buildLog}) {
-      expect(buildLog, 'Used eslint validation').to.have.string(CAMELCASE);
-      expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
-      expect(buildLog, 'Used relative config - console not allowed').to.have.string(CONSOLE);
-      expect(buildLog, 'Used relative config - single quotes').to.not.have.string(DOUBLEQUOTE);
-      expect(buildLog, 'No custom rules defined').to.not.have.string(CUSTOM_RULES);
-    });
-  });
+      return promise.then(function assertLinting({buildLog}) {
+        expect(buildLog, 'Used eslint validation').to.have.string(CAMELCASE);
+        expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
+        expect(buildLog, 'Used relative config - console not allowed').to.have.string(CONSOLE);
+        expect(buildLog, 'Used relative config - single quotes').to.not.have.string(DOUBLEQUOTE);
+        expect(buildLog, 'No custom rules defined').to.not.have.string(CUSTOM_RULES);
+      });
+    };
+  }
+
+  // specify test fixtures via a broccoli node
+  const moveTree = mv(new UnwatchedDir(FIXTURES), 'foobar/fixture');
+
+  it('should report errors', shouldReportErrors(FIXTURES, {
+    options: {
+      ignore: false
+    }
+  }));
 
   it('should accept rule paths', function shouldAcceptRulePaths() {
     // lint test fixtures using a custom rule
@@ -104,5 +116,17 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
       expect(content, 'Used the testGenerator').to.equal('test-content');
     });
+  });
+
+  it('should accept a node as the input', shouldReportErrors(moveTree, {
+    options: {
+      ignore: false
+    }
+  }));
+
+  it('should not accept a many:* node as the input', function shouldNotAcceptManyStarNode() {
+    expect(() => {
+      runEslint(new MergeTrees([FIXTURES, 'lib']));
+    }, 'Should throw descriptive error').to.throw('many:*');
   });
 });
