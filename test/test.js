@@ -12,8 +12,10 @@ const CAMELCASE = '(camelcase)';
 const CONSOLE = '(no-console)';
 const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
-const FILEPATH = 'fixture/1.js';
+const FILE_PATH = 'fixture/1.js';
+const IGNORED_PATH = 'fixture/4.js';
 const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/fixture/.eslintignore');
+const IGNORED_REGEX = /File ignored because of a matching ignore pattern\. Use --no-ignore to override\./;
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
   function shouldReportErrors(inputTree, options) {
@@ -23,7 +25,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
       return promise.then(function assertLinting({buildLog}) {
         expect(buildLog, 'Used eslint validation').to.have.string(CAMELCASE);
-        expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
+        expect(buildLog, 'Shows filepath').to.have.string(FILE_PATH);
         expect(buildLog, 'Used relative config - console not allowed').to.have.string(CONSOLE);
         expect(buildLog, 'Used relative config - single quotes').to.not.have.string(DOUBLEQUOTE);
         expect(buildLog, 'No custom rules defined').to.not.have.string(CUSTOM_RULES);
@@ -57,7 +59,32 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     });
   });
 
-  it('should use a default ignore:true option', function shouldAcceptDefaultIgnore() {
+  function extractLintedLog(log, type) {
+    return log.split('\n')
+      .filter((msg) => !IGNORED_REGEX.test(msg) !== /ignored/i.test(type || ''))
+      .join('\n');
+  }
+
+  it('should use a default ignore:true option', function shouldDefaultIgnoreTrue() {
+    let testBuildLog;
+    const promise = runEslint(FIXTURES, {
+      testGenerator(relativePath, messages) {
+        testBuildLog = messages.join('\n');
+      }
+    });
+
+    return promise
+      .then(function assertIgnorance({buildLog}) {
+        const ignoredFilesLog = extractLintedLog(buildLog, 'ignored');
+
+        expect(ignoredFilesLog, 'Fixture file is ignored')
+          .to.contain(FILE_PATH);
+        expect(testBuildLog, 'Ignored file warnings are not passed to test generator')
+          .to.not.match(IGNORED_REGEX);
+      });
+  });
+
+  it('should accept ignore file path', function shouldAcceptIgnorePath() {
     const promise = runEslint(FIXTURES, {
       options: {
         ignorePath: TEST_IGNORE_PATH
@@ -66,23 +93,29 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
     return promise
       .then(function assertLinting({buildLog}) {
-        expect(buildLog)
-        .to.not.match(/File ignored because of a matching ignore pattern\. Use --no-ignore to override\./);
+        const ignoredFilesLog = extractLintedLog(buildLog, 'ignored');
+        const lintedFilesLog = extractLintedLog(buildLog);
+
+        expect(lintedFilesLog, 'Non-ignored file is linted')
+          .to.contain(FILE_PATH);
+        expect(ignoredFilesLog, 'Ignored file is not linted')
+          .to.contain(IGNORED_PATH);
       });
   });
 
   it('should accept an ignore option', function shouldAcceptIgnoreOption() {
     const promise = runEslint(FIXTURES, {
       options: {
-        ignore: true,
-        ignorePath: TEST_IGNORE_PATH
+        ignore: false
       }
     });
 
     return promise
       .then(function assertLinting({buildLog}) {
-        expect(buildLog)
-        .to.not.match(/File ignored because of a matching ignore pattern\. Use --no-ignore to override\./);
+        const lintedFilesLog = extractLintedLog(buildLog);
+
+        expect(lintedFilesLog, 'No files are ignored')
+          .to.contain(IGNORED_PATH);
       });
   });
 
