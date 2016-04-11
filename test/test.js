@@ -6,6 +6,7 @@ const stew = require('broccoli-stew');
 const mv = stew.mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
+const eslint = require('../index');
 const runEslint = require('./helpers/run-eslint');
 const FIXTURES = 'test/fixture';
 const CAMELCASE = '(camelcase)';
@@ -14,8 +15,22 @@ const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
 const FILEPATH = 'fixture/1.js';
 const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/fixture/.eslintignore');
+const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
+  before(function beforeEslintValidationFilter() {
+    this.setupSpies = function setupSpies() {
+      // spy on filter process methods
+      const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
+      const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
+
+      return {
+        processStringSpy,
+        postProcessSpy
+      };
+    };
+  });
+
   function shouldReportErrors(inputTree, options) {
     return function _shouldReportErrors() {
       // lint test fixtures
@@ -128,5 +143,101 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     expect(() => {
       runEslint(new MergeTrees([FIXTURES, 'lib']));
     }, 'Should throw descriptive error').to.throw('many:*');
+  });
+
+  it('should cache results, but still log errors', function shouldHaveCachedResults() {
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
+
+    // run first test again, should use cache but still log errors
+    return shouldReportErrors(FIXTURES, {
+      options: {
+        ignore: false
+      }
+    })()
+      .then(function assertCaching() {
+        // check that it actually used the cache
+        expect(processStringSpy, 'Used cache')
+          .to.have.callCount(0);
+        expect(postProcessSpy, 'Logged errors')
+          .to.have.callCount(JS_FIXTURES.length);
+      });
+  });
+
+  it('should allow disabling the cache', function shouldAllowDisablingCache() {
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
+
+    function runNonpersistent() {
+      return runEslint(FIXTURES, {
+        persist: false,
+        options: {
+          ignore: false
+        }
+      });
+    }
+
+    // Run twice to guarantee one run would be from cache if persisting
+    const promise = runNonpersistent().then(runNonpersistent);
+
+    return promise.then(function assertCaching() {
+      // check that it did not use the cache
+      expect(processStringSpy, 'Didn\'t use cache (twice)')
+        .to.have.callCount(2 * JS_FIXTURES.length);
+      expect(postProcessSpy, 'Logged errors (twice)')
+        .to.have.callCount(2 * JS_FIXTURES.length);
+    });
+  });
+
+  it('should use the configuration to cache results', function shouldCacheByConfig() {
+    const {
+      processStringSpy,
+      postProcessSpy
+    } = this.setupSpies();
+    let processStringInitialCount;
+    let postProcessInitialCount;
+    const eslintrcPath = path.join(FIXTURES, '.eslintrc');
+    let eslintrcContent;
+
+    function runCustomRule() {
+      return runEslint(FIXTURES, {
+        options: {
+          rulePaths: ['conf/rules']
+        }
+      });
+    }
+
+    return runCustomRule().then(function retrieveCallCount() {
+      processStringInitialCount = processStringSpy.callCount;
+      postProcessInitialCount = postProcessSpy.callCount;
+    })
+    .then(function backupConfig() {
+      eslintrcContent = fs.readFileSync(eslintrcPath);
+    })
+    .then(function writeNewConfig() {
+      fs.writeFileSync(eslintrcPath, JSON.stringify({
+        extends: 'nightmare-mode/node',
+        rules: {
+          'custom-no-alert': 2
+        }
+      }));
+    })
+    .then(runCustomRule)
+    .then(function assertCaching() {
+      // check that it did not use the cache
+      expect(processStringSpy, 'Didn\'t use cache')
+        .to.have.callCount(processStringInitialCount + JS_FIXTURES.length);
+      expect(postProcessSpy, 'Logged errors')
+        .to.have.callCount(postProcessInitialCount + JS_FIXTURES.length);
+    })
+    .finally(function restoreConfig() {
+      if (typeof eslintrcContent !== 'undefined') {
+        fs.writeFileSync(eslintrcPath, eslintrcContent);
+      }
+    });
   });
 });
