@@ -1,3 +1,9 @@
+# 2.2.0 / 2016-04-12
+- Use broccoli-persistent-filter
+- Update ignore filter message
+- Accept non-string inputTrees and properly detect nested configuration files
+- Fix custom rule test per [eslint/eslint#5577](https://github.com/eslint/eslint/issues/5577)
+
 # 2.1.0 / 2016-03-20
 - Updated and pinned to eslint@2.4.0.
 - Begin tracking dates in CHANGELOG 😃
