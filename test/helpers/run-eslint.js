@@ -14,7 +14,6 @@ module.exports = function runEslint(path, _options) {
     return '';
   };
   options.options = options.options || {};
-  options.options.ignore = options.options.ignore || false;
 
   const tree = eslint(path, options);
   const builder = new broccoli.Builder(tree);
