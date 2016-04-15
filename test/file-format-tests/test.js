@@ -33,7 +33,7 @@ describe('Supporting different config file formats', function describeMultipleFo
 
         return promise.then(function assertLinting({buildLog}) {
           expect(buildLog, 'Reported erroroneous single-quoted strings').to.have.string(MESSAGES.DOUBLEQUOTE);
-          expect(buildLog, 'Reported erroroneous single-quoted strings').to.have.string(MESSAGES.ALERT);
+          expect(buildLog, 'Reported erroroneous use of alert').to.have.string(MESSAGES.ALERT);
           done();
         });
       });
