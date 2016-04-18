@@ -5,3 +5,4 @@
 
 # ignoring a target file
 4.js
+formats/*

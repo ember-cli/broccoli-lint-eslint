@@ -6,10 +6,12 @@
   "scripts": {
     "prebabelify": "rimraf build",
     "babelify": "babel lib --out-dir build",
-    "prepublish": "npm run babelify",
+    "babelify:tests": "babel test --ignore main-tests/fixture --out-dir build/test",
+    "prepublish": "npm run babelify && npm run lint",
     "lint": "eslint .",
-    "babelify-tests": "babel test --ignore fixture --out-dir build/test",
-    "test": "npm run babelify && npm run babelify-tests && npm run lint && node_modules/mocha/bin/mocha build/test/common.js build/test/test.js"
+    "test:main": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/main-tests/test.js",
+    "test:formats": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/file-format-tests/test.js",
+    "test": "npm run test:main && npm run test:formats"
   },
   "repository": {
     "type": "git",

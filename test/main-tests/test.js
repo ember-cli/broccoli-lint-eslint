@@ -6,15 +6,15 @@ const stew = require('broccoli-stew');
 const mv = stew.mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
-const eslint = require('../index');
-const runEslint = require('./helpers/run-eslint');
-const FIXTURES = 'test/fixture';
+const eslint = require('../../index');
+const runEslint = require('../helpers/run-eslint');
+const FIXTURES = 'test/main-tests/fixture';
 const CAMELCASE = '(camelcase)';
 const CONSOLE = '(no-console)';
 const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
 const FILEPATH = 'fixture/1.js';
-const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/fixture/.eslintignore');
+const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/main-tests/fixture/.eslintignore');
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
