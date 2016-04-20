@@ -1,3 +1,6 @@
+# 2.2.1 / 2016-04-20
+- Escape path separator in RegExp used for finding directory paths (was causing issues in Windows).
+
 # 2.2.0 / 2016-04-12
 - Use broccoli-persistent-filter
 - Update ignore filter message
