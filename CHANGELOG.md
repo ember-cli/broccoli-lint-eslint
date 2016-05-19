@@ -1,3 +1,8 @@
+# 2.3.0 / 2016-05-18
+- Update to ESLint 2.10.2
+- Improve logic that filters out [error messages related to ignored files](https://github.com/eslint/eslint/blob/2166ad475bf58a4c1fa11d5c595598d17574ffd9/lib/cli-engine.js#L305)
+  - We now make sure we account for both files that are ignored by default, and files that are ignored because of a matching ignore pattern.
+
 # 2.2.1 / 2016-04-20
 - Escape path separator in RegExp used for finding directory paths (was causing issues in Windows).
 
