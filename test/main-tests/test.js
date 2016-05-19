@@ -15,6 +15,7 @@ const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
 const FILEPATH = 'fixture/1.js';
 const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/main-tests/fixture/.eslintignore');
+const IGNORED_FILE_MESSAGE_REGEXP = /(?:File ignored by default\.)|(?:File ignored because of a matching ignore pattern\.)/;
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
@@ -82,7 +83,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     return promise
       .then(function assertLinting({buildLog}) {
         expect(buildLog)
-        .to.not.match(/File ignored because of a matching ignore pattern\. Use --no-ignore to override\./);
+        .to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
       });
   });
 
@@ -97,7 +98,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     return promise
       .then(function assertLinting({buildLog}) {
         expect(buildLog)
-        .to.not.match(/File ignored because of a matching ignore pattern\. Use --no-ignore to override\./);
+        .to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
       });
   });
 
