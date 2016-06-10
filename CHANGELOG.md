@@ -1,3 +1,7 @@
+# 2.4.0 / 2016-06-09
+
+- Pass `testGenerator` option an additional argument which is the ESLint results object.
+
 # 2.3.0 / 2016-05-18
 - Update to ESLint 2.10.2
 - Improve logic that filters out [error messages related to ignored files](https://github.com/eslint/eslint/blob/2166ad475bf58a4c1fa11d5c595598d17574ffd9/lib/cli-engine.js#L305)
