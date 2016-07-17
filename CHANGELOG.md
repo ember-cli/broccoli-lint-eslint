@@ -1,3 +1,6 @@
+# 2.4.1 / 2016-06-17
+- Bump `eslint` dependency to [`^2.13.0`](https://github.com/eslint/eslint/releases/tag/v2.13.1).
+
 # 2.4.0 / 2016-06-09
 
 - Pass `testGenerator` option an additional argument which is the ESLint results object.
