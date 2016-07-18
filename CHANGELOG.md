@@ -1,3 +1,6 @@
+# 3.0.0 / 2016-06-18
+- Bump `eslint` dependency to [`^3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released).
+
 # 2.4.1 / 2016-06-17
 - Bump `eslint` dependency to [`^2.13.0`](https://github.com/eslint/eslint/releases/tag/v2.13.1).
 
