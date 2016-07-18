@@ -39,6 +39,7 @@ var outputNode = eslint(inputNode, options);
 * `inputNode` A [Broccoli node](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md)
 
 * `options` {Object}
+
   * `format` {string|function}: The path, or function reference, to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
 
     Default: `'eslint/lib/formatters/stylish'`
@@ -56,22 +57,26 @@ var outputNode = eslint(inputNode, options);
     var path = require('path');
 
     function testGenerator(relativePath, errors) {
-      return "module('" + path.dirname(relativePath) + '");";
-             "test('" + relativePath + "' should pass jshint', function() { " +
-             "  ok(passed, moduleName+" should pass jshint."+(errors ? "\n"+errors : '')); " +
-             "});
+      return "module('" + path.dirname(relativePath) + "');" +
+             "test('" + relativePath + "' should pass eslint', function() { " +
+             "  ok(passed, moduleName" + "should pass eslint." + (errors ? "\n" + errors : "") + ");  " +
+             "});"
     };
 
     return eslint(inputNode, {
       options: {
-        configFile: this.jshintrc.app + '/eslint.json',
-        rulesdir: this.jshintrc.app
+        configFile: this.eslintrc.app + '/eslint.json',
+        rulesdir: this.eslintrc.app
       },
       testGenerator: testGenerator
     });
     ```
 
   * `throwOnError` {boolean}: Cause exception error on first severe error.
+
+    Default: `false`
+
+  * `persist` {boolean}: Persist the state of filter output across restarts
 
     Default: `false`
 

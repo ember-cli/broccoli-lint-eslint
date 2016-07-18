@@ -30,10 +30,10 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     };
   });
 
-  function shouldReportErrors(inputTree, options) {
+  function shouldReportErrors(inputNode, options) {
     return function _shouldReportErrors() {
       // lint test fixtures
-      const promise = runEslint(inputTree, options);
+      const promise = runEslint(inputNode, options);
 
       return promise.then(function assertLinting({buildLog}) {
         expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_CAMELCASE);
@@ -46,7 +46,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
   }
 
   // specify test fixtures via a broccoli node
-  const moveTree = mv(new UnwatchedDir(FIXTURES), 'foobar/fixture');
+  const moveNode = mv(new UnwatchedDir(FIXTURES), 'foobar/fixture');
 
   it('should report errors', shouldReportErrors(FIXTURES, {
     options: {
@@ -132,7 +132,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     });
   });
 
-  it('should accept a node as the input', shouldReportErrors(moveTree, {
+  it('should accept a node as the input', shouldReportErrors(moveNode, {
     options: {
       ignore: false
     }
@@ -240,6 +240,20 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       if (typeof eslintrcContent !== 'undefined') {
         fs.writeFileSync(eslintrcPath, eslintrcContent);
       }
+    });
+  });
+
+  it('throws when `throwOnError` is set and result severity', function() {
+    const promise = shouldReportErrors(FIXTURES, {
+      options: {
+        ignore: false,
+      },
+      throwOnError: true
+    })();
+
+    return promise.catch((err) => {
+      expect(err).to.be.an('error');
+      expect(err.message).to.equal('rules violation with `error` severity level');
     });
   });
 });
