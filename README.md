@@ -1,98 +1,96 @@
-# [broccoli](https://github.com/joliss/broccoli)-lint-eslint
+# broccoli-lint-eslint
 
-[![build status](https://secure.travis-ci.org/jonathanKingston/broccoli-lint-eslint.svg)](http://travis-ci.org/jonathanKingston/broccoli-lint-eslint)
-[![npm status](http://img.shields.io/npm/v/broccoli-lint-eslint.svg)](https://www.npmjs.org/package/broccoli-lint-eslint)
-[![dependency status](https://david-dm.org/jonathanKingston/broccoli-lint-eslint.svg)](https://david-dm.org/jonathanKingston/broccoli-lint-eslint)
+[![Latest NPM release][npm-badge]][npm-badge-url]
+[![TravisCI Build Status][travis-badge]][travis-badge-url]
+[![License][license-badge]][license-badge-url]
+[![Dependencies][dependencies-badge]][dependencies-badge-url]
+[![Dev Dependencies][devDependencies-badge]][devDependencies-badge-url]
 
-> Lint JavaScript using [Eslint](http://eslint.org/)
 
-This is a fork of [makepanic/broccoli-eslint](https://github.com/makepanic/broccoli-eslint) used to add new features and keep up to date with the latest ESLint. This fork may go away however it will track any API changes made to it's fork as long as possible.
+> Lint JavaScript with [ESLint][eslint] as part of your [Broccoli][broccoli] build pipeline.
+
+
 Most of the test setup and the build configuration is based on [sindresorhus/grunt-eslint](https://github.com/sindresorhus/grunt-eslint).
-The internal validation is heavily inspired by [eslint cli.js](https://github.com/eslint/eslint/blob/master/lib/cli.js)
+The internal validation is heavily inspired by [eslint cli.js](https://github.com/eslint/eslint/blob/master/lib/cli.js).
 
-## Install
+## Installation
 
 ```bash
-npm install --save broccoli-lint-eslint
+npm install broccoli-lint-eslint@2
 ```
 
-## Example
+## Usage
 
-Note: The API will change in subsequent 0.x versions.
-
-```js
+```javascript
 var eslint = require('broccoli-lint-eslint');
-tree = eslint(tree, options);
+var outputNode = eslint(inputNode, options);
 ```
 
-## API
+### API
 
-### eslint(tree, options)
+* `inputNode` A [Broccoli node](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md)
 
-#### options
+* `options` {Object}
+  * `format` {string|function}: The path, or function reference, to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
 
-##### format
+    Default: `'eslint/lib/formatters/stylish'`
 
-Type: `String`
-Default: `'eslint/lib/formatters/stylish'`
+  * `testGenerator` {`string|function(relativePath, errors), returns reporter output string`}: The function used to generate test modules. You can provide a custom function for your client side testing framework of choice.
 
-Path path to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
+    Default: `null`
 
-##### testGenerator
+    If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
 
-Type: `function` or `string`
-Default: `null`
+    Example usage:
 
-The function used to generate test modules. You can provide a custom function for your client side testing framework of choice.
+    ```javascript
+    var path = require('path');
 
-The function receives the following arguments:
+    function testGenerator(relativePath, errors) {
+      return "module('" + path.dirname(relativePath) + "');\n";
+             "test('" + relativePath + "' should pass ESLint', function() {\n" +
+             "  ok(" + passed + ", '" + moduleName + " should pass ESLint." + (errors ? "\\n" + errors : '') + "');\n" +
+             "});\n";
+    };
 
-- relativePath - The relative path to the file being tested.
-- errors - An array of eslint error objects found.
+    return eslint(inputNode, {
+      options: {
+        configFile: this.jshintrc.app + '/eslint.json',
+        rulesdir: this.jshintrc.app
+      },
+      testGenerator: testGenerator
+    });
+    ```
 
-If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
+  * `throwOnError` {boolean}: Cause exception error on first severe error.
 
-Example usage:
-```
-var path = require('path');
+    Default: `false`
 
-function testGenerator(relativePath, errors) {
-  return "module('" + path.dirname(relativePath) + "');";
-         "test('" + relativePath + "' should pass ESLint', function() { " +
-         "  ok(" + passed + ", " + moduleName + " should pass ESLint." + (errors ? "\n" + errors : '')); " +
-         "});
-};
+  * `options` {options}: [Options native to ESLint CLI](http://eslint.org/docs/developer-guide/nodejs-api#cliengine) that `broccoli-lint-eslint` makes use of:
 
-return eslint(tree, {
-  options: {
-    configFile: this.jshintrc.app + '/eslint.json',
-    rulesdir: this.jshintrc.app
-  },
-  testGenerator: testGenerator
-});
-```
+    * `configFile` {string}: Path to eslint configuration file.
 
-##### throwOnError
+        Default: `./eslintrc`
 
-Type: `Boolean`
+    * `rulePaths` {Array}: Paths to a directory with custom rules. Your custom rules will be used in addition to the built-in ones. Recommended read: [Working with Rules](https://github.com/eslint/eslint/blob/master/docs/developer-guide/working-with-rules.md).
 
-Cause exception error on first severe error
+      Default: [built-in rules directory](https://github.com/eslint/eslint/tree/master/lib/rules)
 
-##### options
-Options native to ESLint CLI: [CLIEngine options](http://eslint.org/docs/developer-guide/nodejs-api#cliengine)
+    * `ignore` {boolean}: `false` disables use of `.eslintignore`, `ignorePath` and `ignorePattern`
 
-###### configFile
+      Default: `true`
 
-Type: `String`
-Default: `./.eslintrc`
+[eslint]: http://eslint.org/
+[broccoli]: https://github.com/joliss/broccoli
 
-Path to eslint configuration file.
-
-###### rulePaths
-
-Type: `Array`
-Default: [built-in rules directory](https://github.com/eslint/eslint/tree/master/lib/rules)
-
-Paths to a directory with custom rules. Your custom rules will be used in addition to the built-in ones.
-
-Recommended read: [Working with Rules](https://github.com/eslint/eslint/blob/master/docs/developer-guide/working-with-rules.md)
+<!-- Badging -->
+[npm-badge]: https://img.shields.io/npm/v/broccoli-lint-eslint.svg
+[npm-badge-url]: https://www.npmjs.com/package/broccoli-lint-eslint
+[travis-badge]: https://img.shields.io/travis/ember-cli/broccoli-lint-eslint/2.x.svg?label=TravisCI
+[travis-badge-url]: https://travis-ci.org/ember-cli/broccoli-lint-eslint
+[license-badge]: https://img.shields.io/npm/l/broccoli-lint-eslint.svg
+[license-badge-url]: LICENSE.md
+[dependencies-badge]: https://img.shields.io/david/ember-cli/broccoli-lint-eslint.svg
+[dependencies-badge-url]: https://david-dm.org/ember-cli/broccoli-lint-eslint
+[devDependencies-badge]: https://img.shields.io/david/dev/ember-cli/broccoli-lint-eslint.svg
+[devDependencies-badge-url]: https://david-dm.org/ember-cli/broccoli-lint-eslint#info=devDependencies
