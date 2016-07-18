@@ -1,5 +1,5 @@
 const broccoli = require('broccoli');
-const eslint = require('../../index');
+const eslintValidationFilter = require('../../index');
 
 module.exports = function runEslint(path, _options) {
   const options = _options || {};
@@ -15,10 +15,10 @@ module.exports = function runEslint(path, _options) {
   };
   options.options = options.options || {};
 
-  const tree = eslint(path, options);
+  const tree = eslintValidationFilter(path, options);
   const builder = new broccoli.Builder(tree);
   const promise = builder.build().then(function builderThen() {
-    return {buildLog: buildLog.join('\n'), outputPath: tree.outputPath};
+    return { buildLog: buildLog.join('\n'), outputPath: tree.outputPath };
   });
 
   promise.finally(function builderCleanup() {
