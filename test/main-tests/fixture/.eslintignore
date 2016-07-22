@@ -1,8 +1,7 @@
-# avoid this files to be ignored
+# don't ignore these files -- even when utilizing `.eslintignore`
 !1.js
 !2.js
 !3.js
 
 # ignoring a target file
 4.js
-formats/*

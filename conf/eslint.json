@@ -1,7 +1,0 @@
-{
-  "extends": "nightmare-mode/node",
-  "rules": {
-    "no-console": 0,
-    "quotes": [1, "double"]
-  }
-}
