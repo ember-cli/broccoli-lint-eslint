@@ -30,10 +30,7 @@
     "broccoli-plugin"
   ],
   "files": [
-    "build",
-    "lib",
-    "tests",
-    "conf"
+    "build/index.js"
   ],
   "author": "Jonathan Kingston",
   "license": "MIT",
