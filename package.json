@@ -35,9 +35,9 @@
   "author": "Jonathan Kingston",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jonathanKingston/broccoli-lint-eslint/issues"
+    "url": "https://github.com/ember-cli/broccoli-lint-eslint/issues"
   },
-  "homepage": "https://github.com/jonathanKingston/broccoli-lint-eslint",
+  "homepage": "https://github.com/ember-cli/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-persistent-filter": "^1.2.0",
     "escape-string-regexp": "^1.0.5",
