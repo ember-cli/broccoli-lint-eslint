@@ -18,13 +18,13 @@ The internal validation is heavily inspired by [eslint cli.js](https://github.co
 As of `3.0.0`, `broccoli-lint-eslint` uses versions of `eslint` greater than `3.0.0`. Because [`eslint@3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released) dropped support for Node versions below 4, you may need to use the latest `2.x` version of `broccoli-lint-eslint` (which uses `eslint@2.13.1`), if your support needs also fall below Node v4:
 
 ```bash
-npm install broccoli-lint-eslint@2.4.1
+npm install --save broccoli-lint-eslint@2.4.1
 ```
 
 If versions of Node >= 4 suit your needs, you can safely install the latest version of `broccoli-lint-eslint`:
 
 ```bash
-npm install --save-dev broccoli-lint-eslint
+npm install --save broccoli-lint-eslint
 ```
 
 ## Usage
@@ -80,7 +80,12 @@ var outputNode = eslint(inputNode, options);
 
     Default: `false`
 
-  * `options` {options}: [Options native to ESLint CLI](http://eslint.org/docs/developer-guide/nodejs-api#cliengine) that `broccoli-lint-eslint` makes use of:
+  * `console`: {Object}: A custom console object with a `log` method for
+  `broccoli-lint-eslint` to use when logging formatter output.
+
+    Default: The global `console` object
+
+  * `options` {Object}: [Options native to ESLint CLI](http://eslint.org/docs/developer-guide/nodejs-api#cliengine) that `broccoli-lint-eslint` makes use of:
 
     * `configFile` {string}: Path to eslint configuration file.
 

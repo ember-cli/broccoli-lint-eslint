@@ -1,3 +1,8 @@
+# 3.1.0 / 2016-08-07
+- Add option to pass a custom `console` object for logging the formatting results output
+- Upgrade to Mocha 3.x
+- Fix bug where `throwOnError` option wasn't being supported
+
 # 3.0.0 / 2016-06-18
 - Bump `eslint` dependency to [`^3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released).
 
