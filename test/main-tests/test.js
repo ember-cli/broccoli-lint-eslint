@@ -14,6 +14,7 @@ const RULE_TAG_NO_CONSOLE = '(no-console)';
 const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
 const FILEPATH = 'fixture/1.js';
+const FIXTURES_PATH = path.resolve(process.cwd(), FIXTURES);
 const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/main-tests/fixture/.eslintignore');
 const IGNORED_FILE_MESSAGE_REGEXP = /(?:File ignored by default\.)|(?:File ignored because of a matching ignore pattern\.)/;
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
@@ -71,33 +72,50 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     });
   });
 
-  it('should use a default ignore:true option', function shouldAcceptDefaultIgnore() {
-    const promise = runEslint(FIXTURES, {
-      options: {
-        ignorePath: TEST_IGNORE_PATH
-      }
+  describe('ignoring files', function() {
+    it('should use a default ignore:true option', function shouldAcceptDefaultIgnore() {
+      const promise = runEslint(FIXTURES, {
+        options: {
+          ignorePath: TEST_IGNORE_PATH
+        }
+      });
+
+      return promise
+        .then(function assertLinting({ buildLog }) {
+          expect(buildLog).to.not.be.empty;
+          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+        });
     });
 
-    return promise
-      .then(function assertLinting({buildLog}) {
-        expect(buildLog)
-        .to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+    it('should accept an ignore option', function shouldAcceptIgnoreOption() {
+      const promise = runEslint(FIXTURES, {
+        options: {
+          ignore: true,
+          ignorePath: TEST_IGNORE_PATH
+        }
       });
-  });
 
-  it('should accept an ignore option', function shouldAcceptIgnoreOption() {
-    const promise = runEslint(FIXTURES, {
-      options: {
-        ignore: true,
-        ignorePath: TEST_IGNORE_PATH
-      }
+      return promise
+        .then(function assertLinting({ buildLog }) {
+          expect(buildLog).to.not.be.empty;
+          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+        });
     });
 
-    return promise
-      .then(function assertLinting({buildLog}) {
-        expect(buildLog)
-        .to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+    it('should work with an `.eslintignore` file', function shouldWorkWithEslintIgnoreFile() {
+      const promise = runEslint(FIXTURES, {
+        options: {
+          ignore: true,
+          cwd: FIXTURES_PATH
+        }
       });
+
+      return promise
+        .then(function assertLinting({ buildLog }) {
+          expect(buildLog).to.not.be.empty;
+          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+        });
+    });
   });
 
   it('should accept config file path', function shouldAcceptConfigFile() {
