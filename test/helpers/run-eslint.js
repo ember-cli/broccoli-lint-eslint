@@ -1,5 +1,5 @@
 const broccoli = require('broccoli');
-const eslint = require('../../index');
+const eslint = require('../../');
 
 module.exports = function runEslint(path, _options) {
   const options = _options || {};
