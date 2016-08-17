@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
 const fs = require('fs');
 const path = require('path');
-const expect = require('chai').expect;
+const expect = require('../chai').expect;
+const sinon = require('sinon');
 const stew = require('broccoli-stew');
 const mv = stew.mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
@@ -30,6 +31,14 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
         postProcessSpy
       };
     };
+  });
+
+  beforeEach(function beforeEachAndEvery() {
+    this.sinon = sinon.sandbox.create();
+  });
+
+  afterEach(function afterEachAndEvery() {
+    this.sinon.restore();
   });
 
   function shouldReportErrors(inputTree, options) {
