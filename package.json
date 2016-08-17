@@ -10,7 +10,7 @@
     "prepublish": "npm run babelify && npm run lint",
     "lint": "eslint .",
     "test:main": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/main-tests/test.js",
-    "test:formats": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/file-format-tests/test.js",
+    "test:formats": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/file-format-tests/test.js",
     "test": "npm run test:main && npm run test:formats"
   },
   "repository": {
