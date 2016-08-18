@@ -50,7 +50,7 @@ The function receives the following arguments:
 - relativePath - The relative path to the file being tested.
 - errors - An array of eslint error objects found.
 
-If you provide a `string` one of the predefined test generators is used. Currently supported are `qunit` and `mocha`.
+If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
 
 Example usage:
 ```
