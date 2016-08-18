@@ -20,6 +20,8 @@ const IGNORED_FILE_MESSAGE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
+  this.timeout(60000);
+
   before(function beforeEslintValidationFilter() {
     this.setupSpies = function setupSpies() {
       // spy on filter process methods

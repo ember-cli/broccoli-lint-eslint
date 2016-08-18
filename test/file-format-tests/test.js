@@ -10,6 +10,8 @@ const MESSAGES = {
 };
 
 describe('Supporting different config file formats', function describeMultipleFormatSupport() {
+  this.timeout(60000);
+
   const formats = [
     'js',
     'json',
