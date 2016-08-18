@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 const path = require('path');
 const expect = require('../chai').expect;
+const Promise = require('es6-promise').Promise;
 const runEslint = require('../helpers/run-eslint');
 const FILES_PATH = './formats';
 
