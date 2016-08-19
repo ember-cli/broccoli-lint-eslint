@@ -40,7 +40,7 @@ Path path to a custom formatter (See [eslint/tree/master/lib/formatters](https:/
 
 ##### testGenerator
 
-Type: `function`
+Type: `function` or `string`
 Default: `null`
 
 The function used to generate test modules. You can provide a custom function for your client side testing framework of choice.
@@ -50,14 +50,16 @@ The function receives the following arguments:
 - relativePath - The relative path to the file being tested.
 - errors - An array of eslint error objects found.
 
+If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
+
 Example usage:
 ```
 var path = require('path');
 
 function testGenerator(relativePath, errors) {
-  return "module('" + path.dirname(relativePath) + '");";
-         "test('" + relativePath + "' should pass jshint', function() { " +
-         "  ok(passed, moduleName+" should pass jshint."+(errors ? "\n"+errors : '')); " +
+  return "module('" + path.dirname(relativePath) + "');";
+         "test('" + relativePath + "' should pass ESLint', function() { " +
+         "  ok(" + passed + ", " + moduleName + " should pass ESLint." + (errors ? "\n" + errors : '')); " +
          "});
 };
 
