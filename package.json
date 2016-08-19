@@ -6,12 +6,9 @@
   "scripts": {
     "prebabelify": "rimraf build",
     "babelify": "babel lib --out-dir build",
-    "babelify:tests": "babel test --ignore main-tests/fixture --out-dir build/test",
     "prepublish": "npm run babelify && npm run lint",
     "lint": "eslint .",
-    "test:main": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/main-tests/test.js",
-    "test:formats": "npm run babelify && npm run babelify:tests && node_modules/mocha/bin/mocha build/test/common.js build/test/file-format-tests/test.js",
-    "test": "npm run test:main && npm run test:formats"
+    "test": "npm run babelify && mocha --compilers js:babel-register test/**/*test.js"
   },
   "repository": {
     "type": "git",
@@ -49,6 +46,7 @@
   "devDependencies": {
     "babel-cli": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.11.6",
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
