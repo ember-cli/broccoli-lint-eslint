@@ -25,7 +25,7 @@ describe('Supporting different config file formats', function describeMultipleFo
 
     return new Promise((resolve) => {
 
-      it(`detects configuration files with the ${format} file type`, function configFileTypeSupport(done) {
+      it(`detects configuration files with the ${format} file type`, function configFileTypeSupport() {
         const filesPath = path.join(process.cwd(), 'test/file-format-tests/formats', format);
 
         const promise = runEslint(filesPath, {
@@ -37,7 +37,6 @@ describe('Supporting different config file formats', function describeMultipleFo
         return promise.then(function assertLinting({buildLog}) {
           expect(buildLog, 'Reported erroroneous single-quoted strings').to.have.string(MESSAGES.DOUBLEQUOTE);
           expect(buildLog, 'Reported erroroneous use of alert').to.have.string(MESSAGES.ALERT);
-          done();
         });
       });
     });

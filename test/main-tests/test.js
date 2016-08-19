@@ -10,8 +10,8 @@ const MergeTrees = require('broccoli-merge-trees');
 const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
 const FIXTURES = 'test/main-tests/fixture';
-const CAMELCASE = '(camelcase)';
-const CONSOLE = '(no-console)';
+const RULE_TAG_CAMELCASE = '(camelcase)';
+const RULE_TAG_NO_CONSOLE = '(no-console)';
 const CUSTOM_RULES = 'testing custom rules';
 const DOUBLEQUOTE = 'Strings must use doublequote.';
 const FILEPATH = 'fixture/1.js';
@@ -28,10 +28,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
       const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
 
-      return {
-        processStringSpy,
-        postProcessSpy
-      };
+      return { processStringSpy, postProcessSpy };
     };
   });
 
@@ -49,9 +46,9 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       const promise = runEslint(inputTree, options);
 
       return promise.then(function assertLinting({buildLog}) {
-        expect(buildLog, 'Used eslint validation').to.have.string(CAMELCASE);
+        expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_CAMELCASE);
         expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
-        expect(buildLog, 'Used relative config - console not allowed').to.have.string(CONSOLE);
+        expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
         expect(buildLog, 'Used relative config - single quotes').to.not.have.string(DOUBLEQUOTE);
         expect(buildLog, 'No custom rules defined').to.not.have.string(CUSTOM_RULES);
       });
@@ -118,12 +115,12 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     const promise = runEslint(FIXTURES, {
       options: {
         ignore: false,
-        configFile: 'conf/eslint.json'
+        configFile: 'conf/.eslintrc.js'
       }
     });
 
     return promise.then(function assertLinting({buildLog}) {
-      expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(CONSOLE);
+      expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
       expect(buildLog, 'Used alternate config - double quotes').to.have.string(DOUBLEQUOTE);
     });
   });
@@ -233,9 +230,9 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     .then(function writeNewConfig() {
       fs.writeFileSync(eslintrcPath, JSON.stringify({
         extends: 'nightmare-mode/node',
-        rules: {
-          'custom-no-alert': 2
-        }
+          rules: {
+            'custom-no-alert': 2
+          }
       }));
     })
     .then(runCustomRule)
