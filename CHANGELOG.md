@@ -1,7 +1,10 @@
-# 2.5.0 / 2016-08-19
+# 2.6.0 / 2016-08-19
 - Add [predefined test generators](lib/test-generators.js)
 - Add option to pass a custom `console` object for logging the formatting results output
 - Upgrade to Mocha 3.x
+
+# 2.5.0 / 2016-06-17
+*(broken release)*
 
 # 2.4.1 / 2016-06-17
 - Bump `eslint` dependency to [`^2.13.0`](https://github.com/eslint/eslint/releases/tag/v2.13.1).
