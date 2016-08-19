@@ -27,7 +27,7 @@
     "broccoli-plugin"
   ],
   "files": [
-    "build/index.js"
+    "build"
   ],
   "author": "Jonathan Kingston",
   "license": "MIT",
