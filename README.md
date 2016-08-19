@@ -18,7 +18,7 @@ The internal validation is heavily inspired by [eslint cli.js](https://github.co
 As of `3.0.0`, `broccoli-lint-eslint` uses versions of `eslint` greater than `3.0.0`. Because [`eslint@3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released) dropped support for Node versions below 4, you may need to use the latest `2.x` version of `broccoli-lint-eslint` (which uses `eslint@2.13.1`), if your support needs also fall below Node v4:
 
 ```bash
-npm install --save broccoli-lint-eslint@2.4.1
+npm install --save broccoli-lint-eslint@2
 ```
 
 If versions of Node >= 4 suit your needs, you can safely install the latest version of `broccoli-lint-eslint`:
@@ -50,6 +50,8 @@ var outputNode = eslint(inputNode, options);
 
     - relativePath - The relative path to the file being tested.
     - errors - An array of eslint error objects found.
+    
+    If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
 
     Example usage:
 
@@ -57,10 +59,10 @@ var outputNode = eslint(inputNode, options);
     var path = require('path');
 
     function testGenerator(relativePath, errors) {
-      return "module('" + path.dirname(relativePath) + "');" +
-             "test('" + relativePath + "' should pass eslint', function() { " +
-             "  ok(passed, moduleName" + "should pass eslint." + (errors ? "\n" + errors : "") + ");  " +
-             "});"
+      return "module('" + path.dirname(relativePath) + "');\n";
+             "test('" + relativePath + "' should pass ESLint', function() {\n" +
+             "  ok(" + passed + ", '" + moduleName + " should pass ESLint." + (errors ? "\\n" + errors : '') + "');\n" +
+             "});\n";
     };
 
     return eslint(inputNode, {

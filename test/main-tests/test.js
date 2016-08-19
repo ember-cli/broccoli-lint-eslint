@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-expressions */
 const fs = require('fs');
 const path = require('path');
-const expect = require('chai').expect;
+const expect = require('../chai').expect;
+const sinon = require('sinon');
 const stew = require('broccoli-stew');
 const mv = stew.mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
-const eslint = require('../../index');
+const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
 const FIXTURES = 'test/main-tests/fixture';
 const RULE_TAG_CAMELCASE = '(camelcase)';
@@ -20,6 +21,7 @@ const IGNORED_FILE_MESSAGE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
+  this.timeout(60000);
 
   before(function beforeEslintValidationFilter() {
     this.setupSpies = function setupSpies() {
@@ -29,6 +31,14 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
       return { processStringSpy, postProcessSpy };
     };
+  });
+
+  beforeEach(function beforeEachAndEvery() {
+    this.sinon = sinon.sandbox.create();
+  });
+
+  afterEach(function afterEachAndEvery() {
+    this.sinon.restore();
   });
 
   function shouldReportErrors(inputNode, options) {
@@ -217,7 +227,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     } = this.setupSpies();
     let processStringInitialCount;
     let postProcessInitialCount;
-    const eslintrcPath = path.join(FIXTURES, '.eslintrc.js');
+    const eslintrcPath = path.join(FIXTURES, '.eslintrc');
     let eslintrcContent;
 
     function runCustomRule() {
@@ -236,15 +246,12 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       eslintrcContent = fs.readFileSync(eslintrcPath);
     })
     .then(function writeNewConfig() {
-      fs.writeFileSync(
-        eslintrcPath,
-        'module.exports = ' + JSON.stringify({
-          extends: 'eslint:recommended',
+      fs.writeFileSync(eslintrcPath, JSON.stringify({
+        extends: 'nightmare-mode/node',
           rules: {
             'custom-no-alert': 2
           }
-        }) + ';'
-      );
+      }));
     })
     .then(runCustomRule)
     .then(function assertCaching() {

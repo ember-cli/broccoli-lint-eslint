@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 const path = require('path');
-const expect = require('chai').expect;
+const expect = require('../chai').expect;
 const runEslint = require('../helpers/run-eslint');
 const FILES_PATH = './formats';
 
@@ -10,6 +10,8 @@ const MESSAGES = {
 };
 
 describe('Supporting different config file formats', function describeMultipleFormatSupport() {
+  this.timeout(60000);
+
   const formats = [
     'js',
     'json',

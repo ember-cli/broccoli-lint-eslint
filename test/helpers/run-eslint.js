@@ -1,5 +1,5 @@
 const broccoli = require('broccoli');
-const eslintValidationFilter = require('../../index');
+const eslintValidationFilter = require('../../');
 
 module.exports = function runEslint(path, _options) {
   const options = _options || {};
