@@ -7,9 +7,11 @@ const stew = require('broccoli-stew');
 const mv = stew.mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
+const Funnel = require('broccoli-funnel');
 const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
 const FIXTURES = 'test/main-tests/fixture';
+const FIX_FIXTURES = 'test/main-tests/fix-fixture';
 const RULE_TAG_CAMELCASE = '(camelcase)';
 const RULE_TAG_NO_CONSOLE = '(no-console)';
 const CUSTOM_RULES = 'testing custom rules';
@@ -45,7 +47,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       // lint test fixtures
       const promise = runEslint(inputTree, options);
 
-      return promise.then(function assertLinting({buildLog}) {
+      return promise.then(function assertLinting({ buildLog }) {
         expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_CAMELCASE);
         expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
         expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
@@ -247,6 +249,64 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       if (typeof eslintrcContent !== 'undefined') {
         fs.writeFileSync(eslintrcPath, eslintrcContent);
       }
+    });
+  });
+
+  describe('fixing output files', function() {
+    function fixFile(fileName, rules = {}) {
+      const tree = new Funnel(FIX_FIXTURES, { files: [fileName] });
+      const eslintOptions = {
+        options: {
+          useEslintrc: false,
+          ignore: false,
+          fix: true,
+          rules
+        }
+      };
+      return runEslint(tree, eslintOptions);
+    }
+
+    it('should fix files that have fixable errors', function allowsFixingOutputFiles() {
+      const fileName = 'fixable.js';
+      const rules = {
+        'no-multi-spaces': 2
+      };
+
+      return fixFile(fileName, rules).then(function checkFileIsFixed({ outputPath }) {
+        const filePath = path.join(outputPath, fileName);
+        const fileContents = fs.readFileSync(filePath).toString();
+
+        expect(fileContents.trim()).to.equal('1 + 1');
+      });
+    });
+
+    it('should not modify a file without fixable errors', function ignoredFilesWithoutFixableErrors() {
+      const fileName = 'not-fixable.js';
+      const rules = {
+        'no-alert': 2
+      };
+
+      return fixFile(fileName, rules).then(function checkFileIsFixed({ outputPath }) {
+        const filePath = path.join(outputPath, fileName);
+        const fileContents = fs.readFileSync(filePath).toString();
+
+        expect(fileContents.trim()).to.equal("alert('broccoli');");
+      });
+    });
+
+    it('should fix files with mixed fixable- and non-fixable errors', function() {
+      const fileName = 'partly-fixable.js';
+      const rules = {
+        'no-alert': 2,
+        'quotes': [2, 'single']
+      };
+
+      return fixFile(fileName, rules).then(function checkFileIsFixed({ outputPath }) {
+        const filePath = path.join(outputPath, fileName);
+        const fileContents = fs.readFileSync(filePath).toString();
+
+        expect(fileContents.trim()).to.equal("alert('broccoli');");
+      });
     });
   });
 });
