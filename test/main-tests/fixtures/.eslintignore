@@ -1,7 +1,7 @@
 # don't ignore these files -- even when utilizing `.eslintignore`
-!1.js
-!2.js
-!3.js
+!alert.js
+!no-new-line-before-return.js
+!unused-variable.js
 
 # ignoring a target file
-4.js
+console.js

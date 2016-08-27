@@ -30,7 +30,7 @@ var outputNode = eslint(inputNode, options);
 
 * `inputNode` A [Broccoli node](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md)
 
-* `options` {Object}
+* `options` {Object}: Options to control how `broccoli-lint-eslint` is run.
   * `format` {string|function}: The path, or function reference, to a custom formatter (See [eslint/tree/master/lib/formatters](https://github.com/eslint/eslint/tree/master/lib/formatters) for alternatives).
 
     Default: `'eslint/lib/formatters/stylish'`
@@ -66,7 +66,7 @@ var outputNode = eslint(inputNode, options);
 
     Default: `false`
 
-  * `options` {options}: [Options native to ESLint CLI](http://eslint.org/docs/developer-guide/nodejs-api#cliengine) that `broccoli-lint-eslint` makes use of:
+  * `options` {options}: [Options native to ESLint CLI](http://eslint.org/docs/developer-guide/nodejs-api#cliengine). While all options will be passed to the [ESLint CLIEngine](http://eslint.org/docs/developer-guide/nodejs-api#cliengine), these are the ones that `broccoli-lint-eslint` makes use of in particular:
 
     * `configFile` {string}: Path to eslint configuration file.
 
