@@ -15,10 +15,10 @@ module.exports = function runEslint(path, _options) {
   };
   options.options = options.options || {};
 
-  const tree = eslintValidationFilter(path, options);
-  const builder = new broccoli.Builder(tree);
+  const node = eslintValidationFilter(path, options);
+  const builder = new broccoli.Builder(node);
   const promise = builder.build().then(function builderThen() {
-    return { buildLog: buildLog.join('\n'), outputPath: tree.outputPath };
+    return { buildLog: buildLog.join('\n'), outputPath: node.outputPath };
   });
 
   promise.finally(function builderCleanup() {
