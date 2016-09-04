@@ -54,7 +54,6 @@
     "broccoli-stew": "^1.2.0",
     "chai": "^3.5.0",
     "es6-promise": "^3.2.1",
-    "eslint-config-nightmare-mode": "^2.3.0",
     "mocha": "^3.0.1",
     "rimraf": "^2.5.1",
     "sinon": "^1.17.3",
