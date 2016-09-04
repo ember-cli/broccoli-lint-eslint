@@ -2,6 +2,8 @@
 !alert.js
 !no-new-line-before-return.js
 !unused-variable.js
+!custom-rule-runner.js
+!.eslint-alternate.js
 
 # ignoring a target file
 console.js
