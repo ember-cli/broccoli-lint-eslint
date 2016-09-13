@@ -17,7 +17,9 @@ const MESSAGE_IGNORED_FILE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 
 const FIXTURES_PATH = 'test/main-tests/fixtures';
 const FIXTURES_PATH_ESLINTIGNORE = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore');
+const FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore-all-but-warning');
 const FIXTURES_PATH_ESLINTRC = path.join(FIXTURES_PATH, '.eslintrc.js');
+const FIXTURES_PATH_ESLINTRC_ALTERNATE = path.join(FIXTURES_PATH, '.eslintrc-alternate.js');
 const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
 const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name));
 
@@ -118,7 +120,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     const promise = runEslint(FIXTURES_PATH, {
       options: {
         ignore: false,
-        configFile: 'conf/.eslintrc.js'
+        configFile: FIXTURES_PATH_ESLINTRC_ALTERNATE
       }
     });
 
@@ -205,52 +207,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     });
   });
 
-  it('should use the configuration to cache results', function shouldCacheByConfig() {
-    const { processStringSpy, postProcessSpy } = this.setupSpies();
-
-    let processStringInitialCount;
-    let postProcessInitialCount;
-    let eslintrcContent;
-
-    function runCustomRule(shouldCache) {
-      return runEslint(FIXTURES_PATH, {
-        options: {
-          cache: shouldCache,
-          rulePaths: ['conf/rules']
-        }
-      });
-    }
-
-    return runCustomRule(true).then(function retrieveCallCount() {
-      processStringInitialCount = processStringSpy.callCount;
-      postProcessInitialCount = postProcessSpy.callCount;
-    })
-    .then(function backupConfig() {
-      eslintrcContent = fs.readFileSync(FIXTURES_PATH_ESLINTRC);
-    })
-    .then(function writeNewConfig() {
-      fs.writeFileSync(
-        FIXTURES_PATH_ESLINTRC,
-        `module.exports = ${JSON.stringify({ rules: { 'custom-rule': 'error' } }, null, 2)};`,
-        'utf-8'
-     );
-    })
-    .then(() => runCustomRule(false))
-    .then(function assertCaching() {
-      // check that it did not use the cache
-      expect(processStringSpy, 'Didn\'t use cache')
-        .to.have.callCount(processStringInitialCount + JS_FIXTURES.length);
-      expect(postProcessSpy, 'Logged errors')
-        .to.have.callCount(postProcessInitialCount + JS_FIXTURES.length);
-    })
-    .finally(function restoreConfig() {
-      if (typeof eslintrcContent !== 'undefined') {
-        fs.writeFileSync(FIXTURES_PATH_ESLINTRC, eslintrcContent);
-      }
-    });
-  });
-
-  it('throws when `throwOnError` is set and result severity', function() {
+  it('throws when `throwOnError` is set and result severity is >= 2', function() {
     const promise = shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
@@ -263,6 +220,42 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       (err) => {
         expect(err).to.be.an('error');
         expect(err.message).to.equal('rules violation with `error` severity level');
+      }
+    );
+  });
+
+  it('throws when `throwOnWarn` is set and result severity is >= 2', function() {
+    const promise = shouldReportErrors(FIXTURES_PATH, {
+      options: {
+        ignore: false,
+      },
+      throwOnWarn: true
+    })();
+
+    return promise.then(
+      () => { throw new Error('test should have failed'); },
+      (err) => {
+        expect(err).to.be.an('error');
+        expect(err.message).to.equal('rules violation with `error` severity level');
+      }
+    );
+  });
+
+  it('throws when `throwOnWarn` is set and result severity is 1', function() {
+    const promise = shouldReportErrors(FIXTURES_PATH, {
+      options: {
+        ignore: true,
+        cache: false,  // ensure that other tests
+        ignorePath: FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING
+      },
+      throwOnWarn: true
+    })();
+
+    return promise.then(
+      () => { throw new Error('test should have failed'); },
+      (err) => {
+        expect(err).to.be.an('error');
+        expect(err.message).to.equal('rules violation with `warn` severity level');
       }
     );
   });
