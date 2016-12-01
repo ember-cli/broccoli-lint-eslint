@@ -47,7 +47,7 @@
     "babel-cli": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.11.6",
-    "broccoli": "^0.16.9",
+    "broccoli": "^1.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-source": "^1.1.0",
