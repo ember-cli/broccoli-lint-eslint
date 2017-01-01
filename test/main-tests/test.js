@@ -276,9 +276,12 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       throwOnError: true
     })();
 
-    return promise.catch((err) => {
-      expect(err).to.be.an('error');
-      expect(err.message).to.equal('rules violation with `error` severity level');
-    });
+    return promise.then(
+      () => { throw new Error('test should have failed'); },
+      (err) => {
+        expect(err).to.be.an('error');
+        expect(err.message).to.equal('rules violation with `error` severity level');
+      }
+    );
   });
 });
