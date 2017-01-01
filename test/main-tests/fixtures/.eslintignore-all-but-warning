@@ -1,0 +1,8 @@
+# Use this for the `ignorePath` option when we only want to
+# achieve a "warning" level severity
+
+alert.js
+console.js
+custom-rule-runner.js
+unused-variable.js
+.eslintrc-alternate.js

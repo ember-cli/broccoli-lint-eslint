@@ -6,6 +6,10 @@
 # 3.0.0 / 2016-06-18
 - Bump `eslint` dependency to [`^3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released).
 
+# 2.7.0 / 2016-09-13
+- Fix support for `throwOnError` option ([#58](https://github.com/ember-cli/broccoli-lint-eslint/pull/58))
+- Add support for `throwOnWarn` option ([#60](https://github.com/ember-cli/broccoli-lint-eslint/pull/60))
+
 # 2.6.0 / 2016-08-19
 - Add [predefined test generators](lib/test-generators.js)
 - Add option to pass a custom `console` object for logging the formatting results output

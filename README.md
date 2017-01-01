@@ -73,7 +73,12 @@ var outputNode = eslint(inputNode, options);
     });
     ```
 
-  * `throwOnError` {boolean}: Cause exception error on first severe error.
+  * `throwOnError` {boolean}: Cause exception error on first violation with `error`-level severity.
+
+    Default: `false`
+
+  * `throwOnWarn` {boolean}: Cause exception error on first violation with `warn`-level severity.
+  _NOTE_: Setting this to true will automatically enable `throwOnError` behavior.
 
     Default: `false`
 
