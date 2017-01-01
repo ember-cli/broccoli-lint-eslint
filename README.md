@@ -115,7 +115,7 @@ var outputNode = eslint(inputNode, options);
 [travis-badge-url]: https://travis-ci.org/ember-cli/broccoli-lint-eslint
 [license-badge]: https://img.shields.io/npm/l/broccoli-lint-eslint.svg
 [license-badge-url]: LICENSE.md
-[dependencies-badge]: https://img.shields.io/david/ember-cli/broccoli-lint-eslint.svg
+[dependencies-badge]: https://david-dm.org/ember-cli/broccoli-lint-eslint/status.svg
 [dependencies-badge-url]: https://david-dm.org/ember-cli/broccoli-lint-eslint
-[devDependencies-badge]: https://img.shields.io/david/dev/ember-cli/broccoli-lint-eslint.svg
+[devDependencies-badge]: https://david-dm.org/ember-cli/broccoli-lint-eslint/dev-status.svg
 [devDependencies-badge-url]: https://david-dm.org/ember-cli/broccoli-lint-eslint#info=devDependencies
