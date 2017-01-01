@@ -1,24 +1,26 @@
-/* eslint-disable no-unused-expressions */
 const fs = require('fs');
 const path = require('path');
-const expect = require('../chai').expect;
+const { expect } = require('../chai');
 const sinon = require('sinon');
-const stew = require('broccoli-stew');
-const mv = stew.mv;
-const UnwatchedDir = require('broccoli-source').UnwatchedDir;
+const { mv } = require('broccoli-stew');
+const { UnwatchedDir } = require('broccoli-source');
 const MergeTrees = require('broccoli-merge-trees');
+
 const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
-const FIXTURES = 'test/main-tests/fixture';
+
 const RULE_TAG_CAMELCASE = '(camelcase)';
 const RULE_TAG_NO_CONSOLE = '(no-console)';
-const CUSTOM_RULES = 'testing custom rules';
-const DOUBLEQUOTE = 'Strings must use doublequote.';
-const FILEPATH = 'fixture/1.js';
-const FIXTURES_PATH = path.resolve(process.cwd(), FIXTURES);
-const TEST_IGNORE_PATH = path.resolve(process.cwd(), './test/main-tests/fixture/.eslintignore');
-const IGNORED_FILE_MESSAGE_REGEXP = /(?:File ignored by default\.)|(?:File ignored because of a matching ignore pattern\.)/;
-const JS_FIXTURES = fs.readdirSync(FIXTURES).filter((name) => /\.js$/.test(name));
+const MESSAGE_DOUBLEQUOTE = 'Strings must use doublequote.';
+const MESSAGE_CUSTOM_RULES = 'testing custom rules';
+const MESSAGE_IGNORED_FILE_REGEXP = /(?:File ignored by default\.)|(?:File ignored because of a matching ignore pattern\.)/;
+
+const FIXTURES_PATH = 'test/main-tests/fixtures';
+const FIXTURES_PATH_ESLINTIGNORE = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore');
+const FIXTURES_PATH_ESLINTRC = path.join(FIXTURES_PATH, '.eslintrc.js');
+const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
+const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name));
+
 
 describe('EslintValidationFilter', function describeEslintValidationFilter() {
   this.timeout(60000);
@@ -47,90 +49,73 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       const promise = runEslint(inputNode, options);
 
       return promise.then(function assertLinting({buildLog}) {
-        expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_CAMELCASE);
-        expect(buildLog, 'Shows filepath').to.have.string(FILEPATH);
+        expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
+        expect(buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
         expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
-        expect(buildLog, 'Used relative config - single quotes').to.not.have.string(DOUBLEQUOTE);
-        expect(buildLog, 'No custom rules defined').to.not.have.string(CUSTOM_RULES);
+        expect(buildLog, 'Used relative config - single quotes').to.not.have.string(MESSAGE_DOUBLEQUOTE);
+        expect(buildLog, 'No custom rules defined').to.not.have.string(MESSAGE_CUSTOM_RULES);
       });
     };
   }
 
   // specify test fixtures via a broccoli node
-  const moveNode = mv(new UnwatchedDir(FIXTURES), 'foobar/fixture');
+  const moveNode = mv(new UnwatchedDir(FIXTURES_PATH), 'foobar/fixtures');
 
-  it('should report errors', shouldReportErrors(FIXTURES, {
+  it('should report errors', shouldReportErrors(FIXTURES_PATH, {
     options: {
       ignore: false
     }
   }));
 
-  it('should accept rule paths', function shouldAcceptRulePaths() {
-    // lint test fixtures using a custom rule
-    const promise = runEslint(FIXTURES, {
-      options: {
-        ignore: false,
-        rulePaths: ['conf/rules'],
-        rules: {
-          'custom-no-alert': 2
-        }
-      }
-    });
-
-    return promise.then(function assertLinting({buildLog}) {
-      expect(buildLog, 'Used custom rule').to.have.string(CUSTOM_RULES);
-    });
-  });
-
   describe('ignoring files', function() {
     it('should use a default ignore:true option', function shouldAcceptDefaultIgnore() {
-      const promise = runEslint(FIXTURES, {
+      const promise = runEslint(FIXTURES_PATH, {
         options: {
-          ignorePath: TEST_IGNORE_PATH
+          ignorePath: FIXTURES_PATH_ESLINTIGNORE
         }
       });
 
       return promise
         .then(function assertLinting({ buildLog }) {
           expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
 
     it('should accept an ignore option', function shouldAcceptIgnoreOption() {
-      const promise = runEslint(FIXTURES, {
+      const promise = runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
-          ignorePath: TEST_IGNORE_PATH
+          ignorePath: FIXTURES_PATH_ESLINTIGNORE
         }
       });
 
       return promise
         .then(function assertLinting({ buildLog }) {
           expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
 
     it('should work with an `.eslintignore` file', function shouldWorkWithEslintIgnoreFile() {
-      const promise = runEslint(FIXTURES, {
+      const promise = runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
-          cwd: FIXTURES_PATH
+          cwd: path.resolve(process.cwd(), FIXTURES_PATH)
         }
       });
 
       return promise
         .then(function assertLinting({ buildLog }) {
           expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(IGNORED_FILE_MESSAGE_REGEXP);
+          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
   });
 
   it('should accept config file path', function shouldAcceptConfigFile() {
     // lint test fixtures using a config file at a non-default path
-    const promise = runEslint(FIXTURES, {
+    const promise = runEslint(FIXTURES_PATH, {
       options: {
         ignore: false,
         configFile: 'conf/.eslintrc.js'
@@ -139,12 +124,12 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
     return promise.then(function assertLinting({buildLog}) {
       expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
-      expect(buildLog, 'Used alternate config - double quotes').to.have.string(DOUBLEQUOTE);
+      expect(buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
     });
   });
 
   it('should create test files', function shouldGenerateTests() {
-    const promise = runEslint(FIXTURES, {
+    const promise = runEslint(FIXTURES_PATH, {
       options: {
         ignore: false
       },
@@ -153,8 +138,8 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       }
     });
 
-    return promise.then(function assertLinting({outputPath}) {
-      const content = fs.readFileSync(`${outputPath}/1.lint-test.js`, 'utf8');
+    return promise.then(function assertLinting({ outputPath }) {
+      const content = fs.readFileSync(`${outputPath}/alert.lint-test.js`, 'utf-8');
 
       expect(content, 'Used the testGenerator').to.equal('test-content');
     });
@@ -168,7 +153,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
 
   it('should not accept a many:* node as the input', function shouldNotAcceptManyStarNode() {
     expect(() => {
-      runEslint(new MergeTrees([FIXTURES, 'lib']));
+      runEslint(new MergeTrees([FIXTURES_PATH, 'lib']));
     }, 'Should throw descriptive error').to.throw('many:*');
   });
 
@@ -179,7 +164,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     } = this.setupSpies();
 
     // run first test again, should use cache but still log errors
-    return shouldReportErrors(FIXTURES, {
+    return shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false
       }
@@ -200,7 +185,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     } = this.setupSpies();
 
     function runNonpersistent() {
-      return runEslint(FIXTURES, {
+      return runEslint(FIXTURES_PATH, {
         persist: false,
         options: {
           ignore: false
@@ -221,39 +206,36 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
   });
 
   it('should use the configuration to cache results', function shouldCacheByConfig() {
-    const {
-      processStringSpy,
-      postProcessSpy
-    } = this.setupSpies();
+    const { processStringSpy, postProcessSpy } = this.setupSpies();
+
     let processStringInitialCount;
     let postProcessInitialCount;
-    const eslintrcPath = path.join(FIXTURES, '.eslintrc');
     let eslintrcContent;
 
-    function runCustomRule() {
-      return runEslint(FIXTURES, {
+    function runCustomRule(shouldCache) {
+      return runEslint(FIXTURES_PATH, {
         options: {
+          cache: shouldCache,
           rulePaths: ['conf/rules']
         }
       });
     }
 
-    return runCustomRule().then(function retrieveCallCount() {
+    return runCustomRule(true).then(function retrieveCallCount() {
       processStringInitialCount = processStringSpy.callCount;
       postProcessInitialCount = postProcessSpy.callCount;
     })
     .then(function backupConfig() {
-      eslintrcContent = fs.readFileSync(eslintrcPath);
+      eslintrcContent = fs.readFileSync(FIXTURES_PATH_ESLINTRC);
     })
     .then(function writeNewConfig() {
-      fs.writeFileSync(eslintrcPath, JSON.stringify({
-        extends: 'nightmare-mode/node',
-          rules: {
-            'custom-no-alert': 2
-          }
-      }));
+      fs.writeFileSync(
+        FIXTURES_PATH_ESLINTRC,
+        `module.exports = ${JSON.stringify({ rules: { 'custom-rule': 'error' } }, null, 2)};`,
+        'utf-8'
+     );
     })
-    .then(runCustomRule)
+    .then(() => runCustomRule(false))
     .then(function assertCaching() {
       // check that it did not use the cache
       expect(processStringSpy, 'Didn\'t use cache')
@@ -263,13 +245,13 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     })
     .finally(function restoreConfig() {
       if (typeof eslintrcContent !== 'undefined') {
-        fs.writeFileSync(eslintrcPath, eslintrcContent);
+        fs.writeFileSync(FIXTURES_PATH_ESLINTRC, eslintrcContent);
       }
     });
   });
 
   it('throws when `throwOnError` is set and result severity', function() {
-    const promise = shouldReportErrors(FIXTURES, {
+    const promise = shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
       },
