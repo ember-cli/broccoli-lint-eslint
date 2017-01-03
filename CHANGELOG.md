@@ -1,3 +1,10 @@
+# 3.2.0 / 2017-01-03
+- Fix support for `throwOnError` option ([#58](https://github.com/ember-cli/broccoli-lint-eslint/pull/58))
+- Add support for `throwOnWarn` option ([#60](https://github.com/ember-cli/broccoli-lint-eslint/pull/60))
+- Add [predefined test generators](lib/test-generators.js)
+- Add option to pass a custom `console` object for logging the formatting results output
+- Upgrade to Mocha 3.x
+
 # 3.1.0 / 2016-08-07
 - Add option to pass a custom `console` object for logging the formatting results output
 - Upgrade to Mocha 3.x
