@@ -5,3 +5,12 @@ node_js:
   - "4"
   - "6"
   - "stable"
+
+deploy:
+  provider: npm
+  email: stefan.penner+ember-cli@gmail.com
+  api_key:
+    secure: Vfs9LIJtu0GGQqEk74aypqUGk0925/41ioOkAoHxWQwZGkhvZsVDJsfe2Two47uJGGoq17vScorrhiXFZXRvKpdwFl1uHyeIMPQj66DG1cksw972z3mtKMLrxmwSuRk9LNgnow5kUPZfoNuHl0u/9Fjp0ieicwYJMi0ojxUEZvM=
+  on:
+    tags: true
+    repo: ember-cli/broccoli-lint-eslint
