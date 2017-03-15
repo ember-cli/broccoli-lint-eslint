@@ -9,7 +9,7 @@ const MESSAGES = {
   ALERT: 'Unexpected alert',
 };
 
-describe('Supporting different config file formats', function describeMultipleFormatSupport() {
+describe('Supporting different config file formats', function() {
   this.timeout(60000);
 
   const formats = [
@@ -24,7 +24,7 @@ describe('Supporting different config file formats', function describeMultipleFo
 
     return new Promise((resolve) => {
 
-      it(`detects configuration files with the ${format} file type`, function configFileTypeSupport() {
+      it(`detects configuration files with the ${format} file type`, function() {
         const filesPath = path.join(process.cwd(), 'test/file-format-tests/formats', format);
 
         const promise = runEslint(filesPath, {
@@ -33,7 +33,7 @@ describe('Supporting different config file formats', function describeMultipleFo
           }
         });
 
-        return promise.then(function assertLinting({buildLog}) {
+        return promise.then(function({buildLog}) {
           expect(buildLog, 'Reported erroroneous single-quoted strings').to.have.string(MESSAGES.DOUBLEQUOTE);
           expect(buildLog, 'Reported erroroneous use of alert').to.have.string(MESSAGES.ALERT);
         });
