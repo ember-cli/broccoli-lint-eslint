@@ -17,13 +17,12 @@ module.exports = function runEslint(path, _options) {
 
   const node = eslintValidationFilter(path, options);
   const builder = new broccoli.Builder(node);
-  const promise = builder.build().then(function builderThen() {
-    return { buildLog: buildLog.join('\n'), outputPath: node.outputPath };
-  });
+  const promise = builder.build().then(() => ({
+    buildLog: buildLog.join('\n'),
+    outputPath: node.outputPath,
+  }));
 
-  promise.finally(function builderCleanup() {
-    builder.cleanup();
-  });
+  promise.finally(() => builder.cleanup());
 
   return promise;
 };

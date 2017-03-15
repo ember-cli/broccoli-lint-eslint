@@ -24,11 +24,11 @@ const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
 const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name));
 
 
-describe('EslintValidationFilter', function describeEslintValidationFilter() {
+describe('EslintValidationFilter', function() {
   this.timeout(60000);
 
-  before(function beforeEslintValidationFilter() {
-    this.setupSpies = function setupSpies() {
+  before(function() {
+    this.setupSpies = function() {
       // spy on filter process methods
       const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
       const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
@@ -37,11 +37,11 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     };
   });
 
-  beforeEach(function beforeEachAndEvery() {
+  beforeEach(function() {
     this.sinon = sinon.sandbox.create();
   });
 
-  afterEach(function afterEachAndEvery() {
+  afterEach(function() {
     this.sinon.restore();
   });
 
@@ -50,7 +50,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       // lint test fixtures
       const promise = runEslint(inputNode, options);
 
-      return promise.then(function assertLinting({buildLog}) {
+      return promise.then(function({buildLog}) {
         expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
         expect(buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
         expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
@@ -70,7 +70,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
   }));
 
   describe('ignoring files', function() {
-    it('should use a default ignore:true option', function shouldAcceptDefaultIgnore() {
+    it('should use a default ignore:true option', function() {
       const promise = runEslint(FIXTURES_PATH, {
         options: {
           ignorePath: FIXTURES_PATH_ESLINTIGNORE
@@ -78,13 +78,13 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       });
 
       return promise
-        .then(function assertLinting({ buildLog }) {
+        .then(function({ buildLog }) {
           expect(buildLog).to.not.be.empty;
           expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
 
-    it('should accept an ignore option', function shouldAcceptIgnoreOption() {
+    it('should accept an ignore option', function() {
       const promise = runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
@@ -99,7 +99,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
         });
     });
 
-    it('should work with an `.eslintignore` file', function shouldWorkWithEslintIgnoreFile() {
+    it('should work with an `.eslintignore` file', function() {
       const promise = runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
@@ -108,14 +108,14 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       });
 
       return promise
-        .then(function assertLinting({ buildLog }) {
+        .then(function({ buildLog }) {
           expect(buildLog).to.not.be.empty;
           expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
   });
 
-  it('should accept config file path', function shouldAcceptConfigFile() {
+  it('should accept config file path', function() {
     // lint test fixtures using a config file at a non-default path
     const promise = runEslint(FIXTURES_PATH, {
       options: {
@@ -124,13 +124,13 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       }
     });
 
-    return promise.then(function assertLinting({buildLog}) {
+    return promise.then(function({buildLog}) {
       expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
       expect(buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
     });
   });
 
-  it('should create test files', function shouldGenerateTests() {
+  it('should create test files', function() {
     const promise = runEslint(FIXTURES_PATH, {
       options: {
         ignore: false
@@ -140,7 +140,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       }
     });
 
-    return promise.then(function assertLinting({ outputPath }) {
+    return promise.then(function({ outputPath }) {
       const content = fs.readFileSync(`${outputPath}/alert.lint-test.js`, 'utf-8');
 
       expect(content, 'Used the testGenerator').to.equal('test-content');
@@ -153,13 +153,13 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     }
   }));
 
-  it('should not accept a many:* node as the input', function shouldNotAcceptManyStarNode() {
+  it('should not accept a many:* node as the input', function() {
     expect(() => {
       runEslint(new MergeTrees([FIXTURES_PATH, 'lib']));
     }, 'Should throw descriptive error').to.throw('many:*');
   });
 
-  it('should cache results, but still log errors', function shouldHaveCachedResults() {
+  it('should cache results, but still log errors', function() {
     const {
       processStringSpy,
       postProcessSpy
@@ -171,7 +171,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
         ignore: false
       }
     })()
-      .then(function assertCaching() {
+      .then(function() {
         // check that it actually used the cache
         expect(processStringSpy, 'Used cache')
           .to.have.callCount(0);
@@ -180,7 +180,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
       });
   });
 
-  it('should allow disabling the cache', function shouldAllowDisablingCache() {
+  it('should allow disabling the cache', function() {
     const {
       processStringSpy,
       postProcessSpy
@@ -198,7 +198,7 @@ describe('EslintValidationFilter', function describeEslintValidationFilter() {
     // Run twice to guarantee one run would be from cache if persisting
     const promise = runNonpersistent().then(runNonpersistent);
 
-    return promise.then(function assertCaching() {
+    return promise.then(function() {
       // check that it did not use the cache
       expect(processStringSpy, 'Didn\'t use cache (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
