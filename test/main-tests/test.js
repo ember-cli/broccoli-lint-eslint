@@ -21,7 +21,7 @@ const FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING = path.resolve(process.cwd(), './te
 const FIXTURES_PATH_ESLINTRC = path.join(FIXTURES_PATH, '.eslintrc.js');
 const FIXTURES_PATH_ESLINTRC_ALTERNATE = path.join(FIXTURES_PATH, '.eslintrc-alternate.js');
 const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
-const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name));
+const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name) && !/^.eslintrc/.test(name));
 
 
 describe('EslintValidationFilter', function() {
@@ -178,6 +178,30 @@ describe('EslintValidationFilter', function() {
         expect(postProcessSpy, 'Logged errors')
           .to.have.callCount(JS_FIXTURES.length);
       });
+  });
+
+  it('should not call processString for ignored files', function() {
+    const {
+      processStringSpy
+    } = this.setupSpies();
+
+    function runNonpersistent() {
+      return runEslint(FIXTURES_PATH, {
+        persist: false,
+        options: {
+          ignorePath: FIXTURES_PATH_ESLINTIGNORE
+        }
+      });
+    }
+
+    // Run twice to guarantee one run would be from cache if persisting
+    const promise = runNonpersistent();
+
+    return promise.then(function() {
+      // check that it did not use the cache
+      expect(processStringSpy, 'Doesn\'t call processString for ignored files')
+        .to.have.callCount(JS_FIXTURES.length - 1);
+    });
   });
 
   it('should allow disabling the cache', function() {
