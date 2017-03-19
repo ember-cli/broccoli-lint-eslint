@@ -194,11 +194,9 @@ describe('EslintValidationFilter', function() {
       });
     }
 
-    // Run twice to guarantee one run would be from cache if persisting
     const promise = runNonpersistent();
 
     return promise.then(function() {
-      // check that it did not use the cache
       expect(processStringSpy, 'Doesn\'t call processString for ignored files')
         .to.have.callCount(JS_FIXTURES.length - 1);
     });
