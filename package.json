@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "broccoli filter that runs eslint",
   "main": "build/index.js",
   "scripts": {
