@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 const path = require('path');
 const expect = require('../chai').expect;
 const runEslint = require('../helpers/run-eslint');
