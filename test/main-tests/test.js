@@ -9,7 +9,6 @@ const MergeTrees = require('broccoli-merge-trees');
 const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
 
-const RULE_TAG_CAMELCASE = '(camelcase)';
 const RULE_TAG_NO_CONSOLE = '(no-console)';
 const MESSAGE_DOUBLEQUOTE = 'Strings must use doublequote.';
 const MESSAGE_CUSTOM_RULES = 'testing custom rules';
@@ -18,7 +17,6 @@ const MESSAGE_IGNORED_FILE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 const FIXTURES_PATH = 'test/main-tests/fixtures';
 const FIXTURES_PATH_ESLINTIGNORE = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore');
 const FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore-all-but-warning');
-const FIXTURES_PATH_ESLINTRC = path.join(FIXTURES_PATH, '.eslintrc.js');
 const FIXTURES_PATH_ESLINTRC_ALTERNATE = path.join(FIXTURES_PATH, '.eslintrc-alternate.js');
 const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
 const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name) && !/^.eslintrc/.test(name));

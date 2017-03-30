@@ -1,7 +1,6 @@
 const path = require('path');
 const expect = require('../chai').expect;
 const runEslint = require('../helpers/run-eslint');
-const FILES_PATH = './formats';
 
 const MESSAGES = {
   DOUBLEQUOTE: 'Strings must use doublequote.',
