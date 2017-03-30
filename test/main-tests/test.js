@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const { expect } = require('../chai');
+const expect = require('../chai').expect;
 const sinon = require('sinon');
-const { mv } = require('broccoli-stew');
-const { UnwatchedDir } = require('broccoli-source');
+const mv = require('broccoli-stew').mv;
+const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
 
 const eslint = require('../../');
@@ -50,12 +50,12 @@ describe('EslintValidationFilter', function() {
       // lint test fixtures
       const promise = runEslint(inputNode, options);
 
-      return promise.then(function({buildLog}) {
-        expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
-        expect(buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
-        expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
-        expect(buildLog, 'Used relative config - single quotes').to.not.have.string(MESSAGE_DOUBLEQUOTE);
-        expect(buildLog, 'No custom rules defined').to.not.have.string(MESSAGE_CUSTOM_RULES);
+      return promise.then(function(result) {
+        expect(result.buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
+        expect(result.buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
+        expect(result.buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
+        expect(result.buildLog, 'Used relative config - single quotes').to.not.have.string(MESSAGE_DOUBLEQUOTE);
+        expect(result.buildLog, 'No custom rules defined').to.not.have.string(MESSAGE_CUSTOM_RULES);
       });
     };
   }
@@ -78,9 +78,9 @@ describe('EslintValidationFilter', function() {
       });
 
       return promise
-        .then(function({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
+        .then(function(result) {
+          expect(result.buildLog).to.not.be.empty;
+          expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
 
@@ -93,9 +93,9 @@ describe('EslintValidationFilter', function() {
       });
 
       return promise
-        .then(function assertLinting({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
+        .then(function assertLinting(result) {
+          expect(result.buildLog).to.not.be.empty;
+          expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
 
@@ -108,9 +108,9 @@ describe('EslintValidationFilter', function() {
       });
 
       return promise
-        .then(function({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
+        .then(function(result) {
+          expect(result.buildLog).to.not.be.empty;
+          expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
         });
     });
   });
@@ -124,9 +124,9 @@ describe('EslintValidationFilter', function() {
       }
     });
 
-    return promise.then(function({buildLog}) {
-      expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
-      expect(buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
+    return promise.then(function(result) {
+      expect(result.buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
+      expect(result.buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
     });
   });
 
@@ -140,8 +140,8 @@ describe('EslintValidationFilter', function() {
       }
     });
 
-    return promise.then(function({ outputPath }) {
-      const content = fs.readFileSync(`${outputPath}/alert.lint-test.js`, 'utf-8');
+    return promise.then(function(result) {
+      const content = fs.readFileSync(`${result.outputPath}/alert.lint-test.js`, 'utf-8');
 
       expect(content, 'Used the testGenerator').to.equal('test-content');
     });
@@ -160,10 +160,7 @@ describe('EslintValidationFilter', function() {
   });
 
   it('should cache results, but still log errors', function() {
-    const {
-      processStringSpy,
-      postProcessSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     // run first test again, should use cache but still log errors
     return shouldReportErrors(FIXTURES_PATH, {
@@ -173,17 +170,15 @@ describe('EslintValidationFilter', function() {
     })()
       .then(function() {
         // check that it actually used the cache
-        expect(processStringSpy, 'Used cache')
+        expect(spies.processStringSpy, 'Used cache')
           .to.have.callCount(0);
-        expect(postProcessSpy, 'Logged errors')
+        expect(spies.postProcessSpy, 'Logged errors')
           .to.have.callCount(JS_FIXTURES.length);
       });
   });
 
   it('should not call processString for ignored files', function() {
-    const {
-      processStringSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     function runNonpersistent() {
       return runEslint(FIXTURES_PATH, {
@@ -197,16 +192,13 @@ describe('EslintValidationFilter', function() {
     const promise = runNonpersistent();
 
     return promise.then(function() {
-      expect(processStringSpy, 'Doesn\'t call processString for ignored files')
+      expect(spies.processStringSpy, 'Doesn\'t call processString for ignored files')
         .to.have.callCount(JS_FIXTURES.length - 1);
     });
   });
 
   it('should allow disabling the cache', function() {
-    const {
-      processStringSpy,
-      postProcessSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     function runNonpersistent() {
       return runEslint(FIXTURES_PATH, {
@@ -222,9 +214,9 @@ describe('EslintValidationFilter', function() {
 
     return promise.then(function() {
       // check that it did not use the cache
-      expect(processStringSpy, 'Didn\'t use cache (twice)')
+      expect(spies.processStringSpy, 'Didn\'t use cache (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
-      expect(postProcessSpy, 'Logged errors (twice)')
+      expect(spies.postProcessSpy, 'Logged errors (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
     });
   });

@@ -33,9 +33,10 @@ describe('Supporting different config file formats', function() {
           }
         });
 
-        return promise.then(function({buildLog}) {
-          expect(buildLog, 'Reported erroroneous single-quoted strings').to.have.string(MESSAGES.DOUBLEQUOTE);
-          expect(buildLog, 'Reported erroroneous use of alert').to.have.string(MESSAGES.ALERT);
+        return promise.then(function(result) {
+          expect(result.buildLog, 'Reported erroroneous single-quoted strings')
+            .to.have.string(MESSAGES.DOUBLEQUOTE)
+            .to.have.string(MESSAGES.ALERT);
         });
       });
     });
