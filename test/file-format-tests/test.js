@@ -20,23 +20,19 @@ describe('Supporting different config file formats', function() {
     'yml'
   ];
 
-  return Promise.all(formats.map((format) => {
+  formats.forEach(format => {
+    it(`detects configuration files with the ${format} file type`, function() {
+      const filesPath = path.join(process.cwd(), 'test/file-format-tests/formats', format);
 
-    return new Promise((resolve) => {
-
-      it(`detects configuration files with the ${format} file type`, function() {
-        const filesPath = path.join(process.cwd(), 'test/file-format-tests/formats', format);
-
-        return runEslint(filesPath, {
-          options: {
-            ignore: false
-          }
-        }).then(result => {
-          expect(result.buildLog, 'Reported erroroneous single-quoted strings')
-            .to.have.string(MESSAGES.DOUBLEQUOTE)
-            .to.have.string(MESSAGES.ALERT);
-        });
+      return runEslint(filesPath, {
+        options: {
+          ignore: false
+        }
+      }).then(result => {
+        expect(result.buildLog, 'Reported erroroneous single-quoted strings')
+          .to.have.string(MESSAGES.DOUBLEQUOTE)
+          .to.have.string(MESSAGES.ALERT);
       });
     });
-  }));
+  });
 });
