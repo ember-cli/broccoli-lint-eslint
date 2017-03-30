@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const testGenerators = require('../build/test-generators');
+const testGenerators = require('../lib/test-generators');
 
 const FAIL = {
   errorCount: 1,

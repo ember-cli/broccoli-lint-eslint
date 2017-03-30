@@ -1,15 +1,14 @@
 const fs = require('fs');
 const path = require('path');
-const { expect } = require('../chai');
+const expect = require('../chai').expect;
 const sinon = require('sinon');
-const { mv } = require('broccoli-stew');
-const { UnwatchedDir } = require('broccoli-source');
+const mv = require('broccoli-stew').mv;
+const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
 
 const eslint = require('../../');
 const runEslint = require('../helpers/run-eslint');
 
-const RULE_TAG_CAMELCASE = '(camelcase)';
 const RULE_TAG_NO_CONSOLE = '(no-console)';
 const MESSAGE_DOUBLEQUOTE = 'Strings must use doublequote.';
 const MESSAGE_CUSTOM_RULES = 'testing custom rules';
@@ -18,7 +17,6 @@ const MESSAGE_IGNORED_FILE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 const FIXTURES_PATH = 'test/main-tests/fixtures';
 const FIXTURES_PATH_ESLINTIGNORE = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore');
 const FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore-all-but-warning');
-const FIXTURES_PATH_ESLINTRC = path.join(FIXTURES_PATH, '.eslintrc.js');
 const FIXTURES_PATH_ESLINTRC_ALTERNATE = path.join(FIXTURES_PATH, '.eslintrc-alternate.js');
 const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
 const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name) && !/^.eslintrc/.test(name));
@@ -50,12 +48,12 @@ describe('EslintValidationFilter', function() {
       // lint test fixtures
       const promise = runEslint(inputNode, options);
 
-      return promise.then(function({buildLog}) {
-        expect(buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
-        expect(buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
-        expect(buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
-        expect(buildLog, 'Used relative config - single quotes').to.not.have.string(MESSAGE_DOUBLEQUOTE);
-        expect(buildLog, 'No custom rules defined').to.not.have.string(MESSAGE_CUSTOM_RULES);
+      return promise.then(function(result) {
+        expect(result.buildLog, 'Used eslint validation').to.have.string(RULE_TAG_NO_CONSOLE);
+        expect(result.buildLog, 'Shows filepath').to.have.string(FIXTURE_FILE_PATH_ALERT);
+        expect(result.buildLog, 'Used relative config - console not allowed').to.have.string(RULE_TAG_NO_CONSOLE);
+        expect(result.buildLog, 'Used relative config - single quotes').to.not.have.string(MESSAGE_DOUBLEQUOTE);
+        expect(result.buildLog, 'No custom rules defined').to.not.have.string(MESSAGE_CUSTOM_RULES);
       });
     };
   }
@@ -71,77 +69,64 @@ describe('EslintValidationFilter', function() {
 
   describe('ignoring files', function() {
     it('should use a default ignore:true option', function() {
-      const promise = runEslint(FIXTURES_PATH, {
+      return runEslint(FIXTURES_PATH, {
         options: {
           ignorePath: FIXTURES_PATH_ESLINTIGNORE
         }
+      }).then(result => {
+        expect(result.buildLog).to.not.be.empty;
+        expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
       });
-
-      return promise
-        .then(function({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
-        });
     });
 
     it('should accept an ignore option', function() {
-      const promise = runEslint(FIXTURES_PATH, {
+      return runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
           ignorePath: FIXTURES_PATH_ESLINTIGNORE
         }
+      }).then(result => {
+        expect(result.buildLog).to.not.be.empty;
+        expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
       });
-
-      return promise
-        .then(function assertLinting({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
-        });
     });
 
     it('should work with an `.eslintignore` file', function() {
-      const promise = runEslint(FIXTURES_PATH, {
+      return runEslint(FIXTURES_PATH, {
         options: {
           ignore: true,
           cwd: path.resolve(process.cwd(), FIXTURES_PATH)
         }
+      }).then(result => {
+        expect(result.buildLog).to.not.be.empty;
+        expect(result.buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
       });
-
-      return promise
-        .then(function({ buildLog }) {
-          expect(buildLog).to.not.be.empty;
-          expect(buildLog).to.not.match(MESSAGE_IGNORED_FILE_REGEXP);
-        });
     });
   });
 
   it('should accept config file path', function() {
     // lint test fixtures using a config file at a non-default path
-    const promise = runEslint(FIXTURES_PATH, {
+    return runEslint(FIXTURES_PATH, {
       options: {
         ignore: false,
         configFile: FIXTURES_PATH_ESLINTRC_ALTERNATE
       }
-    });
-
-    return promise.then(function({buildLog}) {
-      expect(buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
-      expect(buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
+    }).then(result => {
+      expect(result.buildLog, 'Used alternate config - console allowed').to.not.have.string(RULE_TAG_NO_CONSOLE);
+      expect(result.buildLog, 'Used alternate config - double quotes').to.have.string(MESSAGE_DOUBLEQUOTE);
     });
   });
 
   it('should create test files', function() {
-    const promise = runEslint(FIXTURES_PATH, {
+    return runEslint(FIXTURES_PATH, {
       options: {
         ignore: false
       },
       testGenerator() {
         return 'test-content';
       }
-    });
-
-    return promise.then(function({ outputPath }) {
-      const content = fs.readFileSync(`${outputPath}/alert.lint-test.js`, 'utf-8');
+    }).then(result => {
+      const content = fs.readFileSync(`${result.outputPath}/alert.lint-test.js`, 'utf-8');
 
       expect(content, 'Used the testGenerator').to.equal('test-content');
     });
@@ -160,30 +145,22 @@ describe('EslintValidationFilter', function() {
   });
 
   it('should cache results, but still log errors', function() {
-    const {
-      processStringSpy,
-      postProcessSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     // run first test again, should use cache but still log errors
     return shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false
       }
-    })()
-      .then(function() {
-        // check that it actually used the cache
-        expect(processStringSpy, 'Used cache')
-          .to.have.callCount(0);
-        expect(postProcessSpy, 'Logged errors')
-          .to.have.callCount(JS_FIXTURES.length);
-      });
+    })().then(function() {
+      // check that it actually used the cache
+      expect(spies.processStringSpy, 'Used cache').to.have.callCount(0);
+      expect(spies.postProcessSpy, 'Logged errors').to.have.callCount(JS_FIXTURES.length);
+    });
   });
 
   it('should not call processString for ignored files', function() {
-    const {
-      processStringSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     function runNonpersistent() {
       return runEslint(FIXTURES_PATH, {
@@ -194,19 +171,14 @@ describe('EslintValidationFilter', function() {
       });
     }
 
-    const promise = runNonpersistent();
-
-    return promise.then(function() {
-      expect(processStringSpy, 'Doesn\'t call processString for ignored files')
+    return runNonpersistent().then(() => {
+      expect(spies.processStringSpy, 'Doesn\'t call processString for ignored files')
         .to.have.callCount(JS_FIXTURES.length - 1);
     });
   });
 
   it('should allow disabling the cache', function() {
-    const {
-      processStringSpy,
-      postProcessSpy
-    } = this.setupSpies();
+    const spies = this.setupSpies();
 
     function runNonpersistent() {
       return runEslint(FIXTURES_PATH, {
@@ -218,26 +190,22 @@ describe('EslintValidationFilter', function() {
     }
 
     // Run twice to guarantee one run would be from cache if persisting
-    const promise = runNonpersistent().then(runNonpersistent);
-
-    return promise.then(function() {
+    return runNonpersistent().then(runNonpersistent).then(() => {
       // check that it did not use the cache
-      expect(processStringSpy, 'Didn\'t use cache (twice)')
+      expect(spies.processStringSpy, 'Didn\'t use cache (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
-      expect(postProcessSpy, 'Logged errors (twice)')
+      expect(spies.postProcessSpy, 'Logged errors (twice)')
         .to.have.callCount(2 * JS_FIXTURES.length);
     });
   });
 
   it('throws when `throwOnError` is set and result severity is >= 2', function() {
-    const promise = shouldReportErrors(FIXTURES_PATH, {
+    return shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
       },
       throwOnError: true
-    })();
-
-    return promise.then(
+    })().then(
       () => { throw new Error('test should have failed'); },
       (err) => {
         expect(err).to.be.an('error');
@@ -247,14 +215,12 @@ describe('EslintValidationFilter', function() {
   });
 
   it('throws when `throwOnWarn` is set and result severity is >= 2', function() {
-    const promise = shouldReportErrors(FIXTURES_PATH, {
+    return shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
       },
       throwOnWarn: true
-    })();
-
-    return promise.then(
+    })().then(
       () => { throw new Error('test should have failed'); },
       (err) => {
         expect(err).to.be.an('error');
@@ -264,16 +230,14 @@ describe('EslintValidationFilter', function() {
   });
 
   it('throws when `throwOnWarn` is set and result severity is 1', function() {
-    const promise = shouldReportErrors(FIXTURES_PATH, {
+    return shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: true,
         cache: false,  // ensure that other tests
         ignorePath: FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING
       },
       throwOnWarn: true
-    })();
-
-    return promise.then(
+    })().then(
       () => { throw new Error('test should have failed'); },
       (err) => {
         expect(err).to.be.an('error');
