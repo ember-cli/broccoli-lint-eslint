@@ -27,13 +27,11 @@ describe('Supporting different config file formats', function() {
       it(`detects configuration files with the ${format} file type`, function() {
         const filesPath = path.join(process.cwd(), 'test/file-format-tests/formats', format);
 
-        const promise = runEslint(filesPath, {
+        return runEslint(filesPath, {
           options: {
             ignore: false
           }
-        });
-
-        return promise.then(function(result) {
+        }).then(result => {
           expect(result.buildLog, 'Reported erroroneous single-quoted strings')
             .to.have.string(MESSAGES.DOUBLEQUOTE)
             .to.have.string(MESSAGES.ALERT);
