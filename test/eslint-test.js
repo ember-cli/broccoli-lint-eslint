@@ -227,4 +227,27 @@ describe('broccoli-lint-eslint', function() {
       yield expect(output.build()).to.be.fulfilled;
     }));
   });
+
+  describe('.eslintignore', function() {
+    // this doesn't seem to work... :(
+    it.skip('excludes files from being linted', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        '.eslintignore': `a.js\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal([
+        '.eslintignore',
+        '.eslintrc.lint-test.js',
+        'b.lint-test.js',
+      ]);
+    }));
+  });
 });
