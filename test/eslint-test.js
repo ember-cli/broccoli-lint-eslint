@@ -65,4 +65,74 @@ describe('broccoli-lint-eslint', function() {
 
     expect(Object.keys(output.read())).to.deep.equal(['.eslintrc.js', 'a.js', 'b.js']);
   }));
+
+  describe('throwOnError', function() {
+    it('throw an error for the first encountered error', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+
+      yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
+    }));
+
+    it('does not throw errors for warning', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+
+      yield expect(output.build()).to.be.fulfilled;
+    }));
+
+    it('does not throw errors for disabled rules', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'off' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+
+      yield expect(output.build()).to.be.fulfilled;
+    }));
+  });
+
+  describe('throwOnWarn', function() {
+    it('throw an error for the first encountered error', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+
+      yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
+    }));
+
+    it('throw an error for the first encountered warning', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+
+      yield expect(output.build()).to.be.rejectedWith('rules violation with `warn` severity level');
+    }));
+
+    it('does not throw errors for disabled rules', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'off' } };\n`,
+        'a.js': `console.log('foo');\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+
+      yield expect(output.build()).to.be.fulfilled;
+    }));
+  });
 });
