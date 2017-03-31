@@ -66,6 +66,98 @@ describe('broccoli-lint-eslint', function() {
     expect(Object.keys(output.read())).to.deep.equal(['.eslintrc.js', 'a.js', 'b.js']);
   }));
 
+  describe('testGenerator', function() {
+    it('qunit: generates QUnit tests', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['.eslintrc.lint-test.js', 'a.lint-test.js', 'b.lint-test.js']);
+      expect(result['a.lint-test.js'].trim()).to.equal([
+        `QUnit.module('ESLint | a.js');`,
+        `QUnit.test('should pass ESLint', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(false, 'a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `});`,
+      ].join('\n'));
+    }));
+
+    it('mocha: generates Mocha tests', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint(input.path(), { console, testGenerator: 'mocha' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['.eslintrc.lint-test.js', 'a.lint-test.js', 'b.lint-test.js']);
+      expect(result['a.lint-test.js'].trim()).to.equal([
+        `describe('ESLint | a.js', function() {`,
+        `  it('should pass ESLint', function() {`,
+        `    // ESLint failed`,
+        `    var error = new chai.AssertionError('a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `    error.stack = undefined;`,
+        `    throw error;`,
+        `  });`,
+        `});`,
+      ].join('\n'));
+    }));
+
+    it('custom: generates tests via custom test generator function', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      let args = [];
+      function testGenerator() {
+        args.push(arguments);
+      }
+
+      output = createBuilder(eslint(input.path(), { console, testGenerator }));
+
+      yield output.build();
+
+      expect(args).to.have.lengthOf(3);
+      expect(args[0][0]).to.equal('.eslintrc.js');
+      expect(args[1][0]).to.equal('a.js');
+      expect(args[2][0]).to.equal('b.js');
+
+      let results = args[1][2];
+      expect(results.filePath).to.match(/a\.js$/);
+      delete results.filePath;
+
+      expect(results).to.deep.equal({
+        'errorCount': 1,
+        'messages': [{
+          'column': 1,
+          'endColumn': 12,
+          'endLine': 1,
+          'line': 1,
+          'message': 'Unexpected console statement.',
+          'nodeType': 'MemberExpression',
+          'ruleId': 'no-console',
+          'severity': 2,
+          'source': 'console.log(\'foo\');',
+        }],
+        'source': 'console.log(\'foo\');\n',
+        'warningCount': 0,
+      });
+    }));
+  });
+
   describe('throwOnError', function() {
     it('throw an error for the first encountered error', co.wrap(function *() {
       input.write({
