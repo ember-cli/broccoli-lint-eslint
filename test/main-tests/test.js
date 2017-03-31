@@ -6,7 +6,7 @@ const mv = require('broccoli-stew').mv;
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const MergeTrees = require('broccoli-merge-trees');
 
-const eslint = require('../../');
+const EslintValidationFilter = require('../../').EslintValidationFilter;
 const runEslint = require('../helpers/run-eslint');
 
 const RULE_TAG_NO_CONSOLE = '(no-console)';
@@ -28,8 +28,8 @@ describe('EslintValidationFilter', function() {
   before(function() {
     this.setupSpies = function() {
       // spy on filter process methods
-      const processStringSpy = this.sinon.spy(eslint.prototype, 'processString');
-      const postProcessSpy = this.sinon.spy(eslint.prototype, 'postProcess');
+      const processStringSpy = this.sinon.spy(EslintValidationFilter.prototype, 'processString');
+      const postProcessSpy = this.sinon.spy(EslintValidationFilter.prototype, 'postProcess');
 
       return { processStringSpy, postProcessSpy };
     };
