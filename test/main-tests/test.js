@@ -200,49 +200,40 @@ describe('EslintValidationFilter', function() {
   });
 
   it('throws when `throwOnError` is set and result severity is >= 2', function() {
-    return shouldReportErrors(FIXTURES_PATH, {
+    return expect(shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
       },
       throwOnError: true
-    })().then(
-      () => { throw new Error('test should have failed'); },
-      (err) => {
-        expect(err).to.be.an('error');
-        expect(err.message).to.equal('rules violation with `error` severity level');
-      }
-    );
+    })()).to.be.rejected.then(err => {
+      expect(err).to.be.an('error');
+      expect(err.message).to.equal('rules violation with `error` severity level');
+    });
   });
 
   it('throws when `throwOnWarn` is set and result severity is >= 2', function() {
-    return shouldReportErrors(FIXTURES_PATH, {
+    return expect(shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: false,
       },
       throwOnWarn: true
-    })().then(
-      () => { throw new Error('test should have failed'); },
-      (err) => {
-        expect(err).to.be.an('error');
-        expect(err.message).to.equal('rules violation with `error` severity level');
-      }
-    );
+    })()).to.be.rejected.then(err => {
+      expect(err).to.be.an('error');
+      expect(err.message).to.equal('rules violation with `error` severity level');
+    });
   });
 
   it('throws when `throwOnWarn` is set and result severity is 1', function() {
-    return shouldReportErrors(FIXTURES_PATH, {
+    return expect(shouldReportErrors(FIXTURES_PATH, {
       options: {
         ignore: true,
         cache: false,  // ensure that other tests
         ignorePath: FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING
       },
       throwOnWarn: true
-    })().then(
-      () => { throw new Error('test should have failed'); },
-      (err) => {
-        expect(err).to.be.an('error');
-        expect(err.message).to.equal('rules violation with `warn` severity level');
-      }
-    );
+    })()).to.be.rejected.then(err => {
+      expect(err).to.be.an('error');
+      expect(err.message).to.equal('rules violation with `warn` severity level');
+    });
   });
 });
