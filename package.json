@@ -34,7 +34,6 @@
   "homepage": "https://github.com/ember-cli/broccoli-lint-eslint",
   "dependencies": {
     "broccoli-persistent-filter": "^1.2.0",
-    "escape-string-regexp": "^1.0.5",
     "eslint": "^3.0.0",
     "js-string-escape": "^1.0.1",
     "json-stable-stringify": "^1.0.1",
