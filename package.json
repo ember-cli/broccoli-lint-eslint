@@ -38,6 +38,7 @@
     "eslint": "^3.0.0",
     "js-string-escape": "^1.0.1",
     "json-stable-stringify": "^1.0.1",
+    "lodash.defaultsdeep": "^4.6.0",
     "md5-hex": "^2.0.0"
   },
   "devDependencies": {
