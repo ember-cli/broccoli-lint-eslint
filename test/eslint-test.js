@@ -124,7 +124,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit' }));
 
       yield output.build();
 
@@ -146,7 +146,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'mocha' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'mocha' }));
 
       yield output.build();
 
@@ -176,7 +176,7 @@ describe('broccoli-lint-eslint', function() {
         args.push(arguments);
       }
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator }));
 
       yield output.build();
 
@@ -215,7 +215,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
     }));
@@ -226,7 +226,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -237,7 +237,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -250,7 +250,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
     }));
@@ -261,7 +261,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `warn` severity level');
     }));
@@ -272,7 +272,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -288,7 +288,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit' }));
 
       yield output.build();
 
