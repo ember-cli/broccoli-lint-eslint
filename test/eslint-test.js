@@ -208,6 +208,67 @@ describe('broccoli-lint-eslint', function() {
     }));
   });
 
+  describe('group', function() {
+    it('qunit: generates a single QUnit module', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `QUnit.module('ESLint | app');`,
+        ``,
+        `QUnit.test('a.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(false, 'a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `});`,
+        ``,
+        `QUnit.test('b.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(true, 'b.js should pass ESLint\\n\\n1:5 - \\'foo\\' is assigned a value but never used. (no-unused-vars)');`,
+        `});`,
+      ].join('\n'));
+    }));
+
+    it('mocha: generates a single Mocha test suite', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'mocha', group: 'app' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `describe('ESLint | app', function() {`,
+        ``,
+        `  it('a.js', function() {`,
+        `    // ESLint failed`,
+        `    var error = new chai.AssertionError('a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `    error.stack = undefined;`,
+        `    throw error;`,
+        `  });`,
+        ``,
+        `  it('b.js', function() {`,
+        `    // ESLint passed`,
+        `  });`,
+        ``,
+        `});`,
+      ].join('\n'));
+    }));
+  });
+
   describe('throwOnError', function() {
     it('throw an error for the first encountered error', co.wrap(function *() {
       input.write({
