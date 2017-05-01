@@ -1,7 +1,32 @@
 # Change Log
 
+## [v3.3.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.0) (2017-05-01)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.2.1...v3.3.0)
+
+**Implemented enhancements:**
+
+- Add factory function and "group" option [\#95](https://github.com/ember-cli/broccoli-lint-eslint/pull/95) ([Turbo87](https://github.com/Turbo87))
+
+**Fixed bugs:**
+
+- test-generators: Fix broken comment output [\#87](https://github.com/ember-cli/broccoli-lint-eslint/pull/87) ([Turbo87](https://github.com/Turbo87))
+- Dont lint ignored files [\#86](https://github.com/ember-cli/broccoli-lint-eslint/pull/86) ([LucasHill](https://github.com/LucasHill))
+
+**Merged pull requests:**
+
+- Simplify baseDir\(\) method [\#94](https://github.com/ember-cli/broccoli-lint-eslint/pull/94) ([Turbo87](https://github.com/Turbo87))
+- Use "lodash.defaultsdeep" to assign default options [\#93](https://github.com/ember-cli/broccoli-lint-eslint/pull/93) ([Turbo87](https://github.com/Turbo87))
+- Refactorings [\#91](https://github.com/ember-cli/broccoli-lint-eslint/pull/91) ([Turbo87](https://github.com/Turbo87))
+- Add integration tests using "broccoli-test-helper" [\#90](https://github.com/ember-cli/broccoli-lint-eslint/pull/90) ([Turbo87](https://github.com/Turbo87))
+- Use "chai-as-promised" for testing [\#89](https://github.com/ember-cli/broccoli-lint-eslint/pull/89) ([Turbo87](https://github.com/Turbo87))
+- Remove Babel transpilation [\#88](https://github.com/ember-cli/broccoli-lint-eslint/pull/88) ([Turbo87](https://github.com/Turbo87))
+
 ## [v3.2.1](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.2.1) (2017-03-19)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.2.0...v3.2.1)
+
+**Fixed bugs:**
+
+- Bust cache if ignored status changes. [\#85](https://github.com/ember-cli/broccoli-lint-eslint/pull/85) ([LucasHill](https://github.com/LucasHill))
 
 **Closed issues:**
 
@@ -9,7 +34,6 @@
 
 **Merged pull requests:**
 
-- Bust cache if ignored status changes. [\#85](https://github.com/ember-cli/broccoli-lint-eslint/pull/85) ([LucasHill](https://github.com/LucasHill))
 - Cleanup [\#83](https://github.com/ember-cli/broccoli-lint-eslint/pull/83) ([Turbo87](https://github.com/Turbo87))
 - Update sinon to the latest version 🚀 [\#82](https://github.com/ember-cli/broccoli-lint-eslint/pull/82) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
 - Update broccoli-merge-trees to the latest version 🚀 [\#81](https://github.com/ember-cli/broccoli-lint-eslint/pull/81) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
