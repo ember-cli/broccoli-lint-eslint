@@ -15,7 +15,7 @@ module.exports = function runEslint(path, _options) {
   };
   options.options = options.options || {};
 
-  const node = eslintValidationFilter(path, options);
+  const node = eslintValidationFilter.create(path, options);
   const builder = new broccoli.Builder(node);
   const promise = builder.build().then(() => ({
     buildLog: buildLog.join('\n'),

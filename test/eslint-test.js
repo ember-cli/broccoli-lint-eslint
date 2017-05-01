@@ -6,6 +6,7 @@ const co = require('co');
 const testHelpers = require('broccoli-test-helper');
 const eslint = require('..');
 
+const ESLint = eslint;
 const createBuilder = testHelpers.createBuilder;
 const createTempDir = testHelpers.createTempDir;
 
@@ -26,7 +27,7 @@ describe('broccoli-lint-eslint', function() {
     }
   }));
 
-  it('logs errors to the console', co.wrap(function *() {
+  it('logs errors to the console (using factory function)', co.wrap(function *() {
     input.write({
       '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
       'a.js': `console.log('foo');\n`,
@@ -51,6 +52,55 @@ describe('broccoli-lint-eslint', function() {
       .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
   }));
 
+  it('logs errors to the console (using new)', co.wrap(function *() {
+    input.write({
+      '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+      'a.js': `console.log('foo');\n`,
+      'b.js': `var foo = 5;\n`,
+    });
+
+    let format = 'eslint/lib/formatters/compact';
+
+    let messages = [];
+    let console = {
+      log(message) {
+        messages.push(message);
+      }
+    };
+
+    output = createBuilder(new ESLint(input.path(), { format, console }));
+
+    yield output.build();
+
+    expect(messages.join(''))
+      .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+  }));
+
+  it('logs errors to the console (using create() factory method)', co.wrap(function *() {
+    input.write({
+      '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+      'a.js': `console.log('foo');\n`,
+      'b.js': `var foo = 5;\n`,
+    });
+
+    let format = 'eslint/lib/formatters/compact';
+
+    let messages = [];
+    let console = {
+      log(message) {
+        messages.push(message);
+      }
+    };
+
+    output = createBuilder(ESLint.create(input.path(), { format, console }));
+
+    yield output.build();
+
+    expect(messages.join(''))
+      .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+  }));
 
   it('does not generate test files by default', co.wrap(function *() {
     input.write({
@@ -74,7 +124,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit' }));
 
       yield output.build();
 
@@ -96,7 +146,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'mocha' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'mocha' }));
 
       yield output.build();
 
@@ -126,7 +176,7 @@ describe('broccoli-lint-eslint', function() {
         args.push(arguments);
       }
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator }));
 
       yield output.build();
 
@@ -158,6 +208,67 @@ describe('broccoli-lint-eslint', function() {
     }));
   });
 
+  describe('group', function() {
+    it('qunit: generates a single QUnit module', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `QUnit.module('ESLint | app');`,
+        ``,
+        `QUnit.test('a.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(false, 'a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `});`,
+        ``,
+        `QUnit.test('b.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(true, 'b.js should pass ESLint\\n\\n1:5 - \\'foo\\' is assigned a value but never used. (no-unused-vars)');`,
+        `});`,
+      ].join('\n'));
+    }));
+
+    it('mocha: generates a single Mocha test suite', co.wrap(function *() {
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'a.js': `console.log('foo');\n`,
+        'b.js': `var foo = 5;\n`,
+      });
+
+      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'mocha', group: 'app' }));
+
+      yield output.build();
+
+      let result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `describe('ESLint | app', function() {`,
+        ``,
+        `  it('a.js', function() {`,
+        `    // ESLint failed`,
+        `    var error = new chai.AssertionError('a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `    error.stack = undefined;`,
+        `    throw error;`,
+        `  });`,
+        ``,
+        `  it('b.js', function() {`,
+        `    // ESLint passed`,
+        `  });`,
+        ``,
+        `});`,
+      ].join('\n'));
+    }));
+  });
+
   describe('throwOnError', function() {
     it('throw an error for the first encountered error', co.wrap(function *() {
       input.write({
@@ -165,7 +276,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
     }));
@@ -176,7 +287,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -187,7 +298,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnError: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnError: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -200,7 +311,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `error` severity level');
     }));
@@ -211,7 +322,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.rejectedWith('rules violation with `warn` severity level');
     }));
@@ -222,7 +333,7 @@ describe('broccoli-lint-eslint', function() {
         'a.js': `console.log('foo');\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, throwOnWarn: true }));
+      output = createBuilder(ESLint.create(input.path(), { console, throwOnWarn: true }));
 
       yield expect(output.build()).to.be.fulfilled;
     }));
@@ -238,7 +349,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint(input.path(), { console, testGenerator: 'qunit' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit' }));
 
       yield output.build();
 
