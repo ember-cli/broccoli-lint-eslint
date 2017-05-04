@@ -102,7 +102,7 @@ QUnit.test('some/file.js', function(assert) {
       expect(this.generate('some/file.js', null, {}).trim()).to.equal(`
 describe('ESLint | some/file.js', function() {
   it('should pass ESLint', function() {
-    // ESLint passed
+    // test passed
   });
 });`.trim());
     });
@@ -111,7 +111,7 @@ describe('ESLint | some/file.js', function() {
       expect(this.generate('some/file.js', null, { errorCount: 0 }).trim()).to.equal(`
 describe('ESLint | some/file.js', function() {
   it('should pass ESLint', function() {
-    // ESLint passed
+    // test passed
   });
 });`.trim());
     });
@@ -120,7 +120,7 @@ describe('ESLint | some/file.js', function() {
       expect(this.generate('some/file.js', null, { errorCount: 1 }).trim()).to.equal(`
 describe('ESLint | some/file.js', function() {
   it('should pass ESLint', function() {
-    // ESLint failed
+    // test failed
     var error = new chai.AssertionError('some/file.js should pass ESLint');
     error.stack = undefined;
     throw error;
@@ -132,7 +132,7 @@ describe('ESLint | some/file.js', function() {
       expect(this.generate('some/file.js', null, FAIL).trim()).to.equal(`
 describe('ESLint | some/file.js', function() {
   it('should pass ESLint', function() {
-    // ESLint failed
+    // test failed
     var error = new chai.AssertionError('some/file.js should pass ESLint\\n\\n42:13 - This is not a valid foo (validate-foo)\\n123:1 - foobar (comma-dangle)');
     error.stack = undefined;
     throw error;
@@ -144,21 +144,21 @@ describe('ESLint | some/file.js', function() {
       it('generates passing test for missing errorCount', function() {
         expect(this.generate.testOnly('some/file.js', null, {}).trim()).to.equal(`
   it('some/file.js', function() {
-    // ESLint passed
+    // test passed
   });`.trim());
       });
 
       it('generates passing test for errorCount == 0', function() {
         expect(this.generate.testOnly('some/file.js', null, { errorCount: 0 }).trim()).to.equal(`
   it('some/file.js', function() {
-    // ESLint passed
+    // test passed
   });`.trim());
       });
 
       it('generates passing test for errorCount == 1', function() {
         expect(this.generate.testOnly('some/file.js', null, { errorCount: 1 }).trim()).to.equal(`
   it('some/file.js', function() {
-    // ESLint failed
+    // test failed
     var error = new chai.AssertionError('some/file.js should pass ESLint');
     error.stack = undefined;
     throw error;
@@ -168,7 +168,7 @@ describe('ESLint | some/file.js', function() {
       it('renders error messages', function() {
         expect(this.generate.testOnly('some/file.js', null, FAIL).trim()).to.equal(`
   it('some/file.js', function() {
-    // ESLint failed
+    // test failed
     var error = new chai.AssertionError('some/file.js should pass ESLint\\n\\n42:13 - This is not a valid foo (validate-foo)\\n123:1 - foobar (comma-dangle)');
     error.stack = undefined;
     throw error;
