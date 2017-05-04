@@ -1,5 +1,20 @@
 # Change Log
 
+## [v3.3.1](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.1) (2017-05-04)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.3.0...v3.3.1)
+
+**Implemented enhancements:**
+
+- CI: Use "auto-dist-tag" for deployment [\#97](https://github.com/ember-cli/broccoli-lint-eslint/pull/97) ([Turbo87](https://github.com/Turbo87))
+
+**Closed issues:**
+
+- Extract test generators into "broccoli-lint-test-generators" package [\#96](https://github.com/ember-cli/broccoli-lint-eslint/issues/96)
+
+**Merged pull requests:**
+
+- Use "aot-test-generators" to generate tests [\#98](https://github.com/ember-cli/broccoli-lint-eslint/pull/98) ([Turbo87](https://github.com/Turbo87))
+
 ## [v3.3.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.0) (2017-05-01)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.2.1...v3.3.0)
 
