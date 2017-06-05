@@ -48,7 +48,7 @@
     "broccoli-source": "^1.1.0",
     "broccoli-stew": "^1.2.0",
     "broccoli-test-helper": "^1.1.0",
-    "chai": "^3.5.0",
+    "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
     "mocha": "^3.0.1",
