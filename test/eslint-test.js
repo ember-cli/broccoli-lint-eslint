@@ -191,6 +191,8 @@ describe('broccoli-lint-eslint', function() {
 
       expect(results).to.deep.equal({
         'errorCount': 1,
+        'fixableErrorCount': 0,
+        'fixableWarningCount': 0,
         'messages': [{
           'column': 1,
           'endColumn': 12,
