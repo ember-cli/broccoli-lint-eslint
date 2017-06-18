@@ -1,5 +1,14 @@
 # Change Log
 
+## [v4.0.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.0.0) (2017-06-18)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.3.1...v4.0.0)
+
+**Merged pull requests:**
+
+- Update to ESLint ^4.0 [\#101](https://github.com/ember-cli/broccoli-lint-eslint/pull/101) ([alexdiliberto](https://github.com/alexdiliberto))
+- Update chai-as-promised to the latest version 🚀 [\#100](https://github.com/ember-cli/broccoli-lint-eslint/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update chai to the latest version 🚀 [\#99](https://github.com/ember-cli/broccoli-lint-eslint/pull/99) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v3.3.1](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.1) (2017-05-04)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.3.0...v3.3.1)
 
@@ -50,9 +59,9 @@
 **Merged pull requests:**
 
 - Cleanup [\#83](https://github.com/ember-cli/broccoli-lint-eslint/pull/83) ([Turbo87](https://github.com/Turbo87))
-- Update sinon to the latest version 🚀 [\#82](https://github.com/ember-cli/broccoli-lint-eslint/pull/82) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update broccoli-merge-trees to the latest version 🚀 [\#81](https://github.com/ember-cli/broccoli-lint-eslint/pull/81) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update md5-hex to the latest version 🚀 [\#79](https://github.com/ember-cli/broccoli-lint-eslint/pull/79) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update sinon to the latest version 🚀 [\#82](https://github.com/ember-cli/broccoli-lint-eslint/pull/82) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update broccoli-merge-trees to the latest version 🚀 [\#81](https://github.com/ember-cli/broccoli-lint-eslint/pull/81) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update md5-hex to the latest version 🚀 [\#79](https://github.com/ember-cli/broccoli-lint-eslint/pull/79) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - CI: Enable automatic NPM deployment for tags [\#78](https://github.com/ember-cli/broccoli-lint-eslint/pull/78) ([Turbo87](https://github.com/Turbo87))
 
 ## [v3.2.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.2.0) (2017-01-03)
@@ -65,7 +74,7 @@
 **Merged pull requests:**
 
 - 👻😱 Node.js 0.10 is unmaintained 😱👻 [\#75](https://github.com/ember-cli/broccoli-lint-eslint/pull/75) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update dependencies to enable Greenkeeper 🌴 [\#74](https://github.com/ember-cli/broccoli-lint-eslint/pull/74) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update dependencies to enable Greenkeeper 🌴 [\#74](https://github.com/ember-cli/broccoli-lint-eslint/pull/74) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update es6-promise to version 4.0.0 🚀 [\#65](https://github.com/ember-cli/broccoli-lint-eslint/pull/65) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 
 ## [v2.7.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v2.7.0) (2016-09-13)
