@@ -17,7 +17,9 @@ const MESSAGE_IGNORED_FILE_REGEXP = /(?:File ignored by default\.)|(?:File ignor
 const FIXTURES_PATH = 'test/main-tests/fixtures';
 const FIXTURES_PATH_ESLINTIGNORE = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore');
 const FIXTURES_PATH_ESLINTIGNORE_FOR_WARNING = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore-all-but-warning');
+const FIXTURES_PATH_ESLINTIGNORE_FOR_TYPESCRIPT = path.resolve(process.cwd(), './test/main-tests/fixtures/.eslintignore-typescript');
 const FIXTURES_PATH_ESLINTRC_ALTERNATE = path.join(FIXTURES_PATH, '.eslintrc-alternate.js');
+const FIXTURES_PATH_ESLINTRC_TYPESCRIPT = path.join(FIXTURES_PATH, '.eslintrc-typescript.js');
 const FIXTURE_FILE_PATH_ALERT = 'fixtures/alert.js';
 const JS_FIXTURES = fs.readdirSync(FIXTURES_PATH).filter((name) => /\.js$/.test(name) && !/^.eslintrc/.test(name));
 
@@ -234,6 +236,20 @@ describe('EslintValidationFilter', function() {
     })()).to.be.rejected.then(err => {
       expect(err).to.be.an('error');
       expect(err.message).to.equal('rules violation with `warn` severity level');
+    });
+  });
+
+    it('should work with the typescript parser', function() {
+    // lint test fixtures using a config file at a non-default path
+    return runEslint(FIXTURES_PATH, {
+      typescript: true,
+      options: {
+        ignore: true,
+        configFile: FIXTURES_PATH_ESLINTRC_TYPESCRIPT,
+        ignorePath: FIXTURES_PATH_ESLINTIGNORE_FOR_TYPESCRIPT
+      }
+    }).then(result => {
+      expect(result.buildLog).to.have.string('no-unused-vars');
     });
   });
 });
