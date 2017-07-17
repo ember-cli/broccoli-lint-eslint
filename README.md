@@ -49,7 +49,7 @@ var outputNode = eslint(inputNode, options);
 
     - relativePath - The relative path to the file being tested.
     - errors - An array of eslint error objects found.
-    
+
     If you provide a `string` one of the [predefined test generators](lib/test-generators.js) is used. Currently supported are `qunit` and `mocha`.
 
     Example usage:
@@ -104,6 +104,10 @@ var outputNode = eslint(inputNode, options);
     * `ignore` {boolean}: `false` disables use of `.eslintignore`, `ignorePath` and `ignorePattern`
 
       Default: `true`
+
+  * `extensions` {Array}: File extensions to lint. _NOTE_: If you add Typescript files `typescript-eslint-parser` has to be installed and specified as the parser. For more information take a look at the [`typescript-eslint-parser`](https://github.com/eslint/typescript-eslint-parser)
+
+    Default: `['js']`
 
 [eslint]: http://eslint.org/
 [broccoli]: https://github.com/joliss/broccoli
