@@ -1,5 +1,12 @@
 # Change Log
 
+## [v4.1.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.1.0) (2017-07-17)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.0.0...v4.1.0)
+
+**Merged pull requests:**
+
+- Make extensions configurable [\#102](https://github.com/ember-cli/broccoli-lint-eslint/pull/102) ([t-sauer](https://github.com/t-sauer))
+
 ## [v4.0.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.0.0) (2017-06-18)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.3.1...v4.0.0)
 
