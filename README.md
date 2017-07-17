@@ -105,9 +105,9 @@ var outputNode = eslint(inputNode, options);
 
       Default: `true`
 
-  * `typescript` {boolean}: Include Typescript files. _NOTE_: To lint Typescript files with ESLint `typescript-eslint-parser` has to be installed and specified as the parser. For more information take a look at the [`typescript-eslint-parser`](https://github.com/eslint/typescript-eslint-parser)
+  * `extensions` {Array}: File extensions to lint. _NOTE_: If you add Typescript files `typescript-eslint-parser` has to be installed and specified as the parser. For more information take a look at the [`typescript-eslint-parser`](https://github.com/eslint/typescript-eslint-parser)
 
-    Default: `false`
+    Default: `['js']`
 
 [eslint]: http://eslint.org/
 [broccoli]: https://github.com/joliss/broccoli

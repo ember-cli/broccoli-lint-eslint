@@ -116,7 +116,7 @@ describe('broccoli-lint-eslint', function() {
     expect(Object.keys(output.read())).to.deep.equal(['.eslintrc.js', 'a.js', 'b.js']);
   }));
 
-  it('should test typescript files with the typescript parser', co.wrap(function *() {
+  it('should lint typescript files if ts extension is added', co.wrap(function *() {
     input.write({
       '.eslintrc.js': `module.exports = { parser: 'typescript-eslint-parser', rules: { 'no-unused-vars': 'error' } };\n`,
       'a.ts': `var foo: number = 5;\n`
@@ -130,7 +130,7 @@ describe('broccoli-lint-eslint', function() {
       }
     };
 
-    output = createBuilder(eslint(input.path(), { format, console, typescript: true }));
+    output = createBuilder(eslint(input.path(), { format, console, extensions: ['ts'] }));
 
     yield output.build();
 
