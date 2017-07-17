@@ -116,6 +116,27 @@ describe('broccoli-lint-eslint', function() {
     expect(Object.keys(output.read())).to.deep.equal(['.eslintrc.js', 'a.js', 'b.js']);
   }));
 
+  it('should test typescript files with the typescript parser', co.wrap(function *() {
+    input.write({
+      '.eslintrc.js': `module.exports = { parser: 'typescript-eslint-parser', rules: { 'no-unused-vars': 'error' } };\n`,
+      'a.ts': `var foo: number = 5;\n`
+    });
+    let format = 'eslint/lib/formatters/compact';
+
+    let messages = [];
+    let console = {
+      log(message) {
+        messages.push(message);
+      }
+    };
+
+    output = createBuilder(eslint(input.path(), { format, console, typescript: true }));
+
+    yield output.build();
+
+    expect(messages.join('\n')).to.contain(`a.ts: line 1, col 5, Error - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+  }));
+
   describe('testGenerator', function() {
     it('qunit: generates QUnit tests', co.wrap(function *() {
       input.write({
