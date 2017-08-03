@@ -52,7 +52,7 @@
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
     "mocha": "^3.0.1",
-    "sinon": "^2.0.0",
+    "sinon": "^3.0.0",
     "sinon-chai": "^2.8.0",
     "typescript": "~2.4.2",
     "typescript-eslint-parser": "^4.0.0"
