@@ -118,8 +118,8 @@ describe('broccoli-lint-eslint', function() {
 
   it('should lint typescript files if ts extension is added', co.wrap(function *() {
     input.write({
-      '.eslintrc.js': `module.exports = { parser: 'typescript-eslint-parser', rules: { 'no-unused-vars': 'error' } };\n`,
-      'a.ts': `var foo: number = 5;\n`
+      '.eslintrc.js': `module.exports = { rules: { 'no-unused-vars': 'error' } };\n`,
+      'a.ts': `var foo = 5;\n`
     });
     let format = 'eslint/lib/formatters/compact';
 
