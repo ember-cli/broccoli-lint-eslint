@@ -52,7 +52,7 @@
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
     "mocha": "^4.0.0",
-    "sinon": "^3.0.0",
+    "sinon": "^4.0.1",
     "sinon-chai": "^2.8.0"
   }
 }
