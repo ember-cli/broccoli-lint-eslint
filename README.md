@@ -30,8 +30,8 @@ npm install --save broccoli-lint-eslint
 ## Usage
 
 ```javascript
-var eslint = require('broccoli-lint-eslint');
-var outputNode = eslint(inputNode, options);
+var ESLint = require('broccoli-lint-eslint');
+var outputNode = ESLint.create(inputNode, options);
 ```
 
 ### API
@@ -72,6 +72,10 @@ var outputNode = eslint(inputNode, options);
       testGenerator: testGenerator
     });
     ```
+
+  * `group` {string|undefined}: Groups the generated ESLint tests into a single file and test suite with the given group name.
+
+    Default: `undefined`
 
   * `throwOnError` {boolean}: Cause exception error on first violation with `error`-level severity.
 

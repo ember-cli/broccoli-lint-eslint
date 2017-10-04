@@ -49,7 +49,8 @@ describe('broccoli-lint-eslint', function() {
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
+      .to.contain(`DEPRECATION: Please use the create() factory method`);
   }));
 
   it('logs errors to the console (using new)', co.wrap(function *() {
@@ -74,7 +75,8 @@ describe('broccoli-lint-eslint', function() {
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
+      .to.contain(`DEPRECATION: Please use the create() factory method`);
   }));
 
   it('logs errors to the console (using create() factory method)', co.wrap(function *() {
@@ -99,7 +101,8 @@ describe('broccoli-lint-eslint', function() {
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
+      .to.not.contain(`DEPRECATION: Please use the create() factory method`);
   }));
 
   it('does not generate test files by default', co.wrap(function *() {
