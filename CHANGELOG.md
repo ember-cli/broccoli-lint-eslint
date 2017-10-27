@@ -1,5 +1,25 @@
 # Change Log
 
+## [v4.2.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.2.0) (2017-10-27)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.1.0...v4.2.0)
+
+**Implemented enhancements:**
+
+- Add static immutable "testGenerators" list property [\#113](https://github.com/ember-cli/broccoli-lint-eslint/pull/113) ([Turbo87](https://github.com/Turbo87))
+- Deprecate constructor usage in favor of .create\(\) and add documentation [\#109](https://github.com/ember-cli/broccoli-lint-eslint/pull/109) ([Turbo87](https://github.com/Turbo87))
+
+**Fixed bugs:**
+
+- Update README with details on test grouping. [\#107](https://github.com/ember-cli/broccoli-lint-eslint/issues/107)
+
+**Merged pull requests:**
+
+- chore\(package\): update sinon to version 4.0.1 [\#112](https://github.com/ember-cli/broccoli-lint-eslint/pull/112) ([Turbo87](https://github.com/Turbo87))
+- Update mocha to the latest version 🚀 [\#111](https://github.com/ember-cli/broccoli-lint-eslint/pull/111) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Do not depend on TypeScript for extensions test [\#108](https://github.com/ember-cli/broccoli-lint-eslint/pull/108) ([t-sauer](https://github.com/t-sauer))
+- Update sinon to the latest version 🚀 [\#104](https://github.com/ember-cli/broccoli-lint-eslint/pull/104) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update typescript to the latest version 🚀 [\#103](https://github.com/ember-cli/broccoli-lint-eslint/pull/103) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v4.1.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.1.0) (2017-07-17)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.0.0...v4.1.0)
 
