@@ -27,6 +27,14 @@ describe('broccoli-lint-eslint', function() {
     }
   }));
 
+  it('exports a static immutable "testGenerators" list', function() {
+    expect(eslint.testGenerators).to.deep.equal(['qunit', 'mocha']);
+
+    eslint.testGenerators.push('jest');
+
+    expect(eslint.testGenerators).to.deep.equal(['qunit', 'mocha']);
+  });
+
   it('logs errors to the console (using factory function)', co.wrap(function *() {
     input.write({
       '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
