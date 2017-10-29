@@ -66,8 +66,7 @@ var outputNode = ESLint.create(inputNode, options);
 
     return eslint(inputNode, {
       options: {
-        configFile: this.eslintrc.app + '/eslint.json',
-        rulesdir: this.eslintrc.app
+        configFile: this.eslintrc.app + '/eslint.json'
       },
       testGenerator: testGenerator
     });
