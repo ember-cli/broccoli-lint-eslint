@@ -7,7 +7,18 @@ node_js:
   - "10"
 
 env:
-  - FORCE_PERSISTENCE_IN_CI=true
+  global:
+    - FORCE_PERSISTENCE_IN_CI=true
+  matrix:
+    - NPM_SCRIPT=test
+
+matrix:
+  include:
+    - node_js: "6"
+      env: NPM_SCRIPT=lint
+
+script:
+  - npm run $NPM_SCRIPT
 
 before_deploy:
   - npm install -g auto-dist-tag
