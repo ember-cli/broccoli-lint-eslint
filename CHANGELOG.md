@@ -1,5 +1,17 @@
 # Change Log
 
+## [v4.2.1](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.2.1) (2017-11-07)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.2.0...v4.2.1)
+
+**Fixed bugs:**
+
+- Invoke super with the valid args to avoid ENOENT [\#115](https://github.com/ember-cli/broccoli-lint-eslint/pull/115) ([rwjblue](https://github.com/rwjblue))
+
+**Merged pull requests:**
+
+- Failing test PR emulating ember-cli/ember-cli\#7347 [\#118](https://github.com/ember-cli/broccoli-lint-eslint/pull/118) ([rwjblue](https://github.com/rwjblue))
+- Cleaning up unused options [\#114](https://github.com/ember-cli/broccoli-lint-eslint/pull/114) ([chrmod](https://github.com/chrmod))
+
 ## [v4.2.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.2.0) (2017-10-27)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.1.0...v4.2.0)
 
