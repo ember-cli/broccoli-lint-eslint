@@ -237,6 +237,58 @@ describe('broccoli-lint-eslint', function() {
       ].join('\n'));
     }));
 
+    it('grouping tolerates removal of files (GH: ember-cli/ember-cli#7347)', co.wrap(function *() {
+      let result;
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        'foo': {
+          'a.js': `console.log('foo');\n`,
+          'b.js': `var foo = 5;\n`,
+        }
+      });
+
+      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
+
+      yield output.build();
+
+      result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `QUnit.module('ESLint | app');`,
+        ``,
+        `QUnit.test('foo/a.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(false, 'foo/a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `});`,
+        ``,
+        `QUnit.test('foo/b.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(true, 'foo/b.js should pass ESLint\\n\\n1:5 - \\'foo\\' is assigned a value but never used. (no-unused-vars)');`,
+        `});`,
+      ].join('\n'));
+
+      input.write({
+        '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+        foo: {
+          'a.js': `console.log('foo');\n`,
+          'b.js': null,
+        }
+      });
+
+      yield output.build();
+
+      result = output.read();
+      expect(Object.keys(result)).to.deep.equal(['app.lint-test.js']);
+      expect(result['app.lint-test.js'].trim()).to.equal([
+        `QUnit.module('ESLint | app');`,
+        ``,
+        `QUnit.test('foo/a.js', function(assert) {`,
+        `  assert.expect(1);`,
+        `  assert.ok(false, 'foo/a.js should pass ESLint\\n\\n1:1 - Unexpected console statement. (no-console)');`,
+        `});`,
+      ].join('\n'));
+    }));
+
     it('mocha: generates a single Mocha test suite', co.wrap(function *() {
       input.write({
         '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
