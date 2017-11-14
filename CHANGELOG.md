@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.3.2](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.2) (2017-11-13)
+[Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.3.1...v3.3.2)
+
+**Fixed bugs:**
+
+- Backport: Invoke super with the valid args to avoid ENOENT [\#119](https://github.com/ember-cli/broccoli-lint-eslint/pull/119) ([hjdivad](https://github.com/hjdivad))
+
 ## [v3.3.0](https://github.com/ember-cli/broccoli-lint-eslint/tree/v3.3.0) (2017-05-01)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v3.2.1...v3.3.0)
 
