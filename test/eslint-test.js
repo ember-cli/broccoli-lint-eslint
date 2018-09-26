@@ -233,8 +233,7 @@ describe('broccoli-lint-eslint', function() {
           'message': 'Unexpected console statement.',
           'nodeType': 'MemberExpression',
           'ruleId': 'no-console',
-          'severity': 2,
-          'source': 'console.log(\'foo\');',
+          'severity': 2
         }],
         'source': 'console.log(\'foo\');\n',
         'warningCount': 0,
