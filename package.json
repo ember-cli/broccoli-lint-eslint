@@ -35,7 +35,7 @@
   "dependencies": {
     "aot-test-generators": "^0.1.0",
     "broccoli-concat": "^3.2.2",
-    "broccoli-persistent-filter": "^1.4.3",
+    "broccoli-persistent-filter": "^2.0.0",
     "eslint": "^4.11.0",
     "json-stable-stringify": "^1.0.1",
     "lodash.defaultsdeep": "^4.6.0",
@@ -44,16 +44,16 @@
   "devDependencies": {
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
-    "broccoli-merge-trees": "^2.0.0",
+    "broccoli-merge-trees": "^3.0.1",
     "broccoli-source": "^1.1.0",
-    "broccoli-stew": "^1.2.0",
+    "broccoli-stew": "^2.0.0",
     "broccoli-test-helper": "^1.1.0",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
     "mocha": "^5.0.0",
     "sinon": "^4.0.1",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.14.0"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
