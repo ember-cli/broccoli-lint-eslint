@@ -161,7 +161,7 @@ describe('broccoli-lint-eslint', function() {
       yield output.build();
 
       let result = output.read();
-      expect(Object.keys(result)).to.deep.equal(['.eslintrc.js', 'a.lint-test.js', 'b.lint-test.js']);
+      expect(Object.keys(result)).to.deep.equal(['.eslintrc.lint-test.js', 'a.lint-test.js', 'b.lint-test.js']);
       expect(result['a.lint-test.js'].trim()).to.equal([
         `QUnit.module('ESLint | a.js');`,
         `QUnit.test('should pass ESLint', function(assert) {`,
@@ -183,7 +183,7 @@ describe('broccoli-lint-eslint', function() {
       yield output.build();
 
       let result = output.read();
-      expect(Object.keys(result)).to.deep.equal(['.eslintrc.js', 'a.lint-test.js', 'b.lint-test.js']);
+      expect(Object.keys(result)).to.deep.equal(['.eslintrc.lint-test.js', 'a.lint-test.js', 'b.lint-test.js']);
       expect(result['a.lint-test.js'].trim()).to.equal([
         `describe('ESLint | a.js', function() {`,
         `  it('should pass ESLint', function() {`,
@@ -212,11 +212,12 @@ describe('broccoli-lint-eslint', function() {
 
       yield output.build();
 
-      expect(args).to.have.lengthOf(2);
-      expect(args[0][0]).to.equal('a.js');
-      expect(args[1][0]).to.equal('b.js');
+      expect(args).to.have.lengthOf(3);
+      expect(args[0][0]).to.equal('.eslintrc.js');
+      expect(args[1][0]).to.equal('a.js');
+      expect(args[2][0]).to.equal('b.js');
 
-      let results = args[0][2];
+      let results = args[1][2];
       expect(results.filePath).to.match(/a\.js$/);
       delete results.filePath;
 
@@ -230,11 +231,10 @@ describe('broccoli-lint-eslint', function() {
           'endLine': 1,
           'line': 1,
           'message': 'Unexpected console statement.',
-          'messageId': 'unexpected',
           'nodeType': 'MemberExpression',
           'ruleId': 'no-console',
           'severity': 2,
-          'source': 'console.log(\'foo\');'
+          'source': 'console.log(\'foo\');',
         }],
         'source': 'console.log(\'foo\');\n',
         'warningCount': 0,
@@ -442,8 +442,8 @@ describe('broccoli-lint-eslint', function() {
       let result = output.read();
       expect(Object.keys(result)).to.deep.equal([
         '.eslintignore',
-        '.eslintrc.js',
-        'b.lint-test.js'
+        '.eslintrc.lint-test.js',
+        'b.lint-test.js',
       ]);
     }));
   });
