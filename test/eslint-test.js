@@ -61,6 +61,39 @@ describe('broccoli-lint-eslint', function() {
       .to.contain(`DEPRECATION: Please use the create() factory method`);
   }));
 
+  it('accept many:* node if eslintrc specifies overrides', co.wrap(function*() {
+    // we need to create two temp folders with eslintrc files in it
+    const firstDirectory = yield createTempDir();
+    const secondDirectory = yield createTempDir();
+
+    firstDirectory.write({
+      '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error'}, overrides: [ { files: 'a.js', rules: { 'no-console': 'disable' } }] }`,
+      'a.js': `console.log('foo');\n`,
+    });
+
+    secondDirectory.write({
+      '.eslintrc.js': `module.exports = { }`,
+      'a.js': `console.log('foo');\n`,
+    });
+
+    let messages = [];
+    let console = {
+      log(message) {
+        messages.push(message);
+      },
+    };
+
+    const mergedDirectories = new MergeTrees([
+      firstDirectory.path(),
+      secondDirectory.path(),
+    ]);
+
+    expect(() => new ESLint(mergedDirectories, { console })).to.not.throw();
+
+    yield firstDirectory.dispose();
+    yield secondDirectory.dispose();
+  }));
+
   it('logs errors to the console (using new)', co.wrap(function *() {
     input.write({
       '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
