@@ -15,13 +15,13 @@ The internal validation is heavily inspired by [eslint cli.js](https://github.co
 
 ## Installation
 
-As of `3.0.0`, `broccoli-lint-eslint` uses versions of `eslint` greater than `3.0.0`. Because [`eslint@3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released) dropped support for Node versions below 4, you may need to use the latest `2.x` version of `broccoli-lint-eslint` (which uses `eslint@2.13.1`), if your support needs also fall below Node v4:
+As of `5.0.0`, `broccoli-lint-eslint` uses versions of `eslint` greater than `5.0.0`. Because [`eslint@5.0.0`](https://eslint.org/docs/user-guide/migrating-to-5.0.0) dropped support for Node versions below 6, you may need to use the latest `4.x` version of `broccoli-lint-eslint` (which uses `eslint@^4.11.0`), if you need support for Node v4:
 
 ```bash
-npm install --save broccoli-lint-eslint@2
+npm install --save broccoli-lint-eslint@4
 ```
 
-If versions of Node >= 4 suit your needs, you can safely install the latest version of `broccoli-lint-eslint`:
+If versions of Node >= 6 suit your needs, you can safely install the latest version of `broccoli-lint-eslint`:
 
 ```bash
 npm install --save broccoli-lint-eslint
