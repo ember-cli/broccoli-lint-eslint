@@ -177,25 +177,38 @@ describe('EslintValidationFilter', function() {
     });
   });
 
-  it('should allow disabling the cache', function() {
-    const spies = this.setupSpies();
+  describe('disabling cache', function() {
+    let force;
 
-    function runNonpersistent() {
-      return runEslint(FIXTURES_PATH, {
-        persist: false,
-        options: {
-          ignore: false
-        }
+    beforeEach(function() {
+      force = process.env.FORCE_PERSISTENCE_IN_CI;
+      delete process.env.FORCE_PERSISTENCE_IN_CI;
+    });
+
+    afterEach(function() {
+      process.env.FORCE_PERSISTENCE_IN_CI = force;
+    });
+
+    it('should allow disabling the cache', function() {
+      const spies = this.setupSpies();
+  
+      function runNonpersistent() {
+        return runEslint(FIXTURES_PATH, {
+          persist: false,
+          options: {
+            ignore: false
+          }
+        });
+      }
+  
+      // Run twice to guarantee one run would be from cache if persisting
+      return runNonpersistent().then(runNonpersistent).then(() => {
+        // check that it did not use the cache
+        expect(spies.processStringSpy, 'Didn\'t use cache (twice)')
+          .to.have.callCount(2 * JS_FIXTURES.length);
+        expect(spies.postProcessSpy, 'Logged errors (twice)')
+          .to.have.callCount(2 * JS_FIXTURES.length);
       });
-    }
-
-    // Run twice to guarantee one run would be from cache if persisting
-    return runNonpersistent().then(runNonpersistent).then(() => {
-      // check that it did not use the cache
-      expect(spies.processStringSpy, 'Didn\'t use cache (twice)')
-        .to.have.callCount(2 * JS_FIXTURES.length);
-      expect(spies.postProcessSpy, 'Logged errors (twice)')
-        .to.have.callCount(2 * JS_FIXTURES.length);
     });
   });
 
