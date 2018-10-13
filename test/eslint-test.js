@@ -425,8 +425,7 @@ describe('broccoli-lint-eslint', function() {
   });
 
   describe('.eslintignore', function() {
-    // this doesn't seem to work... :(
-    it.skip('excludes files from being linted', co.wrap(function *() {
+    it('excludes files from being linted', co.wrap(function *() {
       input.write({
         '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
         '.eslintignore': `a.js\n`,
@@ -434,7 +433,11 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit' }));
+      output = createBuilder(ESLint.create(input.path(), {
+        console,
+        testGenerator: 'qunit',
+        options: { ignorePath: `${input.path()}/.eslintignore` }
+      }));
 
       yield output.build();
 
@@ -442,8 +445,34 @@ describe('broccoli-lint-eslint', function() {
       expect(Object.keys(result)).to.deep.equal([
         '.eslintignore',
         '.eslintrc.js',
+        'a.js',
         'b.lint-test.js'
       ]);
     }));
   });
+
+  it('includes .eslintrc.js via .eslintignore', co.wrap(function *() {
+    input.write({
+      '.eslintrc.js': `module.exports = { rules: { 'no-console': 'error', 'no-unused-vars': 'warn' } };\n`,
+      '.eslintignore': `a.js\n!.*\n`,
+      'a.js': `console.log('foo');\n`,
+      'b.js': `var foo = 5;\n`,
+    });
+
+    output = createBuilder(ESLint.create(input.path(), {
+      console,
+      testGenerator: 'qunit',
+      options: { ignorePath: `${input.path()}/.eslintignore` }
+    }));
+
+    yield output.build();
+
+    let result = output.read();
+    expect(Object.keys(result)).to.deep.equal([
+      '.eslintignore',
+      '.eslintrc.lint-test.js',
+      'a.js',
+      'b.lint-test.js'
+    ]);
+  }));
 });
