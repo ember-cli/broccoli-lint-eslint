@@ -4,9 +4,8 @@ const path = require('path');
 const expect = require('./chai').expect;
 const co = require('co');
 const testHelpers = require('broccoli-test-helper');
-const eslint = require('..');
+const ESLint = require('..');
 
-const ESLint = eslint;
 const createBuilder = testHelpers.createBuilder;
 const createTempDir = testHelpers.createTempDir;
 
@@ -28,11 +27,11 @@ describe('broccoli-lint-eslint', function() {
   }));
 
   it('exports a static immutable "testGenerators" list', function() {
-    expect(eslint.testGenerators).to.deep.equal(['qunit', 'mocha']);
+    expect(ESLint.testGenerators).to.deep.equal(['qunit', 'mocha']);
 
-    eslint.testGenerators.push('jest');
+    ESLint.testGenerators.push('jest');
 
-    expect(eslint.testGenerators).to.deep.equal(['qunit', 'mocha']);
+    expect(ESLint.testGenerators).to.deep.equal(['qunit', 'mocha']);
   });
 
   it('logs errors to the console (using factory function)', co.wrap(function *() {
@@ -51,14 +50,13 @@ describe('broccoli-lint-eslint', function() {
       }
     };
 
-    output = createBuilder(eslint(input.path(), { format, console }));
+    output = createBuilder(ESLint.create(input.path(), { format, console }));
 
     yield output.build();
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
-      .to.contain(`DEPRECATION: Please use the create() factory method`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
   }));
 
   it('logs errors to the console (using new)', co.wrap(function *() {
@@ -77,14 +75,13 @@ describe('broccoli-lint-eslint', function() {
       }
     };
 
-    output = createBuilder(new ESLint(input.path(), { format, console }));
+    output = createBuilder(ESLint.create(input.path(), { format, console }));
 
     yield output.build();
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
-      .to.contain(`DEPRECATION: Please use the create() factory method`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
   }));
 
   it('logs errors to the console (using create() factory method)', co.wrap(function *() {
@@ -109,8 +106,7 @@ describe('broccoli-lint-eslint', function() {
 
     expect(messages.join(''))
       .to.contain(`a.js: line 1, col 1, Error - Unexpected console statement. (no-console)\n`)
-      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`)
-      .to.not.contain(`DEPRECATION: Please use the create() factory method`);
+      .to.contain(`b.js: line 1, col 5, Warning - 'foo' is assigned a value but never used. (no-unused-vars)\n`);
   }));
 
   it('does not generate test files by default', co.wrap(function *() {
@@ -120,7 +116,7 @@ describe('broccoli-lint-eslint', function() {
       'b.js': `var foo = 5;\n`,
     });
 
-    output = createBuilder(eslint(input.path(), { console }));
+    output = createBuilder(ESLint.create(input.path(), { console }));
 
     yield output.build();
 
@@ -141,7 +137,7 @@ describe('broccoli-lint-eslint', function() {
       }
     };
 
-    output = createBuilder(eslint(input.path(), { format, console, extensions: ['ts'] }));
+    output = createBuilder(ESLint.create(input.path(), { format, console, extensions: ['ts'] }));
 
     yield output.build();
 
@@ -249,7 +245,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
 
       yield output.build();
 
@@ -280,7 +276,7 @@ describe('broccoli-lint-eslint', function() {
         }
       });
 
-      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'qunit', group: 'app' }));
 
       yield output.build();
 
@@ -329,7 +325,7 @@ describe('broccoli-lint-eslint', function() {
         'b.js': `var foo = 5;\n`,
       });
 
-      output = createBuilder(eslint.create(input.path(), { console, testGenerator: 'mocha', group: 'app' }));
+      output = createBuilder(ESLint.create(input.path(), { console, testGenerator: 'mocha', group: 'app' }));
 
       yield output.build();
 
