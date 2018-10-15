@@ -6,6 +6,9 @@ node_js:
   - "8"
   - "10"
 
+env:
+  - FORCE_PERSISTENCE_IN_CI=true
+
 before_deploy:
   - npm install -g auto-dist-tag
   - auto-dist-tag --write
