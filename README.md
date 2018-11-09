@@ -13,19 +13,21 @@
 Most of the test setup and the build configuration is based on [sindresorhus/grunt-eslint](https://github.com/sindresorhus/grunt-eslint).
 The internal validation is heavily inspired by [eslint cli.js](https://github.com/eslint/eslint/blob/master/lib/cli.js).
 
+
 ## Installation
-
-As of `3.0.0`, `broccoli-lint-eslint` uses versions of `eslint` greater than `3.0.0`. Because [`eslint@3.0.0`](http://eslint.org/blog/2016/07/eslint-v3.0.0-released) dropped support for Node versions below 4, you may need to use the latest `2.x` version of `broccoli-lint-eslint` (which uses `eslint@2.13.1`), if your support needs also fall below Node v4:
-
-```bash
-npm install --save broccoli-lint-eslint@2
-```
-
-If versions of Node >= 4 suit your needs, you can safely install the latest version of `broccoli-lint-eslint`:
 
 ```bash
 npm install --save broccoli-lint-eslint
 ```
+
+`broccoli-lint-eslint@5` uses `eslint@5` which requires Node.js 6 or above.
+If you need support for Node.js 4, you may use `broccoli-lint-eslint@4` which
+uses `eslint@4` and is compatible with Node.js 4:
+
+```bash
+npm install --save broccoli-lint-eslint@4
+```
+
 
 ## Usage
 
@@ -64,7 +66,7 @@ var outputNode = ESLint.create(inputNode, options);
              "});\n";
     };
 
-    return eslint(inputNode, {
+    return ESLint.create(inputNode, {
       options: {
         configFile: this.eslintrc.app + '/eslint.json'
       },
