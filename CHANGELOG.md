@@ -1,4 +1,28 @@
-# Change Log
+# Changelog
+
+## v5.0.0 (2018-11-09)
+
+#### :boom: Breaking Change
+* [#141](https://github.com/ember-cli/broccoli-lint-eslint/pull/141) Remove deprecated code ([@Turbo87](https://github.com/Turbo87))
+* [#135](https://github.com/ember-cli/broccoli-lint-eslint/pull/135) Upgrade to ESLint 5 ([@Gaurav0](https://github.com/Gaurav0))
+* [#133](https://github.com/ember-cli/broccoli-lint-eslint/pull/133) Drop support for node 4, add support for node 8, 10 ([@Gaurav0](https://github.com/Gaurav0))
+
+#### :memo: Documentation
+* [#138](https://github.com/ember-cli/broccoli-lint-eslint/pull/138) Update README ([@Gaurav0](https://github.com/Gaurav0))
+
+#### :house: Internal
+* [#151](https://github.com/ember-cli/broccoli-lint-eslint/pull/151) Increase default `mocha` timeout to 5sec ([@Turbo87](https://github.com/Turbo87))
+* [#117](https://github.com/ember-cli/broccoli-lint-eslint/pull/117) Ensure linting is ran as part of CI. ([@rwjblue](https://github.com/rwjblue))
+* [#140](https://github.com/ember-cli/broccoli-lint-eslint/pull/140) Fix ci with broccoli-persistent-filter 2.1.0 ([@Gaurav0](https://github.com/Gaurav0))
+* [#143](https://github.com/ember-cli/broccoli-lint-eslint/pull/143)  Convert `EslintValidationFilter` to an ES6 class  ([@Turbo87](https://github.com/Turbo87))
+* [#139](https://github.com/ember-cli/broccoli-lint-eslint/pull/139) Fix .eslintignore test and add test for including dotfile ([@Gaurav0](https://github.com/Gaurav0))
+
+#### Committers: 4
+- Gaurav Munjal ([@Gaurav0](https://github.com/Gaurav0))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Sang Mercado ([@sangm](https://github.com/sangm))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
 
 ## [v4.2.1](https://github.com/ember-cli/broccoli-lint-eslint/tree/v4.2.1) (2017-11-07)
 [Full Changelog](https://github.com/ember-cli/broccoli-lint-eslint/compare/v4.2.0...v4.2.1)
