@@ -1,4 +1,5 @@
 const broccoli = require('broccoli');
+const pFinally = require('p-finally');
 const eslintValidationFilter = require('../../');
 
 module.exports = function runEslint(path, _options) {
@@ -22,7 +23,7 @@ module.exports = function runEslint(path, _options) {
     outputPath: node.outputPath,
   }));
 
-  promise.finally(() => builder.cleanup());
+  pFinally(promise, () => builder.cleanup());
 
   return promise;
 };
