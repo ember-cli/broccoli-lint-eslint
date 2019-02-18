@@ -36,7 +36,7 @@
   "dependencies": {
     "aot-test-generators": "^0.1.0",
     "broccoli-concat": "^3.2.2",
-    "broccoli-persistent-filter": "^2.1.0",
+    "broccoli-persistent-filter": "^2.1.2",
     "eslint": "^5.13.0",
     "json-stable-stringify": "^1.0.1",
     "lodash.defaultsdeep": "^4.6.0",
