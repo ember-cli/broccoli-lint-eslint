@@ -41,6 +41,11 @@
     array-from "^2.1.1"
     lodash.get "^4.4.2"
 
+"@types/minimatch@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
+  integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
+
 "@types/node@*":
   version "10.12.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.3.tgz#3918b73ceed484e58367be5acb79d1775239e393"
@@ -376,10 +381,10 @@ broccoli-node-info@1.1.0:
   resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-1.1.0.tgz#3aa2e31e07e5bdb516dd25214f7c45ba1c459412"
   integrity sha1-OqLjHgflvbUW3SUhT3xFuhxFlBI=
 
-broccoli-persistent-filter@^2.1.0, broccoli-persistent-filter@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-2.1.1.tgz#7bb2b1015baedf5cf58b5b2608495f3d78f81b12"
-  integrity sha512-2VCbLJqMg/AWJ6WTmv83X13a6DD3BS7Gngc932jrg1snVqsB8LJDyJh+Hd9v1tQ/vMA+4vbWgwk4tDmI/tAZWg==
+broccoli-persistent-filter@^2.1.1, broccoli-persistent-filter@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-2.1.2.tgz#a54e418f5b8ffb558a6bed1f42872744e4539590"
+  integrity sha512-HrsjDnGE6N8O370BHHqyblzhmbjzSc8lHl0Kavseav/1vz43R1UVrl1JLdiADfLfZ1KcSQkuacSOjbo/rSJQQg==
   dependencies:
     async-disk-cache "^1.2.1"
     async-promise-queue "^1.0.3"
@@ -393,7 +398,7 @@ broccoli-persistent-filter@^2.1.0, broccoli-persistent-filter@^2.1.1:
     rimraf "^2.6.1"
     rsvp "^4.7.0"
     symlink-or-copy "^1.0.1"
-    walk-sync "^0.3.1"
+    walk-sync "^1.0.0"
 
 broccoli-plugin@^1.0.0, broccoli-plugin@^1.2.1, broccoli-plugin@^1.3.0, broccoli-plugin@^1.3.1:
   version "1.3.1"
@@ -956,6 +961,11 @@ ensure-posix-path@^1.0.0, ensure-posix-path@^1.0.1, ensure-posix-path@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ensure-posix-path/-/ensure-posix-path-1.0.2.tgz#a65b3e42d0b71cfc585eb774f9943c8d9b91b0c2"
   integrity sha1-pls+QtC3HPxYXrd0+ZQ8jZuRsMI=
+
+ensure-posix-path@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ensure-posix-path/-/ensure-posix-path-1.1.1.tgz#3c62bdb19fa4681544289edb2b382adc029179ce"
+  integrity sha512-VWU0/zXzVbeJNXvME/5EmLuEj2TauvoaTz6aFYK1Z92JCBlDlZ3Gu0tuGR42kpW1754ywTs+QB0g5TP0oj9Zaw==
 
 err-code@^1.0.0:
   version "1.1.2"
@@ -2436,6 +2446,13 @@ matcher-collection@^1.0.0, matcher-collection@^1.0.4:
   dependencies:
     minimatch "^3.0.2"
 
+matcher-collection@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/matcher-collection/-/matcher-collection-1.1.2.tgz#1076f506f10ca85897b53d14ef54f90a5c426838"
+  integrity sha512-YQ/teqaOIIfUHedRam08PB3NK7Mjct6BvzRnJmpGDm8uFXpNr1sbY4yuflI5JcEs6COpYA0FpRQhSDBf1tT95g==
+  dependencies:
+    minimatch "^3.0.2"
+
 md5-hex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/md5-hex/-/md5-hex-2.0.0.tgz#d0588e9f1c74954492ecd24ac0ac6ce997d92e33"
@@ -3769,6 +3786,15 @@ walk-sync@^0.3.1, walk-sync@^0.3.2, walk-sync@^0.3.3:
   dependencies:
     ensure-posix-path "^1.0.0"
     matcher-collection "^1.0.0"
+
+walk-sync@^1.0.0:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/walk-sync/-/walk-sync-1.1.3.tgz#3b7b6468f068b5eba2278c931c57db3d39092969"
+  integrity sha512-23ivbET0Q/389y3EHpiIgxx881AS2mwdXA7iBqUDNSymoTPYb2jWlF3gkuuAP1iLgdNXmiHw/kZ/wZwrELU6Ag==
+  dependencies:
+    "@types/minimatch" "^3.0.3"
+    ensure-posix-path "^1.1.0"
+    matcher-collection "^1.1.1"
 
 walker@~1.0.5:
   version "1.0.7"
