@@ -47,7 +47,7 @@
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^3.0.1",
     "broccoli-source": "^1.1.0",
-    "broccoli-stew": "^2.0.0",
+    "broccoli-stew": "^2.1.0",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
