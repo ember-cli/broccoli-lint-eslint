@@ -471,4 +471,14 @@ describe('broccoli-lint-eslint', function() {
       'b.lint-test.js'
     ]);
   }));
+
+  describe('use new ESLint', function() {
+    it('throw an error for usage without options', co.wrap(function () {
+      debugger
+      expect(function() {
+        new ESLint(input.path())
+      }).to.throw('Please use the create() factory method instead of ' +
+        'calling ESLint() directly or using new ESLint()');
+    }));
+  });
 });
