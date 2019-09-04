@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "6"
   - "8"
   - "10"
+  - "12"
 
 env:
   global:
@@ -12,7 +12,7 @@ env:
 
 matrix:
   include:
-    - node_js: "6"
+    - node_js: "12"
       env: NPM_SCRIPT=lint
 
 script:
