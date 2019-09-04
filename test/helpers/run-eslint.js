@@ -8,7 +8,7 @@ module.exports = function runEslint(path, _options) {
 
   // default options
   // eslint-disable-next-line global-require, newline-after-var
-  const formatter = require(options.format || 'eslint/lib/formatters/compact');
+  const formatter = require(options.format || 'eslint/lib/cli-engine/formatters/compact');
   options.format = function spyFormatter(results) {
     buildLog.push(formatter(results));
     // prevent console spew
