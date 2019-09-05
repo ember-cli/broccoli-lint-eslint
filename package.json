@@ -1,6 +1,6 @@
 {
   "name": "broccoli-lint-eslint",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "broccoli filter that runs eslint",
   "keywords": [
     "broccoli",

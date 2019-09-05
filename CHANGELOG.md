@@ -1,3 +1,20 @@
+## v6.0.0 (2019-09-05)
+
+#### :boom: Breaking Change
+* [#236](https://github.com/ember-cli/broccoli-lint-eslint/pull/236) Upgrade to ESLint 6 ([@remusao](https://github.com/remusao))
+
+#### :rocket: Enhancement
+* [#236](https://github.com/ember-cli/broccoli-lint-eslint/pull/236) Upgrade to ESLint 6 ([@remusao](https://github.com/remusao))
+
+#### :house: Internal
+* [#161](https://github.com/ember-cli/broccoli-lint-eslint/pull/161) TravisCI: Remove deprecated `sudo: false` option ([@Turbo87](https://github.com/Turbo87))
+* [#150](https://github.com/ember-cli/broccoli-lint-eslint/pull/150) test/run-eslint: Use `p-finally` instead of `.finally()` ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 3
+- Rémi ([@remusao](https://github.com/remusao))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v5.0.0 (2018-11-09)
 
 #### :boom: Breaking Change
