@@ -2,37 +2,36 @@
   "name": "broccoli-lint-eslint",
   "version": "5.0.0",
   "description": "broccoli filter that runs eslint",
-  "main": "lib/index.js",
-  "scripts": {
-    "changelog": "lerna-changelog",
-    "lint": "eslint .",
-    "test": "mocha test/*test.js test/**/*test.js"
+  "keywords": [
+    "broccoli",
+    "broccoli-eslint",
+    "broccoli-lint",
+    "broccoli-plugin",
+    "eslint",
+    "esprima",
+    "jshint",
+    "jslint",
+    "lint",
+    "validate"
+  ],
+  "homepage": "https://github.com/ember-cli/broccoli-lint-eslint",
+  "bugs": {
+    "url": "https://github.com/ember-cli/broccoli-lint-eslint/issues"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/ember-cli/broccoli-lint-eslint.git"
   },
-  "keywords": [
-    "eslint",
-    "lint",
-    "broccoli",
-    "broccoli-eslint",
-    "broccoli-lint",
-    "validate",
-    "jshint",
-    "jslint",
-    "esprima",
-    "broccoli-plugin"
-  ],
+  "license": "MIT",
+  "author": "Jonathan Kingston",
   "files": [
     "lib"
   ],
-  "author": "Jonathan Kingston",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ember-cli/broccoli-lint-eslint/issues"
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha test/*test.js test/**/*test.js"
   },
-  "homepage": "https://github.com/ember-cli/broccoli-lint-eslint",
   "dependencies": {
     "aot-test-generators": "^0.1.0",
     "broccoli-concat": "^3.7.4",
@@ -52,13 +51,30 @@
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
-    "lerna-changelog": "^0.8.2",
     "mocha": "^6.2.0",
     "p-finally": "^2.0.1",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "sinon": "^7.4.2",
     "sinon-chai": "^3.2.0"
   },
   "engines": {
     "node": "8.* || >= 10.*"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    }
   }
 }
