@@ -36,7 +36,7 @@ describe('EslintValidationFilter', function() {
   });
 
   beforeEach(function() {
-    this.sinon = sinon.sandbox.create();
+    this.sinon = sinon.createSandbox();
   });
 
   afterEach(function() {
@@ -191,7 +191,7 @@ describe('EslintValidationFilter', function() {
 
     it('should allow disabling the cache', function() {
       const spies = this.setupSpies();
-  
+
       function runNonpersistent() {
         return runEslint(FIXTURES_PATH, {
           persist: false,
@@ -200,7 +200,7 @@ describe('EslintValidationFilter', function() {
           }
         });
       }
-  
+
       // Run twice to guarantee one run would be from cache if persisting
       return runNonpersistent().then(runNonpersistent).then(() => {
         // check that it did not use the cache

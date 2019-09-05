@@ -41,7 +41,7 @@ describe('broccoli-lint-eslint', function() {
       'b.js': `var foo = 5;\n`,
     });
 
-    let format = 'eslint/lib/formatters/compact';
+    let format = 'eslint/lib/cli-engine/formatters/compact';
 
     let messages = [];
     let console = {
@@ -66,7 +66,7 @@ describe('broccoli-lint-eslint', function() {
       'b.js': `var foo = 5;\n`,
     });
 
-    let format = 'eslint/lib/formatters/compact';
+    let format = 'eslint/lib/cli-engine/formatters/compact';
 
     let messages = [];
     let console = {
@@ -91,7 +91,7 @@ describe('broccoli-lint-eslint', function() {
       'b.js': `var foo = 5;\n`,
     });
 
-    let format = 'eslint/lib/formatters/compact';
+    let format = 'eslint/lib/cli-engine/formatters/compact';
 
     let messages = [];
     let console = {
@@ -128,7 +128,7 @@ describe('broccoli-lint-eslint', function() {
       '.eslintrc.js': `module.exports = { rules: { 'no-unused-vars': 'error' } };\n`,
       'a.ts': `var foo = 5;\n`
     });
-    let format = 'eslint/lib/formatters/compact';
+    let format = 'eslint/lib/cli-engine/formatters/compact';
 
     let messages = [];
     let console = {
