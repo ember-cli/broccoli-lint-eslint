@@ -480,10 +480,10 @@ broccoli-cli@^1.0.0:
   dependencies:
     resolve "~0.6.1"
 
-broccoli-concat@^3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/broccoli-concat/-/broccoli-concat-3.7.5.tgz#223beda8c1184252cf08ae020a3d45ffa6a48218"
-  integrity sha512-rDs1Mej3Ej0Cy5yIO9oIQq5+BCv0opAwS2NW7M0BeCsAMeFM42Z/zacDUC6jKc5OV5wiHvGTyCPLnZkMe0h6kQ==
+broccoli-concat@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli-concat/-/broccoli-concat-4.0.0.tgz#dc2fe95683b36ef0f9114134afa6ae06a7c430ca"
+  integrity sha512-s8sCP5A8zcomrvue15ToOIxi5CKGOtg+oIGUYdN4EdYTeD6d/mptD9v+38MigOPt+Jgc6tcLloFVZSI+9+FLEg==
   dependencies:
     broccoli-debug "^0.6.5"
     broccoli-kitchen-sink-helpers "^0.3.1"
