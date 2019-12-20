@@ -44,7 +44,7 @@
   "devDependencies": {
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
-    "broccoli-merge-trees": "^3.0.1",
+    "broccoli-merge-trees": "^4.1.0",
     "broccoli-source": "^3.0.0",
     "broccoli-stew": "^3.0.0",
     "broccoli-test-helper": "^2.0.0",
