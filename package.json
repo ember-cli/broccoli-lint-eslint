@@ -55,7 +55,7 @@
     "p-finally": "^2.0.1",
     "release-it": "^12.4.3",
     "release-it-lerna-changelog": "^1.0.3",
-    "sinon": "^7.5.0",
+    "sinon": "^8.0.2",
     "sinon-chai": "^3.4.0"
   },
   "engines": {
