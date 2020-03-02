@@ -42,7 +42,7 @@
     "md5-hex": "^3.0.1"
   },
   "devDependencies": {
-    "broccoli": "^0.16.9",
+    "broccoli": "^3.3.3",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^3.0.1",
     "broccoli-source": "^3.0.0",
