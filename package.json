@@ -52,7 +52,7 @@
     "chai-as-promised": "^7.0.0",
     "co": "^4.6.0",
     "mocha": "^6.2.2",
-    "p-finally": "^2.0.1",
+    "p-finally": "^3.0.0",
     "release-it": "^12.4.3",
     "release-it-lerna-changelog": "^1.0.3",
     "sinon": "^7.5.0",
